@@ -55,7 +55,7 @@ define("USR_SUPPER_ADMIN",	-2);
 
 // USER DEFINE
 // --------------------------------------------
-define("SITE_NAME", 	"Nguyên Anh Fruit");
+define("SITE_NAME", 	"PCA Project");
 define("BOOKING_PREFIX","NAF");
 define("ORDER_PREFIX","NAO");
 define("BOOKING_PREFIX_PO","NAF_PO");

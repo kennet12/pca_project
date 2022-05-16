@@ -11,7 +11,7 @@ if (empty($meta['keywords'])) {
 	$meta['keywords'] = $setting->tags;
 }
 if (empty($meta['description'])) {
-	$meta['description'] = "Nguyên Anh store, chuyên cung cấp hàng hóa chính hãng AU,EU";
+	$meta['description'] = "pca projet desciprtion";
 }
 if (empty($meta['author'])) {
 	$meta['author'] = SITE_NAME;

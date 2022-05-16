@@ -17,7 +17,7 @@ if (empty($meta['keywords'])) {
 	$meta['keywords'] = $setting->tags;
 }
 if (empty($meta['description'])) {
-	$meta['description'] = "Nguyên Anh Fruit, chuyên cung cấp các loại trái cây tươi nhập khẩu và trong nước.";
+	$meta['description'] = "PCA project";
 }
 if (empty($meta['author'])) {
 	$meta['author'] = SITE_NAME;
