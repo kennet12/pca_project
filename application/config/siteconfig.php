@@ -31,7 +31,7 @@ define("CACHE_TIME",		54);
 define("CACHE_RAND",		date("Ymdhi"));
 define("ROW_PER_PAGE",		12);
 define("MAIL_INFO",			'sales@nguyenanhfruit.vn');
-define("COMPANY",			'Nguyên Anh Fruit');
+define("COMPANY",			'PCA Project');
 
 // REMOTE FILE MANAGER
 define("CDN_URL",				"https://pca_project");
