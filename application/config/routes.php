@@ -62,7 +62,7 @@ $route['404_override'] = 'error404';
 $route['translate_uri_dashes'] = TRUE;
 
 $array_route = array(
-    'san-pham',
+    'dich-vu',
     'tim-kiem',
     'gioi-thieu',
     'lien-he',
@@ -76,9 +76,9 @@ $array_route = array(
     'hoi-dap',
     'quy-che',
     'check-qrcode',
-    'tra-cuu-din-hang',
+    'tra-cuu-don-hang',
 );
-$route['san-pham'] 					        = "san-pham/index";
+$route['dich-vu'] 					        = "dich-vu/index";
 $route['tin-tuc'] 		    		        = "tin-tuc/index";
 $route['tin-tuc/(:any)'] 		    		= "tin-tuc/index/$1";
 $route['tin-tuc/(:any)/(:any)'] 		    = "tin-tuc/index/$1/$2";
@@ -99,7 +99,7 @@ $route['call-service/qrcode']	            = 'call-service/qrcode';
 $route['call-service/like-product']	        = 'call-service/like-product';
 
 if(!in_array($method, $array_route)) {
-    $route['(:any)'] 						= "chi-tiet-san-pham/index/$1";
+    $route['(:any)'] 						= "chi-tiet-dich-vu/index/$1";
 }
 
 

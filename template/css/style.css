@@ -70,7 +70,7 @@
 	line-height: 1.5;
 	color: #444;
 	text-align: left;
-	background-color: #fff;
+	background-color: #000;
   }
   [tabindex="-1"]:focus {
 	outline: 0 !important;
@@ -1247,6 +1247,7 @@ textarea.error {
 }
 /* end header */
 .header-mobile {
+	background: #fff;
 	display: table;
 	width: 100%;
 	padding: 10px 15px;
@@ -1657,9 +1658,122 @@ textarea.error {
     border-radius: 5px;
     display: block;
 }
+.banner-text {
+	border: 2px solid #fff;
+	margin: 10px 0;
+}
+.banner-text .text {
+	text-align: center;
+    font-size: 60px;
+    font-weight: 900;
+    margin: 0;
+    color: #fff;
+    padding: 34px 0;
+}
+.service-box {
+	display: block;
+    margin: 20px 0;
+}
+.service-box.box-left {
+	margin-right: 30px;
+}
+.service-box.box-right {
+	margin-left: 30px;
+}
+.service-box .service-title {
+	font-size: 33px;
+    font-weight: bold;
+    border: 2px solid;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+.service-box .service-button {
+	display: inline-block;
+    background: #fff;
+    font-weight: bold;
+    padding: 9px;
+    text-align: center;
+    width: 370px;
+    color: #000;
+    position: relative;
+    margin: 6px 0 40px 0;
+}
+.service-box .service-button::before{
+	position: absolute;
+    top: 0;
+    left: 100%;
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 0 19px 20px;
+    border-color: transparent transparent transparent #fff;
+}
+.service-box .service-info {
+	width: 70%;
+	color: #fff;
+}
+.service-box .service-info h6 {
+	line-height: 26px;
+}
+.banner-service-text {
+	border-bottom: 3px solid #e5ceef59;
+}
+.banner-service-text .text {
+	text-align: center;
+    font-size: 50px;
+    font-weight: 900;
+    margin: 0;
+    color: #fff;
+    padding: 20px 0;
+}
+.box-service-item {
+	text-align: center;
+    margin-bottom: 100px;
+}
+.box-service-item .note {
+	color: #fff;
+    font-size: 11px;
+    margin: 7px 0;
+}
+.box-service-item .btn-booknow {
+	border: 1px solid #f9e8ff6b;
+    display: inline-block;
+    padding: 5px 80px;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 11px;
+    color: #fff;
+    background: #9857ff17;
+}
+.box-service-item .btn-booknow:hover {
+	border: 1px solid #000;
+    background: #000;
+}
+.box-service-item .box-service-title {
+	width: 320px;
+    margin: auto;
+    background: #3e3e3e94;
+    padding: 10px 12px;
+    margin-top: 15px;
+    border-radius: 3px;
+}
+.box-service-item .box-service-title .service-title {
+	font-size: 19px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 0;
+}
+.box-service-item .box-service-title .service-date {
+	font-size: 11px;
+    color: #c4a5e16b;
+	margin-bottom: 0;
+}
 /*end content*/
 footer {
 	padding: 50px 0;
+	background: #fff;
 }
 footer .line-footer {
 	border-top: 1px solid #fed64c;
@@ -1815,6 +1929,12 @@ footer .box-socials i {
 	.buy-now.desktop .buy-now-wrap-title {
 		transform: rotate(-3deg);
 	}
+	.container-content {
+		max-width: 1050px;
+	}
+	.container-content-child {
+		max-width: 960px;
+	}
 	.container-setting {
 		max-width: 1000px;
 	}
@@ -1949,6 +2069,25 @@ footer .box-socials i {
 		border: 1px solid #000;
 		color: #fff;
 		margin: 5px 0;
+	}
+	.banner-text .text {
+		font-size: 22px;
+    	padding: 24px 0;
+	}
+	.service-box .service-title {
+		font-size: 20px;
+		padding: 20px 16px;
+		width: 300px;
+	}
+	.service-box.box-left {
+		margin-right: 0;
+	}
+	.service-box.box-right {
+		margin-left: 0;
+	}
+	.service-box .service-button {
+		padding: 9px;
+		width: 277px;
 	}
 }
 /* end reponsive */
