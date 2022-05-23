@@ -82,19 +82,16 @@
 		</div> -->
 		<ul class="menu-m">
 			<li class="item">
-				<a href="#" class="active">HOME</a>
+				<a href="<?=site_url('trang-chu')?>" class="active">HOME</a>
 			</li>
 			<li class="item">
-				<a href="#"> MEMBERSHIP</a>
+				<a href="<?=site_url('tai-khoan')?>"> MEMBERSHIP</a>
 			</li>
 			<li class="item">
-				<a href="#">UK SHOWS</a>
+				<a href="<?=site_url('dich-vu')?>">UK SHOWS</a>
 			</li>
 			<li class="item">
-				<a href="#"> SERVICES</a>
-			</li>
-			<li class="item">
-				<a href="#">SHOP</a>
+				<a href="<?=site_url('dich-vu')?>"> SERVICES</a>
 			</li>
 		</ul>
 	</div>

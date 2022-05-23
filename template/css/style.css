@@ -1274,6 +1274,7 @@ textarea.error {
 .header-mobile .menu-m .border-menu .menu-icon {
 	font-size: 14px;
     font-weight: 500;
+	color: #000;
 }
 .header-mobile .menu-m .lnr-menu {
     text-align: center;
