@@ -1884,6 +1884,7 @@ textarea.error {
 footer {
 	padding: 50px 0;
 	background: #fff;
+	color: #333;
 }
 footer .line-footer {
 	border-top: 1px solid #fed64c;
@@ -1906,6 +1907,7 @@ footer ul li a {
 	font-size: 12px;
     font-weight: bold;
 	text-decoration: underline;
+	color:#333;
 }
 footer ul li a:hover {
 	padding-left: 5px;

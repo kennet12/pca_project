@@ -301,6 +301,7 @@
 						<div class="text-right">
 							<button type="submit">Submit $5</button>
 						</div>
+						<br>
 					</div>
 				</form>
 			</div>
