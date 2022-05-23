@@ -1,7 +1,7 @@
 <div class="cluster">
 	<div class="container container-content">
 		<div class="banner-text">
-			<h1 class="text">PCA OFFICIAL SERVICES</h1>
+			<h1 class="text font-wf">PCA OFFICIAL SERVICES</h1>
 		</div>
 		<div class="row">
 			<? for ($i=0;$i<4;$i++) { ?>
@@ -10,7 +10,7 @@
 					<h5 class="service-title">
 						COMPETITION TANNING
 					</h5>
-					<a href="#" class="service-button">PROTAN BOOKINGS</a>
+					<a href="<?=site_url('tanning')?>" class="service-button">PROTAN BOOKINGS</a>
 					<div class="service-info">
 						<h6><strong>The PCA Official Professional BackstageTanning Service at all PCA Venues.</strong></h6>
 						<br>

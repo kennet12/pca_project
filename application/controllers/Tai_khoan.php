@@ -93,45 +93,6 @@ class Tai_khoan extends CI_Controller {
 		$tmpl_content["title"] 		= 'Lịch sử đơn hàng';
 		$this->load->view("layout/account", $tmpl_content);
 	}
-	public function dang_tin($type=null) {
-		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Đăng tin" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}")));
-
-		if (!empty($type)) {
-			if ($type == 'rao-ban') {
-				$view_data = array();
-				// $view_data["bookings"] 		= $bookings;
-				$view_data["breadcrumb"] 	= $this->_breadcrumb;
-
-				$tmpl_content = array();
-				$tmpl_content["content"] 	= $this->load->view("account/post/post", $view_data, true);
-				$tmpl_content["title"] 		= 'Đăng tin';
-				$tmpl_content["meta_title"] = 'Đăng tin';
-				$this->load->view("layout/account", $tmpl_content);
-			} else if ($type == 'can-mua') {
-				$view_data = array();
-				// $view_data["bookings"] 		= $bookings;
-				$view_data["breadcrumb"] 	= $this->_breadcrumb;
-
-				$tmpl_content = array();
-				$tmpl_content["content"] 	= $this->load->view("account/post/buy", $view_data, true);
-				$tmpl_content["title"] 		= 'Đăng tin';
-				$tmpl_content["meta_title"] = 'Đăng tin';
-				$this->load->view("layout/account", $tmpl_content);
-			} else {
-				redirect(site_url('error404'),'back');
-			}
-		} else {
-			$view_data = array();
-			// $view_data["bookings"] 		= $bookings;
-			$view_data["breadcrumb"] 	= $this->_breadcrumb;
-
-			$tmpl_content = array();
-			$tmpl_content["content"] 	= $this->load->view("account/post", $view_data, true);
-			$tmpl_content["title"] 		= 'Đăng tin';
-			$tmpl_content["meta_title"] = 'Đăng tin';
-			$this->load->view("layout/account", $tmpl_content);
-		}
-	}
 
 	public function dang_ky()
 	{
@@ -237,15 +198,6 @@ class Tai_khoan extends CI_Controller {
 
 	public function dang_nhap()
 	{
-		if (!empty($_COOKIE['token_login'])){
-			$token_login = json_decode($_COOKIE['token_login']);
-		}
-		$this->load->library('session');
-
-		if (!empty($token_login->status)){
-			redirect(BASE_URL,'back'); // redirect when logined
-		}
-
 		$task = $this->input->post("task");
 		if (!empty($task)) {
 			if ($task == "login") {

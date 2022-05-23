@@ -26,16 +26,16 @@
 				<div class="col-md-9">
 					<ul class="menu-pc clearfix">
 						<li class="item">
-							<a class="active" href="#">HOME</a>
+							<a class="active" href="<?=site_url('trang-chu')?>">HOME</a>
 						</li>
 						<li class="item">
-							<a href="#"> MEMBERSHIP</a>
+							<a href="<?=site_url('tai-khoan')?>"> MEMBERSHIP</a>
 						</li>
 						<li class="item">
-							<a href="#">UK SHOWS</a>
+							<a href="<?=site_url('dich-vu')?>">UK SHOWS</a>
 						</li>
 						<li class="item">
-							<a href="#"> SERVICES</a>
+							<a href="<?=site_url('dich-vu')?>"> SERVICES</a>
 						</li>
 						<li class="item">
 							<a href="#">SHOP</a>

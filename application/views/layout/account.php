@@ -17,7 +17,7 @@
 		<? $fetch_class = $this->util->slug($this->router->fetch_class()); ?>
 		<section id="<?=$fetch_class?>">
 			<? require_once(APPPATH."views/module/notification.php"); ?>
-			<? require_once(APPPATH."views/module/breadcrumb.php"); ?>
+			<?// require_once(APPPATH."views/module/breadcrumb.php"); ?>
 			<?=$content?>
 		</section>
 		<footer>

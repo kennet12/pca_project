@@ -99,6 +99,7 @@ $route['call-service/qrcode']	            = 'call-service/qrcode';
 $route['call-service/like-product']	        = 'call-service/like-product';
 
 if(!in_array($method, $array_route)) {
+    $route['(:any)--(:any)'] 				= "chi-tiet-dich-vu/index/$1/$2";
     $route['(:any)'] 						= "chi-tiet-dich-vu/index/$1";
 }
 
