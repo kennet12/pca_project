@@ -2725,6 +2725,300 @@ class Syslog extends CI_Controller {
 		}
 	}
 	//------------------------------------------------------------------------------
+	// service
+	//------------------------------------------------------------------------------
+	public function service_category ($category_id,$action=null, $id=null){
+		$config_row_page = ADMIN_ROW_PER_PAGE;
+		$pagi		= (isset($_GET["pagi"]) ? $_GET["pagi"] : $config_row_page);
+		if (!isset($_GET['page']) || (($_GET['page']) < 1) ) {
+			$page = 1;
+		}
+		else {
+			$page = $_GET['page'];
+		}
+		$offset = ($page - 1) * $pagi;
+		$title = 'Tin tức';
+		$this->_breadcrumb = array_merge($this->_breadcrumb, array("{$title}/ Danh mục" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}")));
+		$category = $this->m_service_category->load($category_id);
+		$task = $this->util->value($this->input->post("task"), "");
+		if (!empty($task)) {
+			if ($task == "save") {
+				$name			= $this->util->value($this->input->post("name"), "");
+				$alias			= $this->util->value($this->input->post("alias"), "");
+				$active			= $this->util->value($this->input->post("active"), 1);
+				
+				if (empty($alias)) {
+					$alias = $this->util->slug($name);
+				}
+				
+				$data = array (
+					"name"		=> $name,
+					"alias"		=> $alias,
+					"parent_id"	=> $category->id,
+					"active"	=> $active
+				);
+				
+				if ($action == "add") {
+					$this->m_service_category->add($data);
+					$this->session->set_flashdata("success", "Thêm thành công");
+				}
+				else if ($action == "edit") {
+					$where = array("id" => $id);
+					$this->m_service_category->update($data, $where);
+					$this->session->set_flashdata("success", "Cập nhật thành công");
+				}
+				redirect(site_url("syslog/service-category/{$category_id}"));
+			}
+			else if ($task == "cancel") {
+				redirect(site_url("syslog/service-category/{$category_id}"));
+			}
+			else if ($task == "publish") {
+				$ids = $this->util->value($this->input->post("cid"), array());
+				foreach ($ids as $id) {
+					$data = array("active" => 1);
+					$where = array("id" => $id);
+					$this->m_service_category->update($data, $where);
+				}
+				redirect(site_url("syslog/service-category/{$category_id}"));
+			}
+			else if ($task == "unpublish") {
+				$ids = $this->util->value($this->input->post("cid"), array());
+				foreach ($ids as $id) {
+					$data = array("active" => 0);
+					$where = array("id" => $id);
+					$this->m_service_category->update($data, $where);
+				}
+				redirect(site_url("syslog/service-category/{$category_id}"));
+			}
+			else if ($task == "delete") {
+				$ids = $this->util->value($this->input->post("cid"), array());
+				foreach ($ids as $id) {
+					$where = array("id" => $id);
+					$this->m_service_category->delete($where);
+				}
+				$this->session->set_flashdata("success", "Xóa thành công");
+				redirect(site_url("syslog/service-category/{$category_id}"));
+			}
+		}
+		
+		if ($action == "add") {
+			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Thêm" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$action}")));
+			
+			$view_data = array();
+			$view_data["breadcrumb"] 	= $this->_breadcrumb;
+			$view_data["title"]			= $title;
+			
+			$tmpl_content = array();
+			$tmpl_content["content"] = $this->load->view("admin/service/category/edit", $view_data, true);
+			$this->load->view("layout/admin/main", $tmpl_content);
+		}
+		else if ($action == "edit") {
+			$item = $this->m_service_category->load($id);
+			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Cập nhật" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$action}/{$id}")));
+			
+			$view_data = array();
+			$view_data["breadcrumb"] 	= $this->_breadcrumb;
+			$view_data["item"] 			= $item;
+			$view_data["title"]			= $title;
+			
+			$tmpl_content = array();
+			$tmpl_content["content"] = $this->load->view("admin/service/category/edit", $view_data, true);
+			$this->load->view("layout/admin/main", $tmpl_content);
+		}
+		else {
+			$total = count($this->m_service_category->items());
+			if (!isset($_GET['pagi'])){
+				$pagination = $this->util->pagination_admin(site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}"). "?pagi=$config_row_page"."$_SERVER[QUERY_STRING]", $total, $pagi);
+			}else{
+				$pagination = $this->util->pagination_admin(site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}"). "?$_SERVER[QUERY_STRING]", $total, $pagi);
+			}
+			$info = new stdClass();
+			$info->parent_id = 5;
+			$items = $this->m_service_category->items($info,null,$pagi,$offset);
+			
+			$view_data = array();
+			$view_data["breadcrumb"]	= $this->_breadcrumb;
+			$view_data["offset"]		= $offset;
+			$view_data["pagination"]	= $pagination;
+			$view_data["totalitems"]	= sizeof($this->m_service_category->items());
+			$view_data["items"]			= $items;
+			$view_data["title"]			= $title;
+			$view_data["category_id"]	= $category_id;
+			
+			$tmpl_content = array();
+			$tmpl_content["content"] = $this->load->view("admin/service/category/index", $view_data, true);
+			$this->load->view("layout/admin/main", $tmpl_content);
+		}
+	}
+	public function service ($category_id, $action=null, $id=null) {
+		$config_row_page = ADMIN_ROW_PER_PAGE;
+		$pagi		= (isset($_GET["pagi"]) ? $_GET["pagi"] : $config_row_page);
+		if (!isset($_GET['page']) || (($_GET['page']) < 1) ) {
+				$page = 1;
+		}
+		else {
+				$page = $_GET['page'];
+		}
+		$offset = ($page - 1) * $pagi;
+		$category = $this->m_service_category->load($category_id);
+
+		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Tin tức/ Danh mục" => site_url("{$this->util->slug($this->router->fetch_class())}/service-category/{$category->parent_id}")));
+		$this->_breadcrumb = array_merge($this->_breadcrumb, array("{$category->name}" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}")));
+		$search_text	= $this->util->value($this->input->post("search_text"), "");
+		$task = $this->util->value($this->input->post("task"), "");
+		if (!empty($task)) {
+			if ($task == "save") {
+				$title			= $this->util->value($this->input->post("title"), "");
+				$alias			= $this->util->value($this->input->post("alias"), "");
+				$thumbnail 		= !empty($_FILES['thumbnail']['name']) ? explode('.',$_FILES['thumbnail']['name']) : $this->m_service->load($id)->thumbnail;
+				$parent_id		= $this->util->value($this->input->post("parent_id"), "");
+				$description	= $this->util->value($this->input->post("description"), "");
+				$content		= $this->util->value($this->input->post("content"), "");
+				$active			= $this->util->value($this->input->post("active"), 1);
+				$meta_title		= $this->util->value($this->input->post("meta_title"), "");
+				$meta_key		= $this->util->value($this->input->post("meta_key"), "");
+				$meta_des		= $this->util->value($this->input->post("meta_des"), "");
+				if (empty($id)) {
+					$id = $this->m_service->get_next_value();
+				}
+				if (empty($alias)) {
+					$alias = $this->util->slug($title).'-'.str_replace('=','',strtolower(base64_encode($id)));
+				}
+				if (empty($meta_title)){
+					$meta_title = substr($title,0,69);
+				}
+				if (empty($meta_des)){
+					$meta_des = substr(strip_tags($description),0,159);
+				}
+				$data = array (
+					"title"			=> $title,
+					"alias"			=> $alias,
+					"description"	=> $description,
+					"content"		=> $content,
+					"active"		=> $active,
+					"type"			=> $category->parent_id,
+					"category_id"	=> $parent_id,
+					"meta_title"	=> $meta_title,
+					"meta_key"		=> $meta_key,
+					"meta_des"		=> $meta_des
+				);
+				if (!empty($_FILES['thumbnail']['name'])){
+					$data['thumbnail'] = "/images/thumb/{$id}/{$this->util->slug($thumbnail[0])}.".end($thumbnail);
+				}
+				$file_deleted = '';
+				
+				if ($action == "add") {
+					$file_deleted = "./images/thumb/{$id}/{$this->m_service->load($id)->title}";
+					$this->m_service->add($data);
+					$this->session->set_flashdata("success", "Thêm thành cộng");
+				}
+				else if ($action == "edit") {
+					$where = array("id" => $id);
+					$this->m_service->update($data, $where);
+					$this->session->set_flashdata("success", "Cập nhật thành công");
+				}
+				$path = "./images/thumb/{$id}";
+				if (!file_exists($path)) {
+					mkdir($path, 0755, true);
+				}
+				if (!empty($_FILES['thumbnail']['name'])){
+					$allow_type = 'JPG|PNG|jpg|jpeg|png';
+					$this->util->upload_file($path,'thumbnail',$file_deleted,$allow_type,$this->util->slug($thumbnail[0]).'.'.end($thumbnail),150);
+				}
+				$this->create_sitemap();
+				redirect(site_url("syslog/service/{$category->id}"));
+			}
+			else if ($task == "cancel") {
+				redirect(site_url("syslog/service/{$category->id}"));
+			}
+			else if ($task == "publish") {
+				$ids = $this->util->value($this->input->post("cid"), array());
+				foreach ($ids as $id) {
+					$data = array("active" => 1);
+					$where = array("id" => $id);
+					$this->m_service->update($data, $where);
+				}
+				$this->create_sitemap();
+				redirect(site_url("syslog/service/{$category->id}"));
+			}
+			else if ($task == "unpublish") {
+				$ids = $this->util->value($this->input->post("cid"), array());
+				foreach ($ids as $id) {
+					$data = array("active" => 0);
+					$where = array("id" => $id);
+					$this->m_service->update($data, $where);
+				}
+				$this->create_sitemap();
+				redirect(site_url("syslog/service/{$category->id}"));
+			}
+			else if ($task == "delete") {
+				$ids = $this->util->value($this->input->post("cid"), array());
+				foreach ($ids as $id) {
+					$where = array("id" => $id);
+					$this->m_service->delete($where);
+				}
+				$this->create_sitemap();
+				$this->session->set_flashdata("success", "Xóa thành công");
+				redirect(site_url("syslog/service/{$category->id}"));
+			}
+		}
+		
+		if ($action == "add") {
+			$item = $this->m_service->instance();
+			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Thêm" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}/{$action}")));
+			
+			$view_data = array();
+			$view_data["breadcrumb"] = $this->_breadcrumb;
+			$view_data["item"] = $item;
+			$view_data["category"] = $category;
+			
+			$tmpl_content = array();
+			$tmpl_content["content"] = $this->load->view("admin/service/edit", $view_data, true);
+			$this->load->view("layout/admin/main", $tmpl_content);
+		}
+		else if ($action == "edit") {
+			$item = $this->m_service->load($id);
+			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Cập nhật" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}/{$action}/{$id}")));
+
+			$view_data = array();
+			$view_data["breadcrumb"] = $this->_breadcrumb;
+			$view_data["item"] = $item;
+			$view_data["category"] = $category;
+			
+			$tmpl_content = array();
+			$tmpl_content["content"] = $this->load->view("admin/service/edit", $view_data, true);
+			$this->load->view("layout/admin/main", $tmpl_content);
+		}
+		else {
+			$info = new stdClass();
+			$info->category_id = $category->id;
+			if(!empty($search_text))
+			$info->search_text = $search_text;
+
+			$total = count($this->m_service->items($info));
+			$items = $this->m_service->items($info, null, $pagi, $offset);
+			if (!isset($_GET['pagi'])){
+				$pagination = $this->util->pagination_admin(site_url('syslog/service/'.$category->alias). "?pagi=$config_row_page"."$_SERVER[QUERY_STRING]", $total, $pagi);
+			}else{
+				$pagination = $this->util->pagination_admin(site_url('syslog/service/'.$category->alias). "?$_SERVER[QUERY_STRING]", $total, $pagi);
+			}
+
+			
+			$view_data = array();
+			$view_data["breadcrumb"] 	= $this->_breadcrumb;
+			$view_data["offset"]		= $offset;
+			$view_data["pagination"]	= $pagination;
+			$view_data["items"]			= $items;
+			$view_data["search_text"]	= $search_text;
+			$view_data["pagi"]			= $pagi;
+			$view_data["category"]		= $category;
+			
+			$tmpl_content = array();
+			$tmpl_content["content"] = $this->load->view("admin/service/index", $view_data, true);
+			$this->load->view("layout/admin/main", $tmpl_content);
+		}
+	}
+	//------------------------------------------------------------------------------
 	// content
 	//------------------------------------------------------------------------------
 	public function content_category ($category_id,$action=null, $id=null){

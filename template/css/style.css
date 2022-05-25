@@ -1909,9 +1909,6 @@ footer ul li a {
 	text-decoration: underline;
 	color:#333;
 }
-footer ul li a:hover {
-	padding-left: 5px;
-}
 footer ul li .lnr-chevron-right {
 	font-size: 10px;
 }

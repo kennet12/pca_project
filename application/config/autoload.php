@@ -152,5 +152,8 @@ $autoload['model'] = array(
 	'm_search',
 	'm_promotion',
 	'm_block',
+
+	'm_service_category',
+	'm_service',
 );
 
