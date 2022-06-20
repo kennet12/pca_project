@@ -65,10 +65,11 @@ url("https://static.wixstatic.com/ufonts/609e3c_8c97469c9e8e441f8815af3fe6662ad8
   nav,
   section {
 	display: block;
+	margin-bottom: 25px;
   }
   body {
 	margin: 0;
-	font-family: Arial,Helvetica,sans-serif;
+	font-family:sans-serif,Helvetica,Arial;
 	font-size: 16px;
     font-stretch: normal;
     font-style: normal;
@@ -233,7 +234,6 @@ url("https://static.wixstatic.com/ufonts/609e3c_8c97469c9e8e441f8815af3fe6662ad8
   select,
   textarea {
 	margin: 0;
-	font-family: inherit;
 	font-size: inherit;
 	line-height: inherit;
   }
@@ -335,7 +335,6 @@ url("https://static.wixstatic.com/ufonts/609e3c_8c97469c9e8e441f8815af3fe6662ad8
   h5,
   h6 {
 	margin-bottom: 0.5rem;
-	font-family: inherit;
 	font-weight: 500;
 	line-height: 1.2;
 	color: inherit;
@@ -1031,6 +1030,7 @@ input[type="text"].error,
 input[type="password"].error,
 input[type="number"].error,
 input[type="email"].error,
+select.error,
 textarea.error {
 	border: 1px solid #f44336 !important;
 }
@@ -1688,8 +1688,7 @@ textarea.error {
 	margin-left: 30px;
 }
 .service-box .service-title {
-	font-size: 33px;
-    font-weight: bold;
+	font-size: 41px;
     border: 2px solid;
     color: #fff;
     padding: 20px;
@@ -1714,7 +1713,7 @@ textarea.error {
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 20px 0 19px 20px;
+    border-width: 20px 0 22px 20px;
     border-color: transparent transparent transparent #fff;
 }
 .service-box .service-info {
@@ -1742,6 +1741,11 @@ textarea.error {
 	color: #fff;
     font-size: 11px;
     margin: 7px 0;
+}
+.box-service-item img {
+	width: 310px;
+	height: 360px;
+	object-fit: cover;
 }
 .box-service-item .btn-booknow {
 	border: 1px solid #f9e8ff6b;
@@ -1771,7 +1775,7 @@ textarea.error {
     margin-bottom: 0;
 }
 .box-service-item .box-service-title .service-date {
-	font-size: 11px;
+	font-size: 14px;
     color: #c4a5e16b;
 	margin-bottom: 0;
 }
@@ -1793,6 +1797,48 @@ textarea.error {
 }
 .box-serive-detail-info {
 	margin-top: 50px;
+}
+.box-serive-detail-info .box-frm-booking {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-style: bold;
+    border-width: 0px;
+    background: url(https://www.powrcdn.com/patterns/black_thread.png);
+    padding: 5%;
+}
+.box-serive-detail-info .box-frm-booking .booking-input {
+	width: 100%;
+    margin-bottom: 15px;
+    background: #000;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    font-size: 13px;
+    padding: 5px 12px;
+	outline: none;
+}
+.box-serive-detail-info .box-frm-booking .radio-frm {
+	margin-bottom: 20px;
+}
+.box-serive-detail-info .box-frm-booking .radio-frm label{
+	font-size: 14px;
+    font-weight: 400;
+}
+.box-serive-detail-info .box-frm-booking .btn-submit-frm {
+	display: block;
+    background: #0088CB;
+    color: #000;
+    padding: 7px;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.box-serive-detail-info .box-frm-booking h5 {
+	color: #0B6591;
+    font-weight: bold;
+}
+.box-serive-detail-info .box-frm-booking p {
+	color:#fff;
 }
 .box-serive-detail-info .content{
 	margin-top: 50px;
@@ -1873,12 +1919,36 @@ textarea.error {
     border-color: #7888c5;
 	padding: 6px;
 }
-.box-register button {
+.box-register .btn-register {
 	background: #0088CB;
     font-size: 18px;
     font-weight: bold;
-    padding: 7px 22px;
-    border-radius: 8px;
+    padding: 10px 22px;
+    border-radius: 5px;
+    color: #000 !important;
+	cursor: pointer;
+}
+.member .img-mv2 {
+	margin: auto;
+}
+.content-table {
+	display: table;
+    font-family: sans-serif;
+    font-weight: 700;
+	width: 100%;
+}
+.content-left {
+	display: table-cell;
+	width: 50%;
+}
+.content-right {
+	display: table-cell;
+	width: 50%;
+}
+.service-info p,
+.service-info span {
+	line-height: 22px !important;
+	color:#fff;
 }
 /*end content*/
 footer {
@@ -1906,8 +1976,9 @@ footer ul li {
 footer ul li a {
 	font-size: 12px;
     font-weight: bold;
-	text-decoration: underline;
-	color:#333;
+    text-decoration: underline;
+    color: #333;
+    font-family: sans-serif;
 }
 footer ul li .lnr-chevron-right {
 	font-size: 10px;
@@ -1960,9 +2031,11 @@ footer .box-socials i {
 }
 .wrap-modal .box-modal .modal-body {
 	padding: 20px 25px;
+	color: #000;
 }
 .wrap-modal .box-modal .modal-body p {
 	font-size: 16px;
+    color: #000;
 }
 .wrap-modal .box-modal .modal-body .list-error li {
 	color: #f44336;

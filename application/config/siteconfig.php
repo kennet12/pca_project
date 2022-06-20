@@ -21,7 +21,7 @@ define("ADMIN_TPL_URL",		BASE_URL."/template/admin/");
 define("ADMIN_IMG_URL",		ADMIN_TPL_URL."images/");
 define("ADMIN_CSS_URL",		ADMIN_TPL_URL."css/");
 define("ADMIN_JS_URL",		ADMIN_TPL_URL."js/");
-define("ADMIN_AGENT_ID",	"SHOP");
+define("ADMIN_AGENT_ID",	"M_PCA");
 define("ADMIN_ROW_PER_PAGE",10);
 define("PATH_ROOT",			$_SERVER['DOCUMENT_ROOT']);
 define("PATH_CKFINDER",		'images/ck_finder');

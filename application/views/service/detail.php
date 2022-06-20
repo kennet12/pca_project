@@ -1,16 +1,105 @@
+<?
+	$class_arr = [
+		"First Timers Bodybuilding",
+		"Novice Bodybuilding",
+		"Juniors Bodybuilding",
+		"Classic Bodybuilding",
+		"DisABILITY",
+		"Juniors Bikini Toned ",
+		"Ladies Bikini Short Under 164cm",
+		"Ladies Bikini Tall Over 164.1cm",
+		"Ladies Trained Bikini",
+		"Ladies Master (Over 35)",
+		"Juniors Men's Physique",
+		"Men's Physique Short Under 178cm",
+		"Men's Physique Tall Over 178.1cm",
+		"Masters Men's Physique (Over 35)",
+		"Ladies Toned Figure",
+		"Ladies AthleticFigure",
+		"Ladies Trained Figure",
+		"Masters Bodybuilding Over 40",
+		"Masters Bodybuilding  Over 50",
+		"Mr Bodybuilding Class Short (UNDER 5FT 6)",
+		"Mr Bodybuilding Class Medium (OVER 5FT 6 ",
+		"Mr Bodybuilding Class Tall (OVER 5FT 10)",
+		"Ladies Wellness",
+	];
+	$type_arr = [
+		'Extremely Pale',
+		'Fair/Medium',
+		'Dark',
+		'Extremely Dark Skinned',
+	];
+	$payment_arr = [
+		'Deposit / Rest of cash to be paid on tanning day **Non Refundable',
+		'Full Payment Booking - Fully Refundable',
+		'Top Coat and Glaze Application Only (full payment)',
+	];
+	$contact_arr = [
+		'Email',
+		'Text',
+		'Call',
+	];
+?>
 <div class="cluster">
 	<div class="container">
 		<div class="banner-service-detail-text">
-			<h1 class="text font-wf">FIRST TIMERS PROTAN</h1>
+			<h1 class="text font-wf"><?=$item->title?></h1>
 			<div class="backstage-service font-wf">BACKSTAGE SERVICE</div>
-			<div class="date font-wf">SUNDAY 20TH MARCH 2022</div>
+			<div class="date font-wf"><?=$this->util->to_vn_date($item->start_date)?></div>
 		</div>
 	</div>
 	<div class="container container-content">
 		<div class="box-serive-detail-info">
 			<div class="row">
 				<div class="col-md-6">
-					<img src="https://static.wixstatic.com/media/609e3c_61716ae595ce47929de7bb53e5f52efe~mv2.jpg/v1/fill/w_582,h_706,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/first%20timers%201%202022.jpg"  class="full-width"alt="">
+					<img src="<?=$item->thumbnail?>"  class="full-width"alt="">
+					<br><br>
+					<div class="box-frm-booking">
+						<form action="">
+							<div class="text-center">
+								<h5>PCA Scotland ProTan Bookings</h5>
+								<p>Pro Tan Professional Tanning Service</p>
+							</div>
+							<input type="text" class="booking-input" name="fullname" id="fullname" placeholder="*Full Name">
+							<input type="text" class="booking-input" name="email" id="email" placeholder="*Email Address">
+							<input type="text" class="booking-input" name="phone" id="phone" placeholder="*Contact phone">
+							<hr color="gray">
+							<div class="radio-frm">
+								<h6><span class="text-color-red">*</span>What class have you registered for?</h6>
+								<? foreach ($class_arr as $value) { ?>
+								<input type="radio" name="class" value="<?=$value?>">
+								<label for="<?=$value?>"><?=$value?></label><br>
+								<? } ?>
+							</div>
+							<div class="radio-frm">
+								<h6><span class="text-color-red">*</span>What Skin Type are you?</h6>
+								<? foreach ($type_arr as $value) { ?>
+								<input type="radio" name="class" value="<?=$value?>">
+								<label for="<?=$value?>"><?=$value?></label><br>
+								<? } ?>
+								<input type="text" class="booking-input" name="type-option" id="type-option" placeholder="*Do you suffer from sensitive skin? yes/no">
+							</div>
+							<div class="radio-frm">
+								<h6><span class="text-color-red">*</span>Booking Payment Options -</h6>
+								<? foreach ($payment_arr as $value) { ?>
+								<input type="radio" name="class" value="<?=$value?>">
+								<label for="<?=$value?>"><?=$value?></label><br>
+								<? } ?>
+							</div>
+							<div class="radio-frm">
+								<h6>When completing this form we will need to contact you with show updates, please let us know all the ways you would like to hear from us:</h6>
+								<? foreach ($contact_arr as $value) { ?>
+								<input type="radio" name="class" value="<?=$value?>">
+								<label for="<?=$value?>"><?=$value?></label><br>
+								<? } ?>
+							</div>
+							<div class="radio-frm">
+								<h6>We take your privacy very seriously and will only use your personal information to provide the products and services you requested.</h6>
+							</div>
+							<a class="btn-submit-frm">Submit £70</a>
+						</form>
+					</div>
 				</div>
 				<div class="col-md-6">
 					<a href="" class="element-link element-link-gray">Tickets</a>
@@ -18,77 +107,7 @@
 					<a href="" class="element-link element-link-gray">Order Photo Package</a>
 					<div class="content">
 						<div style="color:#fff">
-							<div id="comp-k5f8bxno" class="XUUsC"><div data-testid="linkElement" class="xQ_iF"><wix-image id="img_comp-k5f8bxno" class="_1-6YJ _1Fe8-" data-image-info="{&quot;containerId&quot;:&quot;comp-k5f8bxno&quot;,&quot;displayMode&quot;:&quot;fill&quot;,&quot;imageData&quot;:{&quot;width&quot;:900,&quot;height&quot;:350,&quot;uri&quot;:&quot;609e3c_5e00f460530143489cdb59a13d032569~mv2.png&quot;,&quot;displayMode&quot;:&quot;fill&quot;}}" data-bg-effect-name="" data-image-zoomed="" data-has-ssr-src="" data-src="https://static.wixstatic.com/media/609e3c_5e00f460530143489cdb59a13d032569~mv2.png/v1/fill/w_280,h_109,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/609e3c_5e00f460530143489cdb59a13d032569~mv2.png"><img src="https://static.wixstatic.com/media/609e3c_5e00f460530143489cdb59a13d032569~mv2.png/v1/fill/w_280,h_109,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/609e3c_5e00f460530143489cdb59a13d032569~mv2.png" style="width:280px;height:109px;object-fit:cover;object-position:50% 50%"></wix-image></div></div>
-							<div id="comp-kxpfeol3" class="_2Hij5" data-testid="richTextElement"><p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span class="color_18"><span style="font-weight:bold;">Full Backstage Package £70 includes (RECOMMENDED PACKAGE):</span></span></span></span></p>
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Overnight Basecoat Tan Activator day/night before show</span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Topcoat on show day</span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Glaze before stepping on stage</span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Bikini glued</span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Trunk glued</span></span></p>
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span style="font-weight:bold;">**Backstage Repair if needed</span></span></span></p>
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span style="font-weight:bold;">-----------------------------------------------------</span></span></span></p>
-
-						
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span class="color_18"><span style="font-weight:bold;">Half Backstage Package £45 includes:</span></span></span></span></p>
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Topcoat on show day ONLY</span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Glaze before stepping on stage</span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Bikini glued</span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">- Trunk glued</span></span></p>
-
-						
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span style="font-weight:bold;">**Backstage Repair if needed</span></span></span></p>
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span style="font-weight:bold;">-----------------------------------------------------</span></span></span></p>
-
-						
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;">PLEASE READ</span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span class="color_18"><span style="font-weight:bold;">***Cancellation Policy***&nbsp;</span></span></span></span></p>
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span class="color_18"><span style="font-weight:bold;">Deposits are non refundable only transferable</span></span></span></span></p>
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span class="color_18"><span style="font-weight:bold;">Top coats are non-refundable only transferable</span></span></span></span></p>
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span class="color_18"><span style="font-weight:bold;">Full payment are refundable UP UNTIL 14 days prior to the show, after this time no refund will be made.</span></span></span></span></p>
-
-						
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span class="color_18"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold; font-weight:bold;">If you make a cancellation after accepting your pre-tanning slot, you'll be subject to an £20 admin fee charge deducted from full tan balance.&nbsp;</span></span></span></p>
-
-						<p class="font_7" style="line-height:normal; font-size:16px;"><span style="letter-spacing:normal;"><span style="font-family:wfont_609e3c_e16d7f32ba29440e894b180307bf2225,wf_e16d7f32ba29440e894b18030,orig_helios_bold;"><span class="wixGuard">​</span></span></span></p></div>
+							<?=$item->content?>
 						</div>
 					</div>
 				</div>

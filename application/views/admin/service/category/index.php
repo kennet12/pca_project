@@ -5,10 +5,10 @@
 				<?=$title?>
 				<div class="pull-right">
 					<ul class="action-icon-list">
-						<li><a href="#" class="btn-unpublish"><i class="fa fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
-						<li><a href="#" class="btn-publish"><i class="fa fa-eye-slash" aria-hidden="true"></i> Show</a></li>
-						<li><a href="#" class="btn-delete"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>
-						<li><a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/{$category_id}/add")?>"><i class="fa fa-plus" aria-hidden="true"></i> Add</a></li>
+						<li><a href="#" class="btn-unpublish"><i class="fa fa-eye-slash" aria-hidden="true"></i> Ẩn</a></li>
+						<li><a href="#" class="btn-publish"><i class="fa fa-eye-slash" aria-hidden="true"></i> Hiện</a></li>
+						<li><a href="#" class="btn-delete"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></li>
+						<li><a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/add")?>"><i class="fa fa-plus" aria-hidden="true"></i> Thêm</a></li>
 					</ul>
 				</div>
 			</h1>
@@ -25,8 +25,8 @@
 					<th class="text-center" width="30px">
 						<input type="checkbox" id="toggle" name="toggle" onclick="checkAll('<?=sizeof($items)?>');" />
 					</th>
-					<th>Name</th>
-					<th width="180px">Update</th>
+					<th>Tên danh mục</th>
+					<th width="180px">Cập nhật</th>
 				</tr>
 				<? $i=0; foreach ($items as $item) { ?>
 				<tr>
@@ -35,14 +35,14 @@
 						<input type="checkbox" id="cb<?=$i?>" name="cid[]" value="<?=$item->id?>" onclick="isChecked(this.checked);">
 					</td>
 					<td>
-						<a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/{$item->parent_id}/edit/$item->id")?>"><?=$item->name?></a>
+						<a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/edit/$item->id")?>"><?=$item->name?></a>
 						<ul class="action-icon-list">
-							<li><a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/{$item->parent_id}/edit/$item->id")?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update</a></li>
-							<li><a href="#" onclick="return confirmBox('Delete item', 'Are you sure?', 'itemTask', ['cb<?=$i?>', 'delete']);"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>
+							<li><a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/edit/$item->id")?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Cập nhật</a></li>
+							<li><a href="#" onclick="return confirmBox('Delete item', 'Are you sure?', 'itemTask', ['cb<?=$i?>', 'delete']);"><i class="fa fa-trash-o" aria-hidden="true"></i> Xóa</a></li>
 							<? if ($item->active) { ?>
-							<li><a href="#" onclick="return itemTask('cb<?=$i?>','unpublish');"><i class="fa fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
+							<li><a href="#" onclick="return itemTask('cb<?=$i?>','unpublish');"><i class="fa fa-eye-slash" aria-hidden="true"></i> Ẩn</a></li>
 							<? } else { ?>
-							<li><a href="#" onclick="return itemTask('cb<?=$i?>','publish');"><i class="fa fa-eye-slash" aria-hidden="true"></i> Show</a></li>
+							<li><a href="#" onclick="return itemTask('cb<?=$i?>','publish');"><i class="fa fa-eye-slash" aria-hidden="true"></i> Hiện</a></li>
 							<? } ?>
 						</ul>
 					</td>

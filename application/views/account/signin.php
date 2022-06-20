@@ -307,6 +307,14 @@
 			</div>
 			<div class="col-md-3"></div>
 		</div>
+		<div class="row">
+			<div class="col-md-6">
+				<p style="font-size: 12px;font-weight: bold;color: #3078BE;">Experiencing payment problems? please feel free to contact our payment department: <a href="mailto:<?=$setting->company_email?>"><?=$setting->company_email?></a></p>
+			</div>
+		</div>
+		<div class="text-center">
+			<img class="img-mv2" src="<?=IMG_URL.'mv2.jpg'?>" alt="mv2">
+		</div>
 	</div>
 </div>
 <script>

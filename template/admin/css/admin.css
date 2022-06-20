@@ -1101,6 +1101,32 @@ input[type="radio"], input[type="checkbox"] {
     margin-top: 10px;
 	cursor: pointer;
 }
+.order-item {
+	display: table;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+.order-item .info {
+	display: table-cell;
+	padding-bottom: 15px;
+}
+.order-item .image-detail {
+	display: table-cell;
+    width: 200px;
+    padding-bottom: 15px;
+}
+.order-item .info .name {
+	
+}
+.order-item .info .qty input {
+	border: none;
+    background: #fbfbfb;
+    width: 40px;
+}
+.order-item .info .qty input:focus {
+	outline-width: 0;
+}
 @media (min-width: 992px) {
 	.col-md-12-5 {
 		width: 12.5%;

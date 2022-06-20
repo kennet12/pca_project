@@ -136,8 +136,8 @@ function confirmBox(title, message, callback, params)
 function messageBox(type, title, message)
 { 
 	var str = '<div class="row">';
-			str += '<div class="col-md-3"></div>';
-			str += '<div class="col-md-6">';
+			str += '<div class="col-md-4"></div>';
+			str += '<div class="col-md-4">';
 				str += '<div class="box-modal">';
 					str += '<div class="modal-header">';
 						str += '<h5 class="modal-title">Title</h5>';
@@ -148,7 +148,7 @@ function messageBox(type, title, message)
 					str += '</div>';
 				str += '</div>';
 			str += '</div>';
-			str += '<div class="col-md-3"></div>';
+			str += '<div class="col-md-4"></div>';
 		str += '</div>';
 	$(".wrap-modal").html(str);
 	

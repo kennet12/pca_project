@@ -14,6 +14,7 @@
 	$info = new stdClass();
 	$info->user_types = array(USR_SUPPER_ADMIN, USR_ADMIN);
 	$user_onlines = $this->m_user->users($info);
+	$service_categories = $this->m_service_category->items(null,1);
 	
 ?>
 <div class="header">
@@ -85,13 +86,13 @@
 								<li><a href="<?=site_url("syslog/box")?>">Kiểm kho</a></li>
 							</ul>
 						</li>
-						<li class="dropdown <?=in_array($method, array('content','content-category')) ? 'active' : ''?>">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Tin tức<span class="caret"></span></a>
+						<li class="dropdown <?=in_array($method, array('service','service-category')) ? 'active' : ''?>">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dịch vụ<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="<?=site_url("syslog/content-category/5")?>">Danh mục</a></li>
+								<li><a href="<?=site_url("syslog/service-category")?>">Danh mục</a></li>
 								<li role="separator" class="divider"></li>
-								<? foreach ($content_categories as $content_category) { ?>
-								<li><a href="<?=site_url("syslog/content/$content_category->id")?>"><?=$content_category->name?></a></li>
+								<? foreach ($service_categories as $service_category) { ?>
+								<li><a href="<?=site_url("syslog/service/$service_category->id")?>"><?=$service_category->name?></a></li>
 								<? } ?>
 							</ul>
 						</li>

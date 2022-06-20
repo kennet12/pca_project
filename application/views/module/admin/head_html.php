@@ -53,13 +53,13 @@ if (!empty($configured_metas)) {
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet">
 <link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>bootstrap.vertical-tabs.min.css?cr=<?=CACHE_RAND?>" />
 <link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>font-awesome.min.css?cr=<?=CACHE_RAND?>">
-<link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>animate.css?cr=<?=CACHE_RAND?>" />
+<!-- <link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>animate.css?cr=<?=CACHE_RAND?>" /> -->
 <!-- <link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>../flexslider/css/flexslider.css?cr=<?=CACHE_RAND?>" /> -->
 <!-- <link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>../selectpicker/css/bootstrap-select.min.css?cr=<?=CACHE_RAND?>"> -->
-<link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>owl.carousel.min.css?cr=<?=CACHE_RAND?>" />
-<link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>owl.theme.default.min.css?cr=<?=CACHE_RAND?>" />
-<link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>responsive.css?cr=<?=CACHE_RAND?>" />
-<link rel="author" href="//plus.google.com/111337747674016562751/">
+<!-- <link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>owl.carousel.min.css?cr=<?=CACHE_RAND?>" />
+<link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>owl.theme.default.min.css?cr=<?=CACHE_RAND?>" /> -->
+<!-- <link rel="stylesheet" type="text/css" media="screen,all" href="<?=ADMIN_CSS_URL?>responsive.css?cr=<?=CACHE_RAND?>" /> -->
+<!-- <link rel="author" href="//plus.google.com/111337747674016562751/"> -->
 
 <script type="text/javascript" src="<?=ADMIN_JS_URL?>jquery.min.js?cr=<?=CACHE_RAND?>"></script>
 <script type="text/javascript" src="<?=ADMIN_JS_URL?>jquery.lazy.min.js?cr=<?=CACHE_RAND?>"></script>
@@ -67,10 +67,10 @@ if (!empty($configured_metas)) {
 <script type="text/javascript" src="<?=ADMIN_JS_URL?>wow.min.js?cr=<?=CACHE_RAND?>"></script>
 <!-- <script type="text/javascript" src="<?=ADMIN_JS_URL?>../flexslider/js/jquery.flexslider.js?cr=<?=CACHE_RAND?>"></script> -->
 <!-- <script type="text/javascript" src="<?=ADMIN_JS_URL?>scrolloverflow.min.js?cr=<?=CACHE_RAND?>"></script> -->
-<script type="text/javascript" src="<?=ADMIN_JS_URL?>owl.carousel.min.js?cr=<?=CACHE_RAND?>"></script>
+<!-- <script type="text/javascript" src="<?=ADMIN_JS_URL?>owl.carousel.min.js?cr=<?=CACHE_RAND?>"></script> -->
 <!-- <script type="text/javascript" src="<?=ADMIN_JS_URL?>../selectpicker/js/bootstrap-select.min.js?cr=<?=CACHE_RAND?>"></script> -->
 <script type="text/javascript" src="<?=ADMIN_JS_URL?>util.js?cr=<?=CACHE_RAND?>"></script>
-<script type="text/javascript" src="//www.google.com/recaptcha/api.js?cr=<?=CACHE_RAND?>"></script>
+<!-- <script type="text/javascript" src="//www.google.com/recaptcha/api.js?cr=<?=CACHE_RAND?>"></script> -->
 
 <script type="text/javascript">
 	var BASE_URL = "<?=BASE_URL?>";

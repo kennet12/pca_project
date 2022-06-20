@@ -101,10 +101,17 @@ class Tai_khoan extends CI_Controller {
 			if ($task == "register") {
 				$this->load->library('form_validation');
 
-				$fullname			= $this->input->post("fullname");
-				$email				= $this->input->post("email");
-				$phone				= $this->input->post("phone");
-				$password			= $this->input->post("password");
+				$fullname	 = $this->input->post("fullname");
+				$email		 = $this->input->post("email");
+				$phone		 = $this->input->post("phone");
+				$address	 = $this->input->post("address");
+				$city		 = $this->input->post("city");
+				$state		 = $this->input->post("state");
+				$zipcode	 = $this->input->post("zipcode");
+
+				$height		 = $this->input->post("height");
+				$address_sub = $this->input->post("address_sub");
+
 				
 				$count_email = 0;
 				$count_phone = 0;
@@ -125,8 +132,28 @@ class Tai_khoan extends CI_Controller {
 					$this->session->set_flashdata("error", "Email không được trống.");
 					redirect(site_url("tai-khoan/dang-ky"), "back");
 				}
+				else if (empty($address)) {
+					$this->session->set_flashdata("error", "Địa chỉ không được trống.");
+					redirect(site_url("tai-khoan/dang-ky"), "back");
+				}
 				else if (empty($phone)) {
 					$this->session->set_flashdata("error", "Số điện thoại không được trống.");
+					redirect(site_url("tai-khoan/dang-ky"), "back");
+				}
+				else if (empty($city)) {
+					$this->session->set_flashdata("error", "Tỉnh/Thành phố không được trống.");
+					redirect(site_url("tai-khoan/dang-ky"), "back");
+				}
+				else if (empty($state)) {
+					$this->session->set_flashdata("error", "Quận/Huyện không được trống.");
+					redirect(site_url("tai-khoan/dang-ky"), "back");
+				}
+				else if (empty($zipcode)) {
+					$this->session->set_flashdata("error", "Zipcode không được trống.");
+					redirect(site_url("tai-khoan/dang-ky"), "back");
+				}
+				else if (empty($height)) {
+					$this->session->set_flashdata("error", "Chiều cao không được trống.");
 					redirect(site_url("tai-khoan/dang-ky"), "back");
 				}
 				else if ($count_email != 0)
@@ -152,27 +179,30 @@ class Tai_khoan extends CI_Controller {
 					$this->session->set_flashdata("error", "Số điện thoại này đã được đăng ký. Vui lòng nhập số khác.");
 					redirect(site_url("tai-khoan/dang-ky"), "back");
 				}
-				else if (strlen(trim($password)) < 6) {
-					$this->session->set_flashdata("error", "Mật khẩu phải có ít nhất 6 ký tự.");
-					redirect(site_url("tai-khoan/dang-ky"), "back");
-				}
 				else {
+					$password = bin2hex(openssl_random_pseudo_bytes(4));
 					$data = array(
 						"fullname"			=> $fullname,
 						"email"				=> $email,
+						"phone"				=> $phone,
+						"address"			=> $address,
+						"city"				=> $city,
+						"state"				=> $state,
+						"zipcode"			=> $zipcode,
+						"height"			=> $height,
+						"address_sub"		=> $address_sub,
 						"password"			=> md5($password),
 						"password_text"		=> $password,
-						"phone"				=> $phone,
 					);
-					$this->m_user->add($data);
-					// Auto Login
-					$info = new stdClass();
-					$info->phone 	= $phone;
-					$info->password = $data['password_text'];
+					// $this->m_user->add($data);
+					// // Auto Login
+					// $info = new stdClass();
+					// $info->phone 	= $phone;
+					// $info->password = $data['password_text'];
 
-					$user = $this->m_user->user($info);
+					// $user = $this->m_user->user($info);
 					
-					if ($user != null) {
+					if ($this->m_user->add($data)) {
 						$this->m_user->login($phone, $password, '','phone');
 						$this->session->set_flashdata("success", "Đăng ký thành công.");
 						redirect(BASE_URL, "back");
@@ -187,6 +217,7 @@ class Tai_khoan extends CI_Controller {
 		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Đăng ký" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}")));
 
 		$view_data = array();
+		$view_data["setting"] = $this->m_setting->load(1);
 		$view_data["breadcrumb"] = $this->_breadcrumb;
 
 		$tmpl_content = array();
@@ -232,6 +263,7 @@ class Tai_khoan extends CI_Controller {
 		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Đăng Nhập" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}")));
 
 		$view_data = array();
+		$view_data["setting"] = $this->m_setting->load(1);
 		$view_data["breadcrumb"] = $this->_breadcrumb;
 
 		$tmpl_content = array();

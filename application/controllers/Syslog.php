@@ -2727,7 +2727,7 @@ class Syslog extends CI_Controller {
 	//------------------------------------------------------------------------------
 	// service
 	//------------------------------------------------------------------------------
-	public function service_category ($category_id,$action=null, $id=null){
+	public function service_category ($action=null, $id=null){
 		$config_row_page = ADMIN_ROW_PER_PAGE;
 		$pagi		= (isset($_GET["pagi"]) ? $_GET["pagi"] : $config_row_page);
 		if (!isset($_GET['page']) || (($_GET['page']) < 1) ) {
@@ -2737,15 +2737,18 @@ class Syslog extends CI_Controller {
 			$page = $_GET['page'];
 		}
 		$offset = ($page - 1) * $pagi;
-		$title = 'Tin tức';
-		$this->_breadcrumb = array_merge($this->_breadcrumb, array("{$title}/ Danh mục" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}")));
-		$category = $this->m_service_category->load($category_id);
+		$title = 'Dịch vụ';
+		$this->_breadcrumb = array_merge($this->_breadcrumb, array("{$title}/ Danh mục" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}")));
 		$task = $this->util->value($this->input->post("task"), "");
 		if (!empty($task)) {
 			if ($task == "save") {
 				$name			= $this->util->value($this->input->post("name"), "");
 				$alias			= $this->util->value($this->input->post("alias"), "");
+				$btn_text		= $this->util->value($this->input->post("btn_text"), "");
+				$thumbnail 		= !empty($_FILES['thumbnail']['name']) ? explode('.',$_FILES['thumbnail']['name']) : $this->m_service->load($id)->thumbnail;
 				$active			= $this->util->value($this->input->post("active"), 1);
+				$description	= $this->util->value($this->input->post("description"), "");
+				$content	= $this->util->value($this->input->post("content"), "");
 				
 				if (empty($alias)) {
 					$alias = $this->util->slug($name);
@@ -2754,9 +2757,15 @@ class Syslog extends CI_Controller {
 				$data = array (
 					"name"		=> $name,
 					"alias"		=> $alias,
-					"parent_id"	=> $category->id,
-					"active"	=> $active
+					"btn_text"		=> $btn_text,
+					"description"=> $description,
+					"active"	=> $active,
+					"content"=> $content,
 				);
+				if (!empty($_FILES['thumbnail']['name'])){
+					$data['thumbnail'] = "/images/service_thumb/{$id}/{$this->util->slug($thumbnail[0])}.".end($thumbnail);
+				}
+				$file_deleted = '';
 				
 				if ($action == "add") {
 					$this->m_service_category->add($data);
@@ -2767,10 +2776,18 @@ class Syslog extends CI_Controller {
 					$this->m_service_category->update($data, $where);
 					$this->session->set_flashdata("success", "Cập nhật thành công");
 				}
-				redirect(site_url("syslog/service-category/{$category_id}"));
+				$path = "./images/service_thumb/{$id}";
+				if (!file_exists($path)) {
+					mkdir($path, 0755, true);
+				}
+				if (!empty($_FILES['thumbnail']['name'])){
+					$allow_type = 'JPG|PNG|jpg|jpeg|png';
+					$this->util->upload_file($path,'thumbnail',$file_deleted,$allow_type,$this->util->slug($thumbnail[0]).'.'.end($thumbnail),150);
+				}
+				redirect(site_url("syslog/service-category"));
 			}
 			else if ($task == "cancel") {
-				redirect(site_url("syslog/service-category/{$category_id}"));
+				redirect(site_url("syslog/service-category"));
 			}
 			else if ($task == "publish") {
 				$ids = $this->util->value($this->input->post("cid"), array());
@@ -2779,7 +2796,7 @@ class Syslog extends CI_Controller {
 					$where = array("id" => $id);
 					$this->m_service_category->update($data, $where);
 				}
-				redirect(site_url("syslog/service-category/{$category_id}"));
+				redirect(site_url("syslog/service-category"));
 			}
 			else if ($task == "unpublish") {
 				$ids = $this->util->value($this->input->post("cid"), array());
@@ -2788,7 +2805,7 @@ class Syslog extends CI_Controller {
 					$where = array("id" => $id);
 					$this->m_service_category->update($data, $where);
 				}
-				redirect(site_url("syslog/service-category/{$category_id}"));
+				redirect(site_url("syslog/service-category"));
 			}
 			else if ($task == "delete") {
 				$ids = $this->util->value($this->input->post("cid"), array());
@@ -2797,7 +2814,7 @@ class Syslog extends CI_Controller {
 					$this->m_service_category->delete($where);
 				}
 				$this->session->set_flashdata("success", "Xóa thành công");
-				redirect(site_url("syslog/service-category/{$category_id}"));
+				redirect(site_url("syslog/service-category"));
 			}
 		}
 		
@@ -2832,9 +2849,7 @@ class Syslog extends CI_Controller {
 			}else{
 				$pagination = $this->util->pagination_admin(site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}"). "?$_SERVER[QUERY_STRING]", $total, $pagi);
 			}
-			$info = new stdClass();
-			$info->parent_id = 5;
-			$items = $this->m_service_category->items($info,null,$pagi,$offset);
+			$items = $this->m_service_category->items(null,null,$pagi,$offset);
 			
 			$view_data = array();
 			$view_data["breadcrumb"]	= $this->_breadcrumb;
@@ -2843,7 +2858,6 @@ class Syslog extends CI_Controller {
 			$view_data["totalitems"]	= sizeof($this->m_service_category->items());
 			$view_data["items"]			= $items;
 			$view_data["title"]			= $title;
-			$view_data["category_id"]	= $category_id;
 			
 			$tmpl_content = array();
 			$tmpl_content["content"] = $this->load->view("admin/service/category/index", $view_data, true);
@@ -2896,7 +2910,6 @@ class Syslog extends CI_Controller {
 					"description"	=> $description,
 					"content"		=> $content,
 					"active"		=> $active,
-					"type"			=> $category->parent_id,
 					"category_id"	=> $parent_id,
 					"meta_title"	=> $meta_title,
 					"meta_key"		=> $meta_key,
@@ -2925,7 +2938,7 @@ class Syslog extends CI_Controller {
 					$allow_type = 'JPG|PNG|jpg|jpeg|png';
 					$this->util->upload_file($path,'thumbnail',$file_deleted,$allow_type,$this->util->slug($thumbnail[0]).'.'.end($thumbnail),150);
 				}
-				$this->create_sitemap();
+				// $this->create_sitemap();
 				redirect(site_url("syslog/service/{$category->id}"));
 			}
 			else if ($task == "cancel") {
@@ -2938,7 +2951,7 @@ class Syslog extends CI_Controller {
 					$where = array("id" => $id);
 					$this->m_service->update($data, $where);
 				}
-				$this->create_sitemap();
+				// $this->create_sitemap();
 				redirect(site_url("syslog/service/{$category->id}"));
 			}
 			else if ($task == "unpublish") {
@@ -2948,7 +2961,7 @@ class Syslog extends CI_Controller {
 					$where = array("id" => $id);
 					$this->m_service->update($data, $where);
 				}
-				$this->create_sitemap();
+				// $this->create_sitemap();
 				redirect(site_url("syslog/service/{$category->id}"));
 			}
 			else if ($task == "delete") {
@@ -2957,7 +2970,7 @@ class Syslog extends CI_Controller {
 					$where = array("id" => $id);
 					$this->m_service->delete($where);
 				}
-				$this->create_sitemap();
+				// $this->create_sitemap();
 				$this->session->set_flashdata("success", "Xóa thành công");
 				redirect(site_url("syslog/service/{$category->id}"));
 			}
