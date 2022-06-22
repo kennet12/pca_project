@@ -1,6 +1,6 @@
 <div class="cluster">
 	<div class="container-fluid">
-		<h1 class="page-title"><?=$category->name?></h1>
+		<h1 class="page-title">Giải đấu</h1>
 		<form id="frm-admin" name="adminForm" action="" method="POST" enctype="multipart/form-data">
 			<input type="hidden" id="task" name="task" value="">
 			<div class="text-right">

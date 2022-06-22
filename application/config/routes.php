@@ -77,7 +77,10 @@ $array_route = array(
     'quy-che',
     'check-qrcode',
     'tra-cuu-don-hang',
+    'giai-dau',
 );
+$route['giai-dau'] 					        = "giai-dau/index";
+$route['giai-dau-(:any)'] 					= "giai-dau/index/$1";
 $route['dich-vu'] 					        = "dich-vu/index";
 $route['tin-tuc'] 		    		        = "tin-tuc/index";
 $route['tin-tuc/(:any)'] 		    		= "tin-tuc/index/$1";

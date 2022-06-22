@@ -91,45 +91,45 @@ class Syslog extends CI_Controller {
 		$xmlstr  = '<?xml version="1.0" encoding="UTF-8"?>';
 		$xmlstr .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">';
 		
-		$url80[] = BASE_URL;
-		$url80[] = site_url("gioi-thieu");
-		$url80[] = site_url("san-pham");
-		$url80[] = site_url("tin-tuc");
-		$url80[] = site_url("lien-he");
+		// $url80[] = BASE_URL;
+		// $url80[] = site_url("gioi-thieu");
+		// $url80[] = site_url("san-pham");
+		// $url80[] = site_url("tin-tuc");
+		// $url80[] = site_url("lien-he");
 		
-		$products = $this->m_product->items(null,1);
-		$contents = $this->m_contents->items(null,1);
+		// $products = $this->m_product->items(null,1);
+		// $contents = $this->m_contents->items(null,1);
 
-		foreach ($products as $product) {
-			$url80[] =  site_url("{$product->alias}");
-		}
-		foreach ($contents as $content) {
-			$url64[] =  site_url("tin-tuc/{$this->m_content_categories->load($content->category_id)->alias}/{$content->alias}");
-		}
+		// foreach ($products as $product) {
+		// 	$url80[] =  site_url("{$product->alias}");
+		// }
+		// foreach ($contents as $content) {
+		// 	$url64[] =  site_url("tin-tuc/{$this->m_content_categories->load($content->category_id)->alias}/{$content->alias}");
+		// }
 		
-		foreach ($url80 as $url) {
-			$xmlstr .= '<url>';
-			$xmlstr .= '<loc>'.$url.'</loc>';
-			$xmlstr .= '<changefreq>daily</changefreq>';
-			$xmlstr .= '<priority>0.80</priority>';
-			$xmlstr .= '</url>';
-		}
+		// foreach ($url80 as $url) {
+		// 	$xmlstr .= '<url>';
+		// 	$xmlstr .= '<loc>'.$url.'</loc>';
+		// 	$xmlstr .= '<changefreq>daily</changefreq>';
+		// 	$xmlstr .= '<priority>0.80</priority>';
+		// 	$xmlstr .= '</url>';
+		// }
 		
-		foreach ($url64 as $url) {
-			$xmlstr .= '<url>';
-			$xmlstr .= '<loc>'.$url.'</loc>';
-			$xmlstr .= '<changefreq>daily</changefreq>';
-			$xmlstr .= '<priority>0.64</priority>';
-			$xmlstr .= '</url>';
-		}
-		$xmlstr .= '</urlset>';
-		chmod('sitemap.xml', 0777);
+		// foreach ($url64 as $url) {
+		// 	$xmlstr .= '<url>';
+		// 	$xmlstr .= '<loc>'.$url.'</loc>';
+		// 	$xmlstr .= '<changefreq>daily</changefreq>';
+		// 	$xmlstr .= '<priority>0.64</priority>';
+		// 	$xmlstr .= '</url>';
+		// }
+		// $xmlstr .= '</urlset>';
+		// chmod('sitemap.xml', 0777);
 		
-		$fp = fopen('sitemap.xml', 'w');
-		fwrite($fp, $xmlstr);
-		fclose($fp);
+		// $fp = fopen('sitemap.xml', 'w');
+		// fwrite($fp, $xmlstr);
+		// fclose($fp);
 		
-		chmod('sitemap.xml', 0664);
+		// chmod('sitemap.xml', 0664);
 	}
 
 	//------------------------------------------------------------------------------
@@ -3034,130 +3034,298 @@ class Syslog extends CI_Controller {
 	//------------------------------------------------------------------------------
 	// content
 	//------------------------------------------------------------------------------
-	public function content_category ($category_id,$action=null, $id=null){
-		$config_row_page = ADMIN_ROW_PER_PAGE;
-		$pagi		= (isset($_GET["pagi"]) ? $_GET["pagi"] : $config_row_page);
-		if (!isset($_GET['page']) || (($_GET['page']) < 1) ) {
-			$page = 1;
-		}
-		else {
-			$page = $_GET['page'];
-		}
-		$offset = ($page - 1) * $pagi;
-		$title = 'Tin tức';
-		$this->_breadcrumb = array_merge($this->_breadcrumb, array("{$title}/ Danh mục" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}")));
-		$category = $this->m_content_categories->load($category_id);
-		$task = $this->util->value($this->input->post("task"), "");
-		if (!empty($task)) {
-			if ($task == "save") {
-				$name			= $this->util->value($this->input->post("name"), "");
-				$alias			= $this->util->value($this->input->post("alias"), "");
-				$active			= $this->util->value($this->input->post("active"), 1);
+	// public function content_category ($category_id,$action=null, $id=null){
+	// 	$config_row_page = ADMIN_ROW_PER_PAGE;
+	// 	$pagi		= (isset($_GET["pagi"]) ? $_GET["pagi"] : $config_row_page);
+	// 	if (!isset($_GET['page']) || (($_GET['page']) < 1) ) {
+	// 		$page = 1;
+	// 	}
+	// 	else {
+	// 		$page = $_GET['page'];
+	// 	}
+	// 	$offset = ($page - 1) * $pagi;
+	// 	$title = 'Tin tức';
+	// 	$this->_breadcrumb = array_merge($this->_breadcrumb, array("{$title}/ Danh mục" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}")));
+	// 	$category = $this->m_content_categories->load($category_id);
+	// 	$task = $this->util->value($this->input->post("task"), "");
+	// 	if (!empty($task)) {
+	// 		if ($task == "save") {
+	// 			$name			= $this->util->value($this->input->post("name"), "");
+	// 			$alias			= $this->util->value($this->input->post("alias"), "");
+	// 			$active			= $this->util->value($this->input->post("active"), 1);
 				
-				if (empty($alias)) {
-					$alias = $this->util->slug($name);
-				}
+	// 			if (empty($alias)) {
+	// 				$alias = $this->util->slug($name);
+	// 			}
 				
-				$data = array (
-					"name"		=> $name,
-					"alias"		=> $alias,
-					"parent_id"	=> $category->id,
-					"active"	=> $active
-				);
+	// 			$data = array (
+	// 				"name"		=> $name,
+	// 				"alias"		=> $alias,
+	// 				"parent_id"	=> $category->id,
+	// 				"active"	=> $active
+	// 			);
 				
-				if ($action == "add") {
-					$this->m_content_categories->add($data);
-					$this->session->set_flashdata("success", "Thêm thành công");
-				}
-				else if ($action == "edit") {
-					$where = array("id" => $id);
-					$this->m_content_categories->update($data, $where);
-					$this->session->set_flashdata("success", "Cập nhật thành công");
-				}
-				redirect(site_url("syslog/content-category/{$category_id}"));
-			}
-			else if ($task == "cancel") {
-				redirect(site_url("syslog/content-category/{$category_id}"));
-			}
-			else if ($task == "publish") {
-				$ids = $this->util->value($this->input->post("cid"), array());
-				foreach ($ids as $id) {
-					$data = array("active" => 1);
-					$where = array("id" => $id);
-					$this->m_content_categories->update($data, $where);
-				}
-				redirect(site_url("syslog/content-category/{$category_id}"));
-			}
-			else if ($task == "unpublish") {
-				$ids = $this->util->value($this->input->post("cid"), array());
-				foreach ($ids as $id) {
-					$data = array("active" => 0);
-					$where = array("id" => $id);
-					$this->m_content_categories->update($data, $where);
-				}
-				redirect(site_url("syslog/content-category/{$category_id}"));
-			}
-			else if ($task == "delete") {
-				$ids = $this->util->value($this->input->post("cid"), array());
-				foreach ($ids as $id) {
-					$where = array("id" => $id);
-					$this->m_content_categories->delete($where);
-				}
-				$this->session->set_flashdata("success", "Xóa thành công");
-				redirect(site_url("syslog/content-category/{$category_id}"));
-			}
-		}
+	// 			if ($action == "add") {
+	// 				$this->m_content_categories->add($data);
+	// 				$this->session->set_flashdata("success", "Thêm thành công");
+	// 			}
+	// 			else if ($action == "edit") {
+	// 				$where = array("id" => $id);
+	// 				$this->m_content_categories->update($data, $where);
+	// 				$this->session->set_flashdata("success", "Cập nhật thành công");
+	// 			}
+	// 			redirect(site_url("syslog/content-category/{$category_id}"));
+	// 		}
+	// 		else if ($task == "cancel") {
+	// 			redirect(site_url("syslog/content-category/{$category_id}"));
+	// 		}
+	// 		else if ($task == "publish") {
+	// 			$ids = $this->util->value($this->input->post("cid"), array());
+	// 			foreach ($ids as $id) {
+	// 				$data = array("active" => 1);
+	// 				$where = array("id" => $id);
+	// 				$this->m_content_categories->update($data, $where);
+	// 			}
+	// 			redirect(site_url("syslog/content-category/{$category_id}"));
+	// 		}
+	// 		else if ($task == "unpublish") {
+	// 			$ids = $this->util->value($this->input->post("cid"), array());
+	// 			foreach ($ids as $id) {
+	// 				$data = array("active" => 0);
+	// 				$where = array("id" => $id);
+	// 				$this->m_content_categories->update($data, $where);
+	// 			}
+	// 			redirect(site_url("syslog/content-category/{$category_id}"));
+	// 		}
+	// 		else if ($task == "delete") {
+	// 			$ids = $this->util->value($this->input->post("cid"), array());
+	// 			foreach ($ids as $id) {
+	// 				$where = array("id" => $id);
+	// 				$this->m_content_categories->delete($where);
+	// 			}
+	// 			$this->session->set_flashdata("success", "Xóa thành công");
+	// 			redirect(site_url("syslog/content-category/{$category_id}"));
+	// 		}
+	// 	}
 		
-		if ($action == "add") {
-			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Thêm" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$action}")));
+	// 	if ($action == "add") {
+	// 		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Thêm" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$action}")));
 			
-			$view_data = array();
-			$view_data["breadcrumb"] 	= $this->_breadcrumb;
-			$view_data["title"]			= $title;
+	// 		$view_data = array();
+	// 		$view_data["breadcrumb"] 	= $this->_breadcrumb;
+	// 		$view_data["title"]			= $title;
 			
-			$tmpl_content = array();
-			$tmpl_content["content"] = $this->load->view("admin/content/category/edit", $view_data, true);
-			$this->load->view("layout/admin/main", $tmpl_content);
-		}
-		else if ($action == "edit") {
-			$item = $this->m_content_categories->load($id);
-			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Cập nhật" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$action}/{$id}")));
+	// 		$tmpl_content = array();
+	// 		$tmpl_content["content"] = $this->load->view("admin/content/category/edit", $view_data, true);
+	// 		$this->load->view("layout/admin/main", $tmpl_content);
+	// 	}
+	// 	else if ($action == "edit") {
+	// 		$item = $this->m_content_categories->load($id);
+	// 		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Cập nhật" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$action}/{$id}")));
 			
-			$view_data = array();
-			$view_data["breadcrumb"] 	= $this->_breadcrumb;
-			$view_data["item"] 			= $item;
-			$view_data["title"]			= $title;
+	// 		$view_data = array();
+	// 		$view_data["breadcrumb"] 	= $this->_breadcrumb;
+	// 		$view_data["item"] 			= $item;
+	// 		$view_data["title"]			= $title;
 			
-			$tmpl_content = array();
-			$tmpl_content["content"] = $this->load->view("admin/content/category/edit", $view_data, true);
-			$this->load->view("layout/admin/main", $tmpl_content);
-		}
-		else {
-			$total = count($this->m_content_categories->items());
-			if (!isset($_GET['pagi'])){
-				$pagination = $this->util->pagination_admin(site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}"). "?pagi=$config_row_page"."$_SERVER[QUERY_STRING]", $total, $pagi);
-			}else{
-				$pagination = $this->util->pagination_admin(site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}"). "?$_SERVER[QUERY_STRING]", $total, $pagi);
-			}
-			$info = new stdClass();
-			$info->parent_id = 5;
-			$items = $this->m_content_categories->items($info,null,$pagi,$offset);
+	// 		$tmpl_content = array();
+	// 		$tmpl_content["content"] = $this->load->view("admin/content/category/edit", $view_data, true);
+	// 		$this->load->view("layout/admin/main", $tmpl_content);
+	// 	}
+	// 	else {
+	// 		$total = count($this->m_content_categories->items());
+	// 		if (!isset($_GET['pagi'])){
+	// 			$pagination = $this->util->pagination_admin(site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}"). "?pagi=$config_row_page"."$_SERVER[QUERY_STRING]", $total, $pagi);
+	// 		}else{
+	// 			$pagination = $this->util->pagination_admin(site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}"). "?$_SERVER[QUERY_STRING]", $total, $pagi);
+	// 		}
+	// 		$info = new stdClass();
+	// 		$info->parent_id = 5;
+	// 		$items = $this->m_content_categories->items($info,null,$pagi,$offset);
 			
-			$view_data = array();
-			$view_data["breadcrumb"]	= $this->_breadcrumb;
-			$view_data["offset"]		= $offset;
-			$view_data["pagination"]	= $pagination;
-			$view_data["totalitems"]	= sizeof($this->m_content_categories->items());
-			$view_data["items"]			= $items;
-			$view_data["title"]			= $title;
-			$view_data["category_id"]	= $category_id;
+	// 		$view_data = array();
+	// 		$view_data["breadcrumb"]	= $this->_breadcrumb;
+	// 		$view_data["offset"]		= $offset;
+	// 		$view_data["pagination"]	= $pagination;
+	// 		$view_data["totalitems"]	= sizeof($this->m_content_categories->items());
+	// 		$view_data["items"]			= $items;
+	// 		$view_data["title"]			= $title;
+	// 		$view_data["category_id"]	= $category_id;
 			
-			$tmpl_content = array();
-			$tmpl_content["content"] = $this->load->view("admin/content/category/index", $view_data, true);
-			$this->load->view("layout/admin/main", $tmpl_content);
-		}
-	}
-	public function content ($category_id, $action=null, $id=null) {
+	// 		$tmpl_content = array();
+	// 		$tmpl_content["content"] = $this->load->view("admin/content/category/index", $view_data, true);
+	// 		$this->load->view("layout/admin/main", $tmpl_content);
+	// 	}
+	// }
+	// public function content ($category_id, $action=null, $id=null) {
+	// 	$config_row_page = ADMIN_ROW_PER_PAGE;
+	// 	$pagi		= (isset($_GET["pagi"]) ? $_GET["pagi"] : $config_row_page);
+	// 	if (!isset($_GET['page']) || (($_GET['page']) < 1) ) {
+	// 			$page = 1;
+	// 	}
+	// 	else {
+	// 			$page = $_GET['page'];
+	// 	}
+	// 	$offset = ($page - 1) * $pagi;
+	// 	$category = $this->m_content_categories->load($category_id);
+
+	// 	$this->_breadcrumb = array_merge($this->_breadcrumb, array("Tin tức/ Danh mục" => site_url("{$this->util->slug($this->router->fetch_class())}/content-category/{$category->parent_id}")));
+	// 	$this->_breadcrumb = array_merge($this->_breadcrumb, array("{$category->name}" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}")));
+	// 	$search_text	= $this->util->value($this->input->post("search_text"), "");
+	// 	$task = $this->util->value($this->input->post("task"), "");
+	// 	if (!empty($task)) {
+	// 		if ($task == "save") {
+	// 			$title			= $this->util->value($this->input->post("title"), "");
+	// 			$alias			= $this->util->value($this->input->post("alias"), "");
+	// 			$thumbnail 		= !empty($_FILES['thumbnail']['name']) ? explode('.',$_FILES['thumbnail']['name']) : $this->m_contents->load($id)->thumbnail;
+	// 			$parent_id		= $this->util->value($this->input->post("parent_id"), "");
+	// 			$description	= $this->util->value($this->input->post("description"), "");
+	// 			$content		= $this->util->value($this->input->post("content"), "");
+	// 			$active			= $this->util->value($this->input->post("active"), 1);
+	// 			$meta_title		= $this->util->value($this->input->post("meta_title"), "");
+	// 			$meta_key		= $this->util->value($this->input->post("meta_key"), "");
+	// 			$meta_des		= $this->util->value($this->input->post("meta_des"), "");
+	// 			if (empty($id)) {
+	// 				$id = $this->m_contents->get_next_value();
+	// 			}
+	// 			if (empty($alias)) {
+	// 				$alias = $this->util->slug($title).'-'.str_replace('=','',strtolower(base64_encode($id)));
+	// 			}
+	// 			if (empty($meta_title)){
+	// 				$meta_title = substr($title,0,69);
+	// 			}
+	// 			if (empty($meta_des)){
+	// 				$meta_des = substr(strip_tags($description),0,159);
+	// 			}
+	// 			$data = array (
+	// 				"title"			=> $title,
+	// 				"alias"			=> $alias,
+	// 				"description"	=> $description,
+	// 				"content"		=> $content,
+	// 				"active"		=> $active,
+	// 				"type"			=> $category->parent_id,
+	// 				"category_id"	=> $parent_id,
+	// 				"meta_title"	=> $meta_title,
+	// 				"meta_key"		=> $meta_key,
+	// 				"meta_des"		=> $meta_des
+	// 			);
+	// 			if (!empty($_FILES['thumbnail']['name'])){
+	// 				$data['thumbnail'] = "/images/thumb/{$id}/{$this->util->slug($thumbnail[0])}.".end($thumbnail);
+	// 			}
+	// 			$file_deleted = '';
+				
+	// 			if ($action == "add") {
+	// 				$file_deleted = "./images/thumb/{$id}/{$this->m_contents->load($id)->title}";
+	// 				$this->m_contents->add($data);
+	// 				$this->session->set_flashdata("success", "Thêm thành cộng");
+	// 			}
+	// 			else if ($action == "edit") {
+	// 				$where = array("id" => $id);
+	// 				$this->m_contents->update($data, $where);
+	// 				$this->session->set_flashdata("success", "Cập nhật thành công");
+	// 			}
+	// 			$path = "./images/thumb/{$id}";
+	// 			if (!file_exists($path)) {
+	// 				mkdir($path, 0755, true);
+	// 			}
+	// 			if (!empty($_FILES['thumbnail']['name'])){
+	// 				$allow_type = 'JPG|PNG|jpg|jpeg|png';
+	// 				$this->util->upload_file($path,'thumbnail',$file_deleted,$allow_type,$this->util->slug($thumbnail[0]).'.'.end($thumbnail),150);
+	// 			}
+	// 			$this->create_sitemap();
+	// 			redirect(site_url("syslog/content/{$category->id}"));
+	// 		}
+	// 		else if ($task == "cancel") {
+	// 			redirect(site_url("syslog/content/{$category->id}"));
+	// 		}
+	// 		else if ($task == "publish") {
+	// 			$ids = $this->util->value($this->input->post("cid"), array());
+	// 			foreach ($ids as $id) {
+	// 				$data = array("active" => 1);
+	// 				$where = array("id" => $id);
+	// 				$this->m_contents->update($data, $where);
+	// 			}
+	// 			$this->create_sitemap();
+	// 			redirect(site_url("syslog/content/{$category->id}"));
+	// 		}
+	// 		else if ($task == "unpublish") {
+	// 			$ids = $this->util->value($this->input->post("cid"), array());
+	// 			foreach ($ids as $id) {
+	// 				$data = array("active" => 0);
+	// 				$where = array("id" => $id);
+	// 				$this->m_contents->update($data, $where);
+	// 			}
+	// 			$this->create_sitemap();
+	// 			redirect(site_url("syslog/content/{$category->id}"));
+	// 		}
+	// 		else if ($task == "delete") {
+	// 			$ids = $this->util->value($this->input->post("cid"), array());
+	// 			foreach ($ids as $id) {
+	// 				$where = array("id" => $id);
+	// 				$this->m_contents->delete($where);
+	// 			}
+	// 			$this->create_sitemap();
+	// 			$this->session->set_flashdata("success", "Xóa thành công");
+	// 			redirect(site_url("syslog/content/{$category->id}"));
+	// 		}
+	// 	}
+		
+	// 	if ($action == "add") {
+	// 		$item = $this->m_contents->instance();
+	// 		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Thêm" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}/{$action}")));
+			
+	// 		$view_data = array();
+	// 		$view_data["breadcrumb"] = $this->_breadcrumb;
+	// 		$view_data["item"] = $item;
+	// 		$view_data["category"] = $category;
+			
+	// 		$tmpl_content = array();
+	// 		$tmpl_content["content"] = $this->load->view("admin/content/edit", $view_data, true);
+	// 		$this->load->view("layout/admin/main", $tmpl_content);
+	// 	}
+	// 	else if ($action == "edit") {
+	// 		$item = $this->m_contents->load($id);
+	// 		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Cập nhật" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}/{$action}/{$id}")));
+
+	// 		$view_data = array();
+	// 		$view_data["breadcrumb"] = $this->_breadcrumb;
+	// 		$view_data["item"] = $item;
+	// 		$view_data["category"] = $category;
+			
+	// 		$tmpl_content = array();
+	// 		$tmpl_content["content"] = $this->load->view("admin/content/edit", $view_data, true);
+	// 		$this->load->view("layout/admin/main", $tmpl_content);
+	// 	}
+	// 	else {
+	// 		$info = new stdClass();
+	// 		$info->category_id = $category->id;
+	// 		if(!empty($search_text))
+	// 		$info->search_text = $search_text;
+
+	// 		$total = count($this->m_contents->items($info));
+	// 		$items = $this->m_contents->items($info, null, $pagi, $offset);
+	// 		if (!isset($_GET['pagi'])){
+	// 			$pagination = $this->util->pagination_admin(site_url('syslog/content/'.$category->alias). "?pagi=$config_row_page"."$_SERVER[QUERY_STRING]", $total, $pagi);
+	// 		}else{
+	// 			$pagination = $this->util->pagination_admin(site_url('syslog/content/'.$category->alias). "?$_SERVER[QUERY_STRING]", $total, $pagi);
+	// 		}
+
+			
+	// 		$view_data = array();
+	// 		$view_data["breadcrumb"] 	= $this->_breadcrumb;
+	// 		$view_data["offset"]		= $offset;
+	// 		$view_data["pagination"]	= $pagination;
+	// 		$view_data["items"]			= $items;
+	// 		$view_data["search_text"]	= $search_text;
+	// 		$view_data["pagi"]			= $pagi;
+	// 		$view_data["category"]		= $category;
+			
+	// 		$tmpl_content = array();
+	// 		$tmpl_content["content"] = $this->load->view("admin/content/index", $view_data, true);
+	// 		$this->load->view("layout/admin/main", $tmpl_content);
+	// 	}
+	// }
+	public function content ($action=null, $id=null) {
 		$config_row_page = ADMIN_ROW_PER_PAGE;
 		$pagi		= (isset($_GET["pagi"]) ? $_GET["pagi"] : $config_row_page);
 		if (!isset($_GET['page']) || (($_GET['page']) < 1) ) {
@@ -3167,10 +3335,8 @@ class Syslog extends CI_Controller {
 				$page = $_GET['page'];
 		}
 		$offset = ($page - 1) * $pagi;
-		$category = $this->m_content_categories->load($category_id);
 
-		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Tin tức/ Danh mục" => site_url("{$this->util->slug($this->router->fetch_class())}/content-category/{$category->parent_id}")));
-		$this->_breadcrumb = array_merge($this->_breadcrumb, array("{$category->name}" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}")));
+		$this->_breadcrumb = array_merge($this->_breadcrumb, array("Giải đấu" => site_url("{$this->util->slug($this->router->fetch_class())}/content")));
 		$search_text	= $this->util->value($this->input->post("search_text"), "");
 		$task = $this->util->value($this->input->post("task"), "");
 		if (!empty($task)) {
@@ -3178,7 +3344,6 @@ class Syslog extends CI_Controller {
 				$title			= $this->util->value($this->input->post("title"), "");
 				$alias			= $this->util->value($this->input->post("alias"), "");
 				$thumbnail 		= !empty($_FILES['thumbnail']['name']) ? explode('.',$_FILES['thumbnail']['name']) : $this->m_contents->load($id)->thumbnail;
-				$parent_id		= $this->util->value($this->input->post("parent_id"), "");
 				$description	= $this->util->value($this->input->post("description"), "");
 				$content		= $this->util->value($this->input->post("content"), "");
 				$active			= $this->util->value($this->input->post("active"), 1);
@@ -3189,7 +3354,7 @@ class Syslog extends CI_Controller {
 					$id = $this->m_contents->get_next_value();
 				}
 				if (empty($alias)) {
-					$alias = $this->util->slug($title).'-'.str_replace('=','',strtolower(base64_encode($id)));
+					$alias = $this->util->slug($title);
 				}
 				if (empty($meta_title)){
 					$meta_title = substr($title,0,69);
@@ -3203,8 +3368,6 @@ class Syslog extends CI_Controller {
 					"description"	=> $description,
 					"content"		=> $content,
 					"active"		=> $active,
-					"type"			=> $category->parent_id,
-					"category_id"	=> $parent_id,
 					"meta_title"	=> $meta_title,
 					"meta_key"		=> $meta_key,
 					"meta_des"		=> $meta_des
@@ -3233,10 +3396,10 @@ class Syslog extends CI_Controller {
 					$this->util->upload_file($path,'thumbnail',$file_deleted,$allow_type,$this->util->slug($thumbnail[0]).'.'.end($thumbnail),150);
 				}
 				$this->create_sitemap();
-				redirect(site_url("syslog/content/{$category->id}"));
+				redirect(site_url("syslog/content"));
 			}
 			else if ($task == "cancel") {
-				redirect(site_url("syslog/content/{$category->id}"));
+				redirect(site_url("syslog/content"));
 			}
 			else if ($task == "publish") {
 				$ids = $this->util->value($this->input->post("cid"), array());
@@ -3246,7 +3409,7 @@ class Syslog extends CI_Controller {
 					$this->m_contents->update($data, $where);
 				}
 				$this->create_sitemap();
-				redirect(site_url("syslog/content/{$category->id}"));
+				redirect(site_url("syslog/content"));
 			}
 			else if ($task == "unpublish") {
 				$ids = $this->util->value($this->input->post("cid"), array());
@@ -3256,7 +3419,7 @@ class Syslog extends CI_Controller {
 					$this->m_contents->update($data, $where);
 				}
 				$this->create_sitemap();
-				redirect(site_url("syslog/content/{$category->id}"));
+				redirect(site_url("syslog/content"));
 			}
 			else if ($task == "delete") {
 				$ids = $this->util->value($this->input->post("cid"), array());
@@ -3266,18 +3429,17 @@ class Syslog extends CI_Controller {
 				}
 				$this->create_sitemap();
 				$this->session->set_flashdata("success", "Xóa thành công");
-				redirect(site_url("syslog/content/{$category->id}"));
+				redirect(site_url("syslog/content"));
 			}
 		}
 		
 		if ($action == "add") {
 			$item = $this->m_contents->instance();
-			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Thêm" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}/{$action}")));
+			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Thêm" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$action}")));
 			
 			$view_data = array();
 			$view_data["breadcrumb"] = $this->_breadcrumb;
 			$view_data["item"] = $item;
-			$view_data["category"] = $category;
 			
 			$tmpl_content = array();
 			$tmpl_content["content"] = $this->load->view("admin/content/edit", $view_data, true);
@@ -3285,12 +3447,11 @@ class Syslog extends CI_Controller {
 		}
 		else if ($action == "edit") {
 			$item = $this->m_contents->load($id);
-			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Cập nhật" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$category_id}/{$action}/{$id}")));
+			$this->_breadcrumb = array_merge($this->_breadcrumb, array("Cập nhật" => site_url("{$this->util->slug($this->router->fetch_class())}/{$this->util->slug($this->router->fetch_method())}/{$action}/{$id}")));
 
 			$view_data = array();
 			$view_data["breadcrumb"] = $this->_breadcrumb;
 			$view_data["item"] = $item;
-			$view_data["category"] = $category;
 			
 			$tmpl_content = array();
 			$tmpl_content["content"] = $this->load->view("admin/content/edit", $view_data, true);
@@ -3298,16 +3459,15 @@ class Syslog extends CI_Controller {
 		}
 		else {
 			$info = new stdClass();
-			$info->category_id = $category->id;
 			if(!empty($search_text))
 			$info->search_text = $search_text;
 
 			$total = count($this->m_contents->items($info));
 			$items = $this->m_contents->items($info, null, $pagi, $offset);
 			if (!isset($_GET['pagi'])){
-				$pagination = $this->util->pagination_admin(site_url('syslog/content/'.$category->alias). "?pagi=$config_row_page"."$_SERVER[QUERY_STRING]", $total, $pagi);
+				$pagination = $this->util->pagination_admin(site_url('syslog/content'). "?pagi=$config_row_page"."$_SERVER[QUERY_STRING]", $total, $pagi);
 			}else{
-				$pagination = $this->util->pagination_admin(site_url('syslog/content/'.$category->alias). "?$_SERVER[QUERY_STRING]", $total, $pagi);
+				$pagination = $this->util->pagination_admin(site_url('syslog/content'). "?$_SERVER[QUERY_STRING]", $total, $pagi);
 			}
 
 			
@@ -3318,7 +3478,6 @@ class Syslog extends CI_Controller {
 			$view_data["items"]			= $items;
 			$view_data["search_text"]	= $search_text;
 			$view_data["pagi"]			= $pagi;
-			$view_data["category"]		= $category;
 			
 			$tmpl_content = array();
 			$tmpl_content["content"] = $this->load->view("admin/content/index", $view_data, true);

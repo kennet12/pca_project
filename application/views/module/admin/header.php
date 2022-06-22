@@ -5,9 +5,7 @@
 	$category_info = new stdClass();
 	$category_info->parent_id = 0;
 	// $product_categories = $this->m_product_category->items($category_info,null,null,null,'order_num','ASC');
-	$category_info = new stdClass();
-	$category_info->parent_id = 5;
-	$content_categories = $this->m_content_categories->items($category_info);
+	$content_categories = $this->m_content_categories->items(null,1);
 	$blog_info = new stdClass();
 	$blog_info->parent_id = 9;
 	$blog_categories = $this->m_content_categories->items($blog_info);
@@ -85,6 +83,9 @@
 								<li role="separator" class="divider"></li>
 								<li><a href="<?=site_url("syslog/box")?>">Kiểm kho</a></li>
 							</ul>
+						</li>
+						<li class="dropdown <?=in_array($method, array('content')) ? 'active' : ''?>">
+							<a href="<?=site_url("syslog/content")?>" class="dropdown-toggle">Giải đấu</a>
 						</li>
 						<li class="dropdown <?=in_array($method, array('service','service-category')) ? 'active' : ''?>">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dịch vụ<span class="caret"></span></a>

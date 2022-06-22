@@ -3,7 +3,7 @@
 		<div class="tool-bar clearfix">
 			<h1 class="page-title">
 				<div class="pull-left" style="max-width: 345px;">
-					<?=$category->name?>
+					Giải đấu
 					<div class="input-group">
 						<input type="text" id="search-box" class="form-control" placeholder="Nhập tên sản phẩm . . ." value="<?=$search_text?>">
 						<span class="input-group-btn">
@@ -17,7 +17,7 @@
 						<li><a href="#" class="btn-unpublish"><i class="fa fa-eye-slash" aria-hidden="true"></i> Hide</a></li>
 						<li><a href="#" class="btn-publish"><i class="fa fa-eye-slash" aria-hidden="true"></i> Show</a></li>
 						<li><a href="#" class="btn-delete"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>
-						<li><a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/{$category->id}/add")?>"><i class="fa fa-plus" aria-hidden="true"></i> Add item</a></li>
+						<li><a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/add")?>"><i class="fa fa-plus" aria-hidden="true"></i> Add item</a></li>
 					</ul>
 				</div>
 			</h1>
@@ -45,9 +45,9 @@
 						<input type="checkbox" id="cb<?=$i?>" name="cid[]" value="<?=$item->id?>" onclick="isChecked(this.checked);">
 					</td>
 					<td>
-						<a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/{$category->id}/edit/{$item->id}")?>"><?=$item->title?></a>
+						<a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/edit/{$item->id}")?>"><?=$item->title?></a>
 						<ul class="action-icon-list">
-							<li><a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/{$category->id}/edit/{$item->id}")?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update</a></li>
+							<li><a href="<?=site_url("syslog/{$this->util->slug($this->router->fetch_method())}/edit/{$item->id}")?>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Update</a></li>
 							<li><a href="#" onclick="return confirmBox('Delete item', 'Are you sure?', 'itemTask', ['cb<?=$i?>', 'delete']);"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</a></li>
 							<? if ($item->active) { ?>
 							<li><a href="#" onclick="return itemTask('cb<?=$i?>','unpublish');"><i class="fa fa-eye-slash" aria-hidden="true"></i> Hide</a></li>

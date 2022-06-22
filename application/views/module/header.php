@@ -26,19 +26,19 @@
 				<div class="col-md-9">
 					<ul class="menu-pc clearfix">
 						<li class="item">
-							<a class="active" href="<?=site_url('trang-chu')?>">HOME</a>
+							<a class="<?=(($method=='trang-chu')?'active':'')?>" href="<?=site_url()?>">HOME</a>
 						</li>
 						<li class="item">
-							<a href="<?=site_url('tai-khoan')?>"> MEMBERSHIP</a>
+							<a class="<?=(($method=='tai-khoan')?'active':'')?>" href="<?=site_url('tai-khoan')?>"> MEMBERSHIP</a>
 						</li>
 						<li class="item">
-							<a href="<?=site_url('dich-vu')?>">UK SHOWS</a>
+							<a class="<?=(($method=='giai-dau')?'active':'')?>" href="<?=site_url('giai-dau')?>">UK SHOWS</a>
 						</li>
 						<li class="item">
-							<a href="<?=site_url('dich-vu')?>"> SERVICES</a>
+							<a class="<?=(($method=='dich-vu')?'active':'')?>" href="<?=site_url('dich-vu')?>"> SERVICES</a>
 						</li>
 						<li class="item">
-							<a href="#">SHOP</a>
+							<a class="<?=(($method=='lien-he')?'active':'')?>" href="#">CONTACT</a>
 						</li>
 					</ul>
 				</div>
@@ -82,16 +82,19 @@
 		</div> -->
 		<ul class="menu-m">
 			<li class="item">
-				<a href="<?=site_url('trang-chu')?>" class="active">HOME</a>
+				<a href="<?=site_url()?>" class="active">HOME</a>
 			</li>
 			<li class="item">
 				<a href="<?=site_url('tai-khoan')?>"> MEMBERSHIP</a>
 			</li>
 			<li class="item">
-				<a href="<?=site_url('dich-vu')?>">UK SHOWS</a>
+				<a href="<?=site_url('giai-dau')?>">UK SHOWS</a>
 			</li>
 			<li class="item">
 				<a href="<?=site_url('dich-vu')?>"> SERVICES</a>
+			</li>
+			<li class="item">
+				<a href="<?//=site_url('lien-he')?>"> CONTACT</a>
 			</li>
 		</ul>
 	</div>

@@ -142,17 +142,9 @@ $autoload['model'] = array(
 	'm_setting',
 	'm_content_categories',
 	'm_contents',
-	'm_post',
 	'm_slide',
 	'm_mail',
 	'm_contact',
-	'm_subscribe',
-	'm_rating',
-	'm_question',
-	'm_search',
-	'm_promotion',
-	'm_block',
-
 	'm_service_category',
 	'm_service',
 );
