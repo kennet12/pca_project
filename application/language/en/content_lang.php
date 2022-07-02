@@ -120,6 +120,8 @@
         'sort_by' => 'Sort By',
         'price_desc' => 'Price,High to Low',
         'price_asc' => 'Price,Low to High',
+        'title_desc' => 'Name Z &rarr; A',
+        'title_asc' => 'Name A &rarr; Z',
         'add_to_cart' => 'Add to cart',
         'add_to_wishlist' => 'Add to wishlist',
         'category' => 'Categories',

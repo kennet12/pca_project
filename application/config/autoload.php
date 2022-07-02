@@ -147,5 +147,9 @@ $autoload['model'] = array(
 	'm_contact',
 	'm_service_category',
 	'm_service',
+	'm_product_category',
+	'm_product_gallery',
+	'm_product_type',
+	'm_product',
 );
 

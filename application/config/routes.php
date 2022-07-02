@@ -78,7 +78,10 @@ $array_route = array(
     'check-qrcode',
     'tra-cuu-don-hang',
     'giai-dau',
+    'san-pham',
 );
+$route['san-pham/(:any)'] 					= "san-pham/index/$1";
+$route['san-pham'] 					        = "san-pham/index";
 $route['giai-dau'] 					        = "giai-dau/index";
 $route['giai-dau-(:any)'] 					= "giai-dau/index/$1";
 $route['dich-vu'] 					        = "dich-vu/index";

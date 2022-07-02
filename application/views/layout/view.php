@@ -9,8 +9,9 @@
 		if (!empty($user_online) && ($user_online->user_type < 0)) {
 			$copy = '';
 		}
+		$method = $this->util->slug($this->router->fetch_class());
 	?>
-	<body <?=$copy?>>
+	<body <?=$copy?>  <?=($method == 'san-pham')?'style="background: #1F1F1F"':''?>>
 		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=6004124205"
 		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>					
 		<header>

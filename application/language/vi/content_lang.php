@@ -120,6 +120,8 @@
         'sort_by' => 'Sắp xếp',
         'price_desc' => 'Giá giảm dần',
         'price_asc' => 'Giá tăng dần',
+        'title_desc' => 'Tên Z &rarr; A',
+        'title_asc' => 'Tên A &rarr; Z',
         'add_to_cart' => 'Thêm vào giỏ',
         'add_to_wishlist' => 'Sản phẩm yêu thích',
         'category' => 'Danh mục',
