@@ -1581,7 +1581,7 @@ textarea.error {
     font-weight: bold;
     background: #fff;
     color: #000;
-    padding: 5px 66px;
+    padding: 5px 50px;
     display: inline-block;
     margin-top: 12px;
 }
@@ -1593,7 +1593,7 @@ textarea.error {
     left: 0;
     background: url(../images/line-button.png);
     bottom: -40px;
-    height: 120%;
+    height: 115%;
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -1970,7 +1970,7 @@ textarea.error {
 	background: #1F1F1F;
     padding: 20px;
 }
-#san-pham .item-product:hover .quick-view{
+#san-pham .item-product:hover .quick-view {
 	bottom: 0 !important;
 }
 #san-pham .item-product {
@@ -1983,7 +1983,7 @@ textarea.error {
 }
 #san-pham .item-product .thumbnail-container {
 	background: #F1F1F1;
-    height: 342px;
+    height: 260px;
 	overflow: hidden;
 	position: relative;
 }
@@ -2010,14 +2010,17 @@ textarea.error {
     width: 100%;
     font-size: 15px;
 }
-#san-pham .item-product .thumbnail-container img {
-	object-fit: contain;
+#san-pham .item-product .thumbnail-container .product__thumbnail {
+	object-fit: cover;
+	width: 100%;
+	height: 260px;
 }
 #san-pham .item-product h5 {
 	font-size: 17px;
     color: #424242;
     text-align: center;
     padding-top: 10px;
+	font-weight: 300;
 }
 #san-pham .item-product p {
 	font-size: 15px;
@@ -2066,6 +2069,44 @@ textarea.error {
 #san-pham .dropdown-menu .drop-item:hover {
 	cursor: pointer;
 	background: #363636;
+}
+#san-pham .collection_vn .collection_title{
+	font-size: 25px;
+    font-weight: 300;
+    border-bottom: 1px solid #3f3e3e;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+}
+#san-pham .filter-item_title {
+	position: relative;
+    cursor: pointer;
+    margin-bottom: 6px;
+}
+#san-pham .filter-item_title .nv-ml-auto {
+	font-size: 18px;
+    font-weight: 300;
+}
+#san-pham .filter-item_title .toggle-icon {
+	position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 18px;
+    font-weight: 300;
+	cursor: pointer;
+}
+#san-pham .box-filter {
+	border-bottom: 1px solid #3f3e3e;
+    margin-bottom: 10px;
+}
+#san-pham .box-filter:last-child {
+	border-bottom: none !important;
+}
+#san-pham .box-filter .list-unstyled .item a {
+	display: block;
+    font-size: 14px;
+    color: #bdbdbd;
+    font-weight: 400;
+    padding: 3px 0;
 }
 /*end content*/
 footer {

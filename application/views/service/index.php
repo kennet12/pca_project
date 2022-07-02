@@ -10,7 +10,7 @@
 					<h5 class="service-title font-wf">
 						<?=$item->name?>
 					</h5>
-					<a href="<?=site_url($item->alias)?>" class="service-button"><?=$item->btn_text?></a>
+					<a href="<?=site_url($item->alias.'-dv')?>" class="service-button"><?=$item->btn_text?></a>
 					<div class="service-info">
 						<?=$item->description?>
 						<div class="content-table">

@@ -18,7 +18,7 @@
 						<p class="service-date"><?=$this->util->to_vn_date($item->start_date)?></p>
 					</div>
 					<p class="note">NEW THEATRE, PETERBOROUGH, PE1 1RS</p>
-					<a class="btn-booknow" href="<?=site_url("dich-vu-{$item->alias}")?>">BOOK NOW</a>
+					<a class="btn-booknow" href="<?=site_url("{$item->alias}-ctdv")?>">BOOK NOW</a>
 				</div>
 			</div>
 			<? } ?>

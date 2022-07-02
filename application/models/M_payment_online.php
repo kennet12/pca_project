@@ -1,19 +1,19 @@
 <?
-class M_slide extends M_db
+class M_payment_online extends M_db
 {
 	public function __construct()
 	{
 		parent::__construct();
 		
-		$this->_table = "m_slide";
+		$this->_table = "m_payment_online";
 	}
 	
 	public function items($info=null, $active=null, $limit=null, $offset=null, $order_by=null, $sort_by='DESC')
 	{
 		$sql = "SELECT * FROM {$this->_table} WHERE 1 = 1";
 		if (!is_null($info)) {
-			if (!empty($info->type)) {
-				// $sql .= " AND {$this->_table}.type = '{$info->type}'";
+			if (!empty($info->booking_id)) {
+				$sql .= " AND {$this->_table}.booking_id = '{$info->booking_id}'";
 			}
 		}
 		if (!is_null($active)) {
@@ -33,6 +33,18 @@ class M_slide extends M_db
 		}
 		$query = $this->db->query($sql);
 		return $query->result();
+	}
+	public function booking($key)
+	{
+		$sql = "SELECT I.* FROM {$this->_table} AS I WHERE 1 = 1";
+		if (!empty($key)) {
+				$sql .= " AND I.payment_key = '{$key}'";
+			}
+		$query = $this->db->query($sql);
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}
+		return null;
 	}
 }
 ?>

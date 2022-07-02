@@ -19,11 +19,11 @@ class San_pham extends CI_Controller {
 		$product_category_id = 0;
 		$category = null;
 		if (!empty($category_alias)){
-			if (strpos($actual_link, '/product/') !== false || strpos($actual_link, '/product.html') !== false){
+			if (strpos($actual_link, '/product-') !== false || strpos($actual_link, '/product.html') !== false){
 				$category	= $this->m_product_category->load_en($category_alias);
 				setcookie("nguyenanh_lang", 'en', time() + (10 * 365 * 24 * 60 * 60),'/');
 				$this->_lang = 'en';
-			} else if (strpos($actual_link, '/san-pham/') !== false || strpos($actual_link, '/san-pham.html') !== false) {
+			} else if (strpos($actual_link, '/san-pham-') !== false || strpos($actual_link, '/san-pham.html') !== false) {
 				$category	= $this->m_product_category->load_vi($category_alias);
 				setcookie('nguyenanh_lang', null, -1, '/'); 
 				$this->_lang = 'vi';

@@ -30,6 +30,7 @@
         'product_au_usa' => 'san-pham-au-my',
     );
     $lang['website'] = array(
+        'filter' => 'Bộ lọc',
         'attached_img' => 'Hình đính kèm',
         'note_order_product' => 'Vui lòng thêm sản phẩm và nhập tên, hình ảnh, số lượng, link sản phẩm(nếu có) hoặc bạn có thể thêm các sản phẩm gợi ý của chúng tôi ở bên dưới.',
         'order_au_eu' => 'Hàng Mỹ - Âu',

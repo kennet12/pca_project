@@ -54,6 +54,47 @@ class M_db extends CI_Model {
 		return null;
 	}
 
+	public function load_en($id, $active=null)
+	{
+		$sql = "SELECT * FROM {$this->_table} WHERE 1 = 1";
+		if (is_numeric($id)) {
+			$sql .= " AND id = ?";
+		} else if ($this->db->field_exists("alias", $this->_table)) {
+			$sql .= " AND alias_en = ?";
+		}
+		if (!is_null($active) && $this->db->field_exists("active", $this->_table)) {
+			$sql .= " AND active = '{$active}'";
+		}
+		$stmt = $this->db->conn_id->prepare($sql);
+		$stmt->bind_param('s', $id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		if ($result->num_rows > 0) {
+			return (object)$result->fetch_assoc();
+		}
+		return null;
+	}
+	public function load_vi($id, $active=null)
+	{
+		$sql = "SELECT * FROM {$this->_table} WHERE 1 = 1";
+		if (is_numeric($id)) {
+			$sql .= " AND id = ?";
+		} else if ($this->db->field_exists("alias", $this->_table)) {
+			$sql .= " AND alias = ?";
+		}
+		if (!is_null($active) && $this->db->field_exists("active", $this->_table)) {
+			$sql .= " AND active = '{$active}'";
+		}
+		$stmt = $this->db->conn_id->prepare($sql);
+		$stmt->bind_param('s', $id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		if ($result->num_rows > 0) {
+			return (object)$result->fetch_assoc();
+		}
+		return null;
+	}
+
 	public function count_product_child($category_name,$arr)
 	{
 		$str_where_in = '';

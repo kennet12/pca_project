@@ -61,26 +61,33 @@ $route['default_controller'] = 'trang_chu';
 $route['404_override'] = 'error404';
 $route['translate_uri_dashes'] = TRUE;
 
-$array_route = array(
-    'dich-vu',
-    'tim-kiem',
-    'gioi-thieu',
-    'lien-he',
-    'dang-tin',
-    'dat-hang',
-    'tai-khoan',
-    'quen-mat-khau',
-    'syslog',
-    'error404',
-    'call-service',
-    'hoi-dap',
-    'quy-che',
-    'check-qrcode',
-    'tra-cuu-don-hang',
-    'giai-dau',
-    'san-pham',
-);
-$route['san-pham/(:any)'] 					= "san-pham/index/$1";
+// $array_route = array(
+//     'dich-vu',
+//     'tim-kiem',
+//     'gioi-thieu',
+//     'lien-he',
+//     'dang-tin',
+//     'dat-hang',
+//     'tai-khoan',
+//     'quen-mat-khau',
+//     'syslog',
+//     'error404',
+//     'call-service',
+//     'hoi-dap',
+//     'quy-che',
+//     'check-qrcode',
+//     'tra-cuu-don-hang',
+//     'giai-dau',
+//     'san-pham',
+// );
+
+// if(!in_array($method, $array_route)) {
+    $route['(:any)-ctdv'] 				    = "chi-tiet-dich-vu/index/$1/$2";
+    $route['(:any)-dv'] 					= "danh-muc-dich-vu/index/$1";
+    
+// }
+$route['(:any)-sp'] 			            = "chi-tiet-san-pham/index/$1";
+$route['san-pham-(:any)'] 					= "san-pham/index/$1";
 $route['san-pham'] 					        = "san-pham/index";
 $route['giai-dau'] 					        = "giai-dau/index";
 $route['giai-dau-(:any)'] 					= "giai-dau/index/$1";
@@ -103,11 +110,6 @@ $route['call-service/send-reply-rating']	= 'call-service/send-reply-rating';
 $route['call-service/optimize-image']	    = 'call-service/optimize-image';
 $route['call-service/qrcode']	            = 'call-service/qrcode';
 $route['call-service/like-product']	        = 'call-service/like-product';
-
-if(!in_array($method, $array_route)) {
-    $route['dich-vu-(:any)'] 				= "chi-tiet-dich-vu/index/$1/$2";
-    $route['(:any)'] 						= "danh-muc-dich-vu/index/$1";
-}
 
 
 

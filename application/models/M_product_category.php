@@ -15,12 +15,9 @@ class M_product_category extends M_db
 			if (isset($info->parent_id)) {
 				$sql .= " AND parent_id = '{$info->parent_id}'";	
 			}
-			if (!empty($info->id)) {
-				$sql .= " AND id = '{$info->id}'";
-			}
-			if (isset($info->order_category)) {
-				$sql .= " AND order_category = '{$info->order_category}'";	
-			}
+			// if (!is_null($info->parent_id)) {
+			// 	$sql .= " AND parent_id = '{$info->parent_id}'";	
+			// }
 			if (!empty($info->show_cate)) {
 				$sql .= " AND show_cate = '{$info->show_cate}'";
 			}

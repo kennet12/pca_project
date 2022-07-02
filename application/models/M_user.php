@@ -4,25 +4,35 @@ class M_user extends M_db
 	public function __construct()
 	{
 		parent::__construct();
-		
+		$this->load->helper('cookie');
 		$this->_table = "m_user";
 	}
 	
 	public function user($info=null, $active=null)
 	{
 		if (!is_null($info)) {
-			$info->email    = addslashes(trim($info->email));
-			$info->password = addslashes(trim($info->password));
-			
-			if (empty($info->email) || empty($info->password)) {
-				return null;
-			}
-			
-			$info->email    = strtoupper($info->email);
-			$info->password = md5($info->password);
-			
 			$sql  = " SELECT * FROM {$this->_table} WHERE 1 = 1";
-			$sql .= " AND UPPER({$this->_table}.email) = '{$info->email}'";
+			if (!empty($info->email)) {
+				$info->email    = addslashes(trim($info->email));
+				$info->email    = strtoupper($info->email);
+				$info->password = addslashes(trim($info->password));
+				$info->password = md5($info->password);
+
+				if (empty($info->email) || empty($info->password)) {
+					return null;
+				}
+				$sql .= " AND UPPER({$this->_table}.email) = '{$info->email}'";
+			} else if (!empty($info->phone)) {
+				$info->phone    = addslashes(trim($info->phone));
+				$info->phone    = strtoupper($info->phone);
+				$info->password = addslashes(trim($info->password));
+				$info->password = md5($info->password);
+
+				if (empty($info->phone) || empty($info->password)) {
+					return null;
+				}
+				$sql .= " AND {$this->_table}.phone = '{$info->phone}'";
+			}
 			$sql .= " AND {$this->_table}.password = '{$info->password}'";
 			
 			if (!is_null($active)) {
@@ -201,26 +211,41 @@ class M_user extends M_db
 		return null;
 	}
 	
-	public function login($email, $password, $user_type="user")
+	public function login($uid, $password, $user_type='user',$type='email')
 	{
-		$email    = addslashes(trim($email));
-		$password = addslashes(trim($password));
 		
-		if (empty($email) || empty($password)) {
+		$password = addslashes(trim($password));
+		$uid    = addslashes(trim($uid));
+		if (empty($uid) || empty($password)) {
 			return false;
 		}
-		
-		$email    = strtoupper($email);
 		$password = md5($password);
-		$sql      = "SELECT * FROM {$this->_table} WHERE UPPER({$this->_table}.email)='{$email}' AND {$this->_table}.password='{$password}' AND {$this->_table}.active=1";
+		if ($type == 'email') {
+			$uid    = strtoupper($uid);
+			$sql      = "SELECT * FROM {$this->_table} WHERE UPPER({$this->_table}.email)='{$uid}' AND {$this->_table}.password='{$password}' AND {$this->_table}.active=1";
+		} else if ($type == 'phone') {
+			$sql      = "SELECT * FROM {$this->_table} WHERE UPPER({$this->_table}.phone)='{$uid}' AND {$this->_table}.password='{$password}' AND {$this->_table}.active=1";
+		}
+		
 		$query    = $this->db->query($sql);
 		
 		if ($query->num_rows() > 0) {
 			$user = $query->row();
-			$this->session->set_userdata($user_type, $user);
-			if ($user_type == "admin") {
-				$this->session->set_userdata("agent_id", ADMIN_AGENT_ID);
-			}
+
+			$token_login = md5($user->email).md5(rand(1,1000)).md5($user->password_text).md5(date('Ymdhis')).md5($user->phone);
+			$data_cookie_login = array(
+				'fullname' => $user->fullname,
+				'email'=>$user->email,
+				'phone'=>$user->phone,
+				'avatar'=>$user->avatar,
+				'token_login' => $token_login,
+				'status' => 1,
+			);
+			$this->m_user->update(array('token_login'=>$token_login),array('id'=>$user->id));
+			setcookie('token_login', json_encode($data_cookie_login),time() + (10 * 365 * 24 * 60 * 60), "/");
+			// if ($user_type == "admin") {
+			// 	$this->session->set_userdata("agent_id", ADMIN_AGENT_ID);
+			// }
 			return true;
 		}
 		
@@ -250,7 +275,18 @@ class M_user extends M_db
 	
 	public function logout()
 	{
-		$this->session->sess_destroy();
+		$user = json_decode($_COOKIE['token_login']);
+		$data_cookie_login = array(
+			'fullname' => $user->fullname,
+			'email'=>$user->email,
+			'phone'=>$user->phone,
+			'avatar'=>$user->avatar,
+			'token_login' => '',
+			'status' => 0,
+		);
+		$this->m_user->update(array('token_login'=>NULL),array('phone'=>$user->phone));
+		setcookie('token_login', json_encode($data_cookie_login),1, "/");
+		// $this->session->sess_destroy();
 	}
 	
 	public function last_activity($user_id)
@@ -283,27 +319,6 @@ class M_user extends M_db
 		if (!is_null($active)) {
 			$sql .= " AND active = '{$active}' ";
 		}
-		$query = $this->db->query($sql);
-		if ($query->num_rows() > 0) {
-			return $query->row();
-		}
-		return null;
-	}
-	public function load_item($affiliate_code)
-	{
-		$sql = "SELECT * FROM {$this->_table} WHERE 1 = 1";
-		$sql .= " AND affiliate_code = '{$affiliate_code}'";
-		$sql .= " ORDER BY {$this->_table}.created_date ASC";
-		$query = $this->db->query($sql);
-		if ($query->num_rows() > 0) {
-			return $query->row();
-		}
-		return null;
-	}
-	public function phone_exist_affiliate($phone)
-	{
-		$sql = "SELECT * FROM {$this->_table} WHERE 1 = 1";
-		$sql .= " AND affiliate_partner LIKE '%{$phone}%'";
 		$query = $this->db->query($sql);
 		if ($query->num_rows() > 0) {
 			return $query->row();

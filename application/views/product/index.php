@@ -27,41 +27,94 @@ $usd = $this->m_setting->load(1)->usd;
 <div class="row">
          <div class="sidebar sidebar-collection col-lg-2 col-md-4 flex-xs-unordered">
             <div class="collection_vn pt-md-30 mb-md-40">
-               <div class="collection_title"><?=$title_cate?></div>
+               <div class="collection_title"><?=$website['filter']?></div>
             </div>
             <div id="shopify-section-nov-sidebar" class="shopify-section">
                <div class="close-filter"><i class="zmdi zmdi-close"></i></div>
-               <div class="list-filter-selected">
-                  <div class="filter-item_title align-items-center">
-                     <a href="<?=site_url("{$alias['product']}")?>" class="nv-ml-auto"><i class="zmdi zmdi-delete"></i><?=$website['clear_all']?></a>
+               <? for ($i=0;$i<3;$i++) { ?>
+               <div class="box-filter">
+                  <div class="list-filter-selected">
+                     <div class="filter-item_title align-items-center">
+                        <div href="<?=site_url("{$alias['product']}")?>" class="nv-ml-auto"><i class="zmdi zmdi-delete"></i><?=$website['category']?></div>
+                        <span class="toggle-icon">−</span>
+                     </div>
                   </div>
-               </div>
-               <div class="categories__sidebar sidebar-block sidebar-block__1">
-                  <? if (empty($cate)) { ?>
-                  <div class="title-block mb-10"><?=$website['category']?></div>
-                  <ul class="list-unstyled">
-                  <? foreach($categories as $category) {
-                     $info = new stdClass();
-                     $info->parent_id = $category->id;
-                     $category_subs = $this->m_product_category->items($info,1);
-                  ?>
-                     <li class="item mb-10">
-                        <a href="<?=site_url("{$alias['product']}/{$category->{$prop['alias']}}")?>" title="<?=$category->{$prop['name']}?>"><?=$category->{$prop['name']}?></a>
-                        <? if(!empty($category_subs)) { ?>
-                        <i class="zmdi zmdi-caret-right transition" stt="0" cls="ctrl-<?=$category->id?>"></i>
-                        <ul class="list-unstyled-sub ctrl-<?=$category->id?>" style="display:none;">
+                  <div class="categories__sidebar sidebar-block sidebar-block__1">
+                     <? if (empty($cate)) { ?>
+                     <ul class="list-unstyled">
+                        <li class="item mb-10"><a href="<?=site_url("{$alias['product']}")?>"><?=$website['clear_all']?></a></li>
+                     <? foreach($categories as $category) {
+                        $info = new stdClass();
+                        $info->parent_id = $category->id;
+                        $category_subs = $this->m_product_category->items($info,1);
+                     ?>
+                        <li class="item mb-10">
+                           <a href="<?=site_url("{$alias['product']}-{$category->{$prop['alias']}}")?>" title="<?=$category->{$prop['name']}?>"><?=$category->{$prop['name']}?></a>
+                           <? if(!empty($category_subs)) { ?>
+                           <i class="zmdi zmdi-caret-right transition" stt="0" cls="ctrl-<?=$category->id?>"></i>
+                           <ul class="list-unstyled-sub ctrl-<?=$category->id?>" style="display:none;">
+                              <? foreach($category_subs as $category_sub) { 
+                                 $info_child = new stdClass();
+                                 $info_child->parent_id = $category_sub->id;
+                                 $category_child_subs = $this->m_product_category->items($info_child,1);?>
+                              <li class="item-sub mb-10">
+                                 <a href="<?=site_url("{$alias['product']}-{$category_sub->{$prop['alias']}}")?>" title="<?=$category_sub->{$prop['name']}?>"><?=$category_sub->{$prop['name']}?></a>
+                                 <? if(!empty($category_child_subs)) {  ?>
+                                 <i class="zmdi zmdi-caret-right"></i>
+                                 <ul class="childsub-item list-unstyled-sub">
+                                    <? foreach($category_child_subs as $category_child_sub) { ?>
+                                    <li class="item-sub">
+                                       <a href="<?=site_url("{$alias['product']}-{$category_child_sub->{$prop['alias']}}")?>" title="Trái cây tươi"><?=$category_child_sub->{$prop['name']}?></a>
+                                    </li>
+                                    <? } ?>
+                                 </ul>
+                                 <? } ?>
+                              </li>
+                              <? } ?>
+                           </ul>
+                           <? } ?>
+                        </li>
+                     <? } ?>
+                     </ul>
+                     <script>
+                        $('.zmdi-caret-right').click(function(e){
+                           var stt = $(this).attr('stt');
+                           var cls = $(this).attr('cls');
+                           if (stt == '0'){
+                              $(this).addClass('active');
+                              $(this).attr('stt','1');
+                           } else {
+                              $(this).removeClass('active');
+                              $(this).attr('stt','0');
+                           }
+                           $('.'+cls).toggle('fast');
+                        })
+                     </script>
+                     <? } else {
+                        $info = new stdClass();
+                        if ($cate->parent_id == 0) {
+                        $info->parent_id = $cate->id;
+                        } else {
+                        $info->parent_id = $cate->parent_id;
+                        $cate = $this->m_product_category->load($cate->parent_id);
+                        }
+                        $category_subs = $this->m_product_category->items($info,1);
+                     ?>
+                        <div class="title-block mb-10"><?=$cate->{$prop['name']}?></div>
+                        <ul class="list-unstyled-sub">
                            <? foreach($category_subs as $category_sub) { 
                               $info_child = new stdClass();
                               $info_child->parent_id = $category_sub->id;
-                              $category_child_subs = $this->m_product_category->items($info_child,1);?>
-                           <li class="item-sub mb-10">
-                              <a href="<?=site_url("{$alias['product']}/{$category_sub->{$prop['alias']}}")?>" title="<?=$category_sub->{$prop['name']}?>"><?=$category_sub->{$prop['name']}?></a>
+                              $category_child_subs = $this->m_product_category->items($info_child,1);
+                           ?>
+                           <li class="item-sub">
+                              <a href="<?=site_url("{$alias['product']}-{$category_sub->{$prop['alias']}}")?>" title="<?=$category_sub->{$prop['name']}?>"><?=$category_sub->{$prop['name']}?></a>
                               <? if(!empty($category_child_subs)) {  ?>
                               <i class="zmdi zmdi-caret-right"></i>
                               <ul class="childsub-item list-unstyled-sub">
                                  <? foreach($category_child_subs as $category_child_sub) { ?>
                                  <li class="item-sub">
-                                    <a href="<?=site_url("{$alias['product']}/{$category_child_sub->{$prop['alias']}}")?>" title="Trái cây tươi"><?=$category_child_sub->{$prop['name']}?></a>
+                                    <a href="<?=site_url("{$alias['product']}-{$category_child_sub->{$prop['alias']}}")?>" title="Trái cây tươi"><?=$category_child_sub->{$prop['name']}?></a>
                                  </li>
                                  <? } ?>
                               </ul>
@@ -69,64 +122,21 @@ $usd = $this->m_setting->load(1)->usd;
                            </li>
                            <? } ?>
                         </ul>
-						      <? } ?>
-                     </li>
-					    <? } ?>
-                  </ul>
-                  <script>
-					  $('.zmdi-caret-right').click(function(e){
-						  var stt = $(this).attr('stt');
-						  var cls = $(this).attr('cls');
-						  if (stt == '0'){
-							$(this).addClass('active');
-							$(this).attr('stt','1');
-						  } else {
-							$(this).removeClass('active');
-							$(this).attr('stt','0');
-						  }
-						  $('.'+cls).toggle('fast');
-					  })
-				  </script>
-                  <? } else {
-                     $info = new stdClass();
-                     if ($cate->parent_id == 0) {
-                     $info->parent_id = $cate->id;
-                     } else {
-                     $info->parent_id = $cate->parent_id;
-                     $cate = $this->m_product_category->load($cate->parent_id);
-                     }
-                     $category_subs = $this->m_product_category->items($info,1);
-                  ?>
-                     <div class="title-block mb-10"><?=$cate->{$prop['name']}?></div>
-                     <ul class="list-unstyled-sub">
-                        <? foreach($category_subs as $category_sub) { 
-                           $info_child = new stdClass();
-                           $info_child->parent_id = $category_sub->id;
-                           $category_child_subs = $this->m_product_category->items($info_child,1);
-                        ?>
-                        <li class="item-sub">
-                           <a href="<?=site_url("{$alias['product']}/{$category_sub->{$prop['alias']}}")?>" title="<?=$category_sub->{$prop['name']}?>"><?=$category_sub->{$prop['name']}?></a>
-                           <? if(!empty($category_child_subs)) {  ?>
-                           <i class="zmdi zmdi-caret-right"></i>
-                           <ul class="childsub-item list-unstyled-sub">
-                              <? foreach($category_child_subs as $category_child_sub) { ?>
-                              <li class="item-sub">
-                                 <a href="<?=site_url("{$alias['product']}/{$category_child_sub->{$prop['alias']}}")?>" title="Trái cây tươi"><?=$category_child_sub->{$prop['name']}?></a>
-                              </li>
-                              <? } ?>
-                           </ul>
-                           <? } ?>
-                        </li>
-                        <? } ?>
-                     </ul>
-                  <? } ?>
+                     <? } ?>
+                  </div>
                </div>
+               <? } ?>
                <script>
-                  $('.zmdi-caret-right').click(function(e) {
-                     $(this).parents('.item-sub').find('.childsub-item').toggle('fast');
+                  $('.list-filter-selected').click(function(e) {
+                     let st = $(this).find('.toggle-icon').html()
+                     if (st == '+')
+                        $(this).find('.toggle-icon').html('−')
+                     else
+                        $(this).find('.toggle-icon').html('+')
+                     $(this).next().toggle('fast')
                   })
                </script>
-               <div id="novSidebarAjaxFilter" class="sidebar-block sidebar-block__2 ">
+               <!-- <div id="novSidebarAjaxFilter" class="sidebar-block sidebar-block__2 ">
                   <div class="block__content">
                      <div class="list-filter">
                      <script>
@@ -148,7 +158,7 @@ $usd = $this->m_setting->load(1)->usd;
                            return rtn;
                         }
                      </script>
-                        <!-- <div class="filter-item filter-size">
+                        <div class="filter-item filter-size">
                            <div class="filter-item_title">
                               <span>Filter size</span>
                            </div>
@@ -168,12 +178,20 @@ $usd = $this->m_setting->load(1)->usd;
                                  </li>
                               </ul>
                            </div>
-                        </div> -->
+                        </div>
                      </div>
                   </div>
-               </div>
+               </div> -->
             </div>
          </div>
+         <script>
+            $('.list-filter-selected').click(function (e) {
+
+            })
+            $('.zmdi-caret-right').click(function(e) {
+               $(this).parents('.item-sub').find('.childsub-item').toggle('fast');
+            })
+         </script>
          <div class="col-lg-10 col-md-12 flex-xs-first">
             <div id="shopify-section-collection-template" class="shopify-section">
                <div data-section-id="collection-template" data-section-type="collection-template" data-panigation="12">
@@ -319,9 +337,9 @@ $usd = $this->m_setting->load(1)->usd;
                         <div class="nov-wrapper-product col-md-3">
                            <div class="item-product">
                               <div class="thumbnail-container has-multiimage has_variants">
-                                 <a href="<?=site_url($items[$i]->{$prop['alias']})?>">
+                                 <a href="<?=site_url($items[$i]->{$prop['alias']}.'-sp')?>">
                                     <!-- <img class="w-100 img-fluid product__thumbnail lazyload" data-src="<?=BASE_URL.str_replace('./','/',$items[$i]->thumbnail)?>" alt="<?=$items[$i]->{$prop['title']}?>"> -->
-                                    <img class="w-100 img-fluid product__thumbnail lazyload" data-src="https://static.wixstatic.com/media/609e3c_47a3319f60814981acf633ce3032115e~mv2.jpg/v1/fill/w_355,h_355,al_c,q_80,usm_0.66_1.00_0.01/609e3c_47a3319f60814981acf633ce3032115e~mv2.webp" alt="<?=$items[$i]->{$prop['title']}?>">
+                                    <img class="w-100 product__thumbnail lazyload" data-src="https://static.wixstatic.com/media/609e3c_47a3319f60814981acf633ce3032115e~mv2.jpg/v1/fill/w_355,h_355,al_c,q_80,usm_0.66_1.00_0.01/609e3c_47a3319f60814981acf633ce3032115e~mv2.webp" alt="<?=$items[$i]->{$prop['title']}?>">
                                     
                                  </a>
                                  <a class="quick-view transition" href="<?=site_url($items[$i]->{$prop['alias']})?>">

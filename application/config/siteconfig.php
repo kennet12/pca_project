@@ -1,7 +1,7 @@
 <?php
 // WEB ROOT URI
-define("PROTOCOL",			"http://localhost/");
-define("BASE_URL",			PROTOCOL."pca_project");
+define("PROTOCOL",			"http://localhost:3000/");
+define("BASE_URL",			PROTOCOL);
 define("TPL_URL",			BASE_URL."/template/");
 define("IMG_URL",			TPL_URL."images/");
 define("CSS_URL",			TPL_URL."css/");
@@ -40,9 +40,9 @@ define("CDN_MAIL_NOREPLY_USER",	"noreply@vietnamnvisa.com");
 define("CDN_MAIL_NOREPLY_PASS",	"KsFXwvSS8265@");
 
 // WEB DATABASE
-define("HOSTNAME",			"localhost");
+define("HOSTNAME",			"db");
 define("USERNAME",			"root");
-define("PASSWORD",			"");
+define("PASSWORD",			"123456");
 define("DATABASE",			"pca_project");
 define("DRIVER",			"mysqli");
 

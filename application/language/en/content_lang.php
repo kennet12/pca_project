@@ -30,6 +30,7 @@
         'product_au_usa' => 'product-au-usa',
     );
     $lang['website'] = array(
+        'filter' => 'Filter by',
         'attached_img' => 'Attached image',
         'note_order_product' => 'Please add a product and enter your name, image, quantity, product link (if any) or you can add our suggested products below.',
         'order_au_eu' => 'US - EU Order',
