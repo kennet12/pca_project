@@ -7,6 +7,7 @@ class San_pham extends CI_Controller {
 	var $website = array();
 	var $prop = array();
 	var $alias = array();
+	protected $_limit_page = 12;
 
 	function __construct()
 	{
@@ -48,18 +49,27 @@ class San_pham extends CI_Controller {
 		else {
 			$page = $_GET['page'];
 		}
-		$offset   = ($page - 1) * 12;
+		$offset   = ($page - 1) * $this->_limit_page;
 		
 		
 		$info = new stdClass();
 		$info->list_category= $list_category;
 		$info->constraint	= !empty($_GET['constraint'])?explode(' ',$_GET['constraint']):null;
 		$info->price 		= !empty($_GET['gia'])?explode(',',$_GET['gia']):null;
+		$info->size 		= !empty($_GET['size'])?explode(',',$_GET['size']):null;
 		$sort 				= !empty($_GET['sort'])?explode('-',$_GET['sort']):null;
 		$order_by 			= !empty($sort[0]) ? $sort[0] : null;
 		$sort_by 			= !empty($sort[1]) ? $sort[1] : null;
-		$select = "p.id";
+		$select = "p.id,
+		t.typename";
 		$total_items = $this->m_product->get_list_category_items($select,$info, 1);
+		
+		$arr_size = [];
+		foreach($total_items as $total_item) {
+			if (!in_array($total_item->typename,$arr_size))
+      			array_push($arr_size,$total_item->typename);
+		}
+		sort($arr_size);
 
 		$select = "p.id,
 		p.title,
@@ -79,20 +89,22 @@ class San_pham extends CI_Controller {
 		CONVERT(JSON_EXTRACT(t.price, '$[0]'), DECIMAL) as price,
 		CONVERT(JSON_EXTRACT(t.sale, '$[0]'), DECIMAL) as sale,
 		t.typename";
-		$items = $this->m_product->get_list_category_items($select,$info, 1, 12, $offset, $order_by, $sort_by);
+		$items = $this->m_product->get_list_category_items($select,$info, 1, $this->_limit_page, $offset, $order_by, $sort_by);
+
 		$total = !empty($total_items)?count($total_items):0;
-		$total_page = ceil($total/12);
+		$total_page = ceil($total/$this->_limit_page);
 
 		$url = "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 		$url = str_replace("?page={$page}", '?', $url);
 		$url = str_replace("&page={$page}", '', $url);
 
-		$pagination = $this->util->pagination($url, $total, 12, $this->website['product']);
+		$pagination = $this->util->pagination($url, $total, $this->_limit_page, $this->website['product']);
 		$view_data = array();
 		$view_data["page"] 			= $page;
 		$view_data["cate"] 			= $category;
 		$view_data["items"] 		= $items;
 		$view_data["total_page"] 	= $total_page;
+		$view_data["arr_size"] 		= $arr_size;
 
 		$view_data["total"] 		= $total;
 		$view_data["breadcrumb"] 	= $this->_breadcrumb;

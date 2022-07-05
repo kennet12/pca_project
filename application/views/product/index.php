@@ -7,8 +7,40 @@ if (!empty($cate)) {
    $categories = $this->m_product_category->items($info_cate,1,null,null,'order_num','ASC');
    $title_cate = $website['all'];
 }
+$arr_price 			= !empty($_GET['gia'])?explode(',', $_GET['gia']):array();
+$get_size 			= !empty($_GET['size'])?explode(',', $_GET['size']):array();
 $user = $this->session->userdata('user');
 $usd = $this->m_setting->load(1)->usd;
+
+$c = count($items);
+$str = '';
+for ($i=0;$i<$c;$i++) {
+   if(!empty($items[$i]->thumbnail)) {
+   $price = $items[$i]->price;
+   $price_sale = $price*(1-($items[$i]->sale*0.01));
+   $typename = !empty($items[$i]->typename)?' - '.$items[$i]->typename:'';
+
+   $str .="<div class='nov-wrapper-product col-md-3'>";
+   $str .="<div class='item-product'>";
+   $str .=" <div class='thumbnail-container has-multiimage has_variants'>";
+   $str .="<a href='".site_url($items[$i]->{$prop['alias']}.'-sp')."'>";
+   $str .="<img class='w-100 product__thumbnail lazyload' data-src='https://static.wixstatic.com/media/609e3c_47a3319f60814981acf633ce3032115e~mv2.jpg/v1/fill/w_355,h_355,al_c,q_80,usm_0.66_1.00_0.01/609e3c_47a3319f60814981acf633ce3032115e~mv2.webp' alt='".$items[$i]->{$prop['title']}."'>         ";
+   $str .="</a>";
+   $str .="<a class='quick-view transition' href='".site_url($items[$i]->{$prop['alias']})."'>Quick View</a>";
+   $str .="<div class='badge_sale'>";
+   $str .="<div class='badge badge--sale-rt'>New Line Added</div>";
+   if ($items[$i]->sale!=0) 
+   $str .="<span class='badge badge--sale-pt'>-".$items[$i]->sale."%</span>";
+   $str .="</div>";
+   $str .="</div>";
+   $str .="<a href='".site_url($items[$i]->{$prop['alias']})."'>";
+   $str .="<h5>Pink with White Logo Hoody</h5>";
+   $str .="<p class='price'>$27.00</p>";
+   $str .="</a>";
+   $str .="</div>";
+   $str .="</div>";
+   } 
+}
 ?>
 <div class="row row-shop">
    <div class="col-md-4 col-shop">
@@ -23,7 +55,7 @@ $usd = $this->m_setting->load(1)->usd;
       <img class="full-width banner-shop" src="https://static.wixstatic.com/media/609e3c_1a65db42c2474af3890c03191e9b5260~mv2.jpg/v1/fill/w_1142,h_543,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/609e3c_1a65db42c2474af3890c03191e9b5260~mv2.jpg" alt="">
    </div>
 </div>
-<div class="page-width">
+<div class="page-width" id="list-product">
 <div class="row">
          <div class="sidebar sidebar-collection col-lg-2 col-md-4 flex-xs-unordered">
             <div class="collection_vn pt-md-30 mb-md-40">
@@ -31,7 +63,6 @@ $usd = $this->m_setting->load(1)->usd;
             </div>
             <div id="shopify-section-nov-sidebar" class="shopify-section">
                <div class="close-filter"><i class="zmdi zmdi-close"></i></div>
-               <? for ($i=0;$i<3;$i++) { ?>
                <div class="box-filter">
                   <div class="list-filter-selected">
                      <div class="filter-item_title align-items-center">
@@ -125,7 +156,80 @@ $usd = $this->m_setting->load(1)->usd;
                      <? } ?>
                   </div>
                </div>
-               <? } ?>
+               <div class="box-filter">
+                  <div class="list-filter-selected">
+                     <div class="filter-item_title align-items-center">
+                        <div href="<?=site_url("{$alias['product']}")?>" class="nv-ml-auto"><i class="zmdi zmdi-delete"></i><?=$website['cart_note2']?></div>
+                        <span class="toggle-icon">−</span>
+                     </div>
+                  </div>
+                  <div class="fill-box">
+							<ul class="list-unstyled" >
+								<li class="item">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" class="transition filter" status="gia" value="1-499000" <?=(!empty($arr_price) && in_array('1-499000', $arr_price))?'checked':''?> >
+											Dưới 500k
+										</label>
+									</div>
+								</li>
+								<li class="item">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" class="transition filter" status="gia" value="500000-999000" <?=(!empty($arr_price) && in_array('500000-999000', $arr_price))?'checked':''?> >
+											500k - 999k
+										</label>
+									</div>
+								</li>
+								<li class="item">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" class="transition filter" status="gia" value="1000000-1499000" <?=(!empty($arr_price) && in_array('1000000-1499000', $arr_price))?'checked':''?> >
+											1tr - 1tr499
+										</label>
+									</div>
+								</li>
+								<li class="item">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" class="transition filter" status="gia" value="1500000-2000000" <?=(!empty($arr_price) && in_array('1500000-2000000', $arr_price))?'checked':''?> >
+											1tr5 - 2tr
+										</label>
+									</div>
+								</li>
+								<li class="item">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" class="transition filter" status="gia" value="2000000-plus" <?=(!empty($arr_price) && in_array('2000000-plus', $arr_price))?'checked':''?> >
+											Trên 2tr
+										</label>
+									</div>
+								</li>
+							</ul>
+						</div>
+               </div>
+               <div class="box-filter">
+                  <div class="list-filter-selected">
+                     <div class="filter-item_title align-items-center">
+                        <div href="<?=site_url("{$alias['product']}")?>" class="nv-ml-auto"><i class="zmdi zmdi-delete"></i>Size</div>
+                        <span class="toggle-icon">−</span>
+                     </div>
+                  </div>
+                  <div class="fill-box" style="max-height: 710px;overflow: auto;">
+							<ul class="list-unstyled" >
+                        <? foreach($arr_size as $value) { $slug_size = $this->util->slug($value)?>
+								<li class="item">
+									<div class="checkbox">
+										<label>
+											<input type="checkbox" class="transition filter" status="size" <?=(in_array($slug_size, $get_size))? 'checked' : ''?> value="<?=$slug_size?>" >
+											<?=$value?>
+										</label>
+									</div>
+								</li>
+                        <? } ?>
+							</ul>
+						</div>
+               </div>
                <script>
                   $('.list-filter-selected').click(function(e) {
                      let st = $(this).find('.toggle-icon').html()
@@ -136,52 +240,6 @@ $usd = $this->m_setting->load(1)->usd;
                      $(this).next().toggle('fast')
                   })
                </script>
-               <!-- <div id="novSidebarAjaxFilter" class="sidebar-block sidebar-block__2 ">
-                  <div class="block__content">
-                     <div class="list-filter">
-                     <script>
-                        function removeParam(key, sourceURL) {
-                           var rtn = sourceURL.split("?")[0],
-                              param,
-                              params_arr = [],
-                              queryString = (sourceURL.indexOf("?") !== -1) ? sourceURL.split("?")[1] : "";
-                           if (queryString !== "") {
-                              params_arr = queryString.split("&");
-                              for (var i = params_arr.length - 1; i >= 0; i -= 1) {
-                                 param = params_arr[i].split("=")[0];
-                                 if (param === key) {
-                                    params_arr.splice(i, 1);
-                                 }
-                              }
-                              if (params_arr.length) rtn = rtn + "?" + params_arr.join("&");
-                           }
-                           return rtn;
-                        }
-                     </script>
-                        <div class="filter-item filter-size">
-                           <div class="filter-item_title">
-                              <span>Filter size</span>
-                           </div>
-                           <div class="filter-item_content collapse show">
-                              <ul class="list-inline">
-                                 <li class="list-inline-item" data-value="small">
-                                    <span class="filter-option-value">Small</span>
-                                 </li>
-                                 <li class="list-inline-item" data-value="medium">
-                                    <span class="filter-option-value">Medium</span>
-                                 </li>
-                                 <li class="list-inline-item" data-value="large">
-                                    <span class="filter-option-value">Large</span>
-                                 </li>
-                                 <li class="list-inline-item" data-value="unltra">
-                                    <span class="filter-option-value">Unltra</span>
-                                 </li>
-                              </ul>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div> -->
             </div>
          </div>
          <script>
@@ -246,39 +304,6 @@ $usd = $this->m_setting->load(1)->usd;
                               }
                            });
                         </script>
-                        <!-- <div class="sortPagiBar d-md-flex align-items-center">
-                            <div class="filter_button d-lg-none h_sidebar">
-                              <i class="zmdi zmdi-format-subject"></i>
-                              Filter
-                           </div> -->
-                           <!-- <div class="filters-toolbar__item d-flex align-items-center">
-                              <div class="pagination__viewing">
-                                 <?=$website['page']?> <?=$page?> - <?=$total_page?> | <?=$total?> <?=$website['product']?>
-                              </div>
-                              <div class="gridlist-toggle">
-                                 <a href="#" id="grid-3" title="Grid View 3" data-type="view_3" class="active"><i class="zmdi zmdi-apps"></i></a>
-                                 <a href="#" id="grid-2" title="Grid View 2" data-type="view_2"><i style="transform: rotate(90deg);" class="zmdi zmdi-view-module"></i></a>
-                                 <a href="#" id="list" title="List View" data-type="list"><i class="zmdi zmdi-view-list"></i></a>
-                              </div> -->
-                              <!-- <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" value="a" aria-expanded="true"> -->
-                              <? 
-                              // if(!empty($_GET['sort'])) {
-                              //    if ($_GET['sort'] == 'price-desc') {
-                              //       echo $website['price_desc'];
-                              //    } else if ($_GET['sort'] == 'price-asc') {
-                              //       echo $website['price_asc'];
-                              //    }
-                              // } else {
-                              //    echo $website['sort_by'];
-                              // }
-                              ?>
-                              <!-- </button> -->
-                              <!-- <div class="dropdown-menu dropdown-menu-right text-right">
-                                 <div class="drop-item active" status="sort" data-value=""><?=$website['sort_by']?></div>
-                                 <div class="drop-item" status="sort" data-value="price-desc"><?=$website['price_desc']?></div>
-                                 <div class="drop-item" status="sort" data-value="price-asc"><?=$website['price_asc']?></div>
-                              </div> -->
-                           <!-- </div> -->
                            <script>
                               <?
                               $control = $alias['product'];
@@ -320,45 +345,8 @@ $usd = $this->m_setting->load(1)->usd;
                            </script>
                         </div>
                      </div>
-                        <div class="row">
-                        <?
-                        $c = count($items);
-                        for ($i=0;$i<$c;$i++) {
-                           if(!empty($items[$i]->thumbnail)) {
-                           $price = $items[$i]->price;
-                           $price_sale = $price*(1-($items[$i]->sale*0.01));
-                           $typename = !empty($items[$i]->typename)?' - '.$items[$i]->typename:'';
-                           if ($items[$i]->rating_cmt != '0'){
-                              $point = round($items[$i]->rating_point/$items[$i]->rating_cmt,1);
-                           } else {
-                              $point = 0;
-                           }
-                        ?>
-                        <div class="nov-wrapper-product col-md-3">
-                           <div class="item-product">
-                              <div class="thumbnail-container has-multiimage has_variants">
-                                 <a href="<?=site_url($items[$i]->{$prop['alias']}.'-sp')?>">
-                                    <!-- <img class="w-100 img-fluid product__thumbnail lazyload" data-src="<?=BASE_URL.str_replace('./','/',$items[$i]->thumbnail)?>" alt="<?=$items[$i]->{$prop['title']}?>"> -->
-                                    <img class="w-100 product__thumbnail lazyload" data-src="https://static.wixstatic.com/media/609e3c_47a3319f60814981acf633ce3032115e~mv2.jpg/v1/fill/w_355,h_355,al_c,q_80,usm_0.66_1.00_0.01/609e3c_47a3319f60814981acf633ce3032115e~mv2.webp" alt="<?=$items[$i]->{$prop['title']}?>">
-                                    
-                                 </a>
-                                 <a class="quick-view transition" href="<?=site_url($items[$i]->{$prop['alias']})?>">
-                                    Quick View
-                                 </a>
-                                 <div class="badge_sale">
-                                    <div class="badge badge--sale-rt">New Line Added</div>
-                                    <!-- <? if ($items[$i]->sale!=0) { ?>
-                                    <span class="badge badge--sale-pt">-<?=$items[$i]->sale?>%</span>
-                                 <? } ?> -->
-                                 </div>
-                              </div>
-                              <a href="<?=site_url($items[$i]->{$prop['alias']})?>">
-                                 <h5>Pink with White Logo Hoody</h5>
-                                 <p class="price">$27.00</p>
-                              </a>
-                           </div>
-                        </div>
-                  <? } } ?>
+                     <div class="row">
+                        <?=$str?>
                      </div>
                      <!------------------------------------------------------>
                   </div>
@@ -371,4 +359,117 @@ $usd = $this->m_setting->load(1)->usd;
 </div>
 <script>
 	addLike('.btnProductWishlist');
+   let total_page = <?=$total_page?>;
+	$(document).ready(function() {
+		$('.fill-box .title').click(function(event) {
+			let stt = parseInt($(this).attr('stt'));
+			if (stt == 0) {
+				$(this).find('i').addClass('rotate');
+				$(this).attr('stt','1');
+				$(this).addClass('text-color-green');
+			} else {
+				$(this).find('i').removeClass('rotate');
+				$(this).attr('stt','0');
+				$(this).removeClass('text-color-green');
+			}
+			$(this).nextAll('.list').toggle('fast');
+		});
+
+		$('.sort-by').change(function(event) {
+			let base_url = BASE_URL+'/san-pham.html';
+			let st = $(this).attr('status');
+			let v = $(this).val();
+			let ob = getParams(window.location.href);
+
+			let i = 0;
+			cleanObject(ob);
+			ob[st] = v;
+			let page_key = '';
+			let page_val = '';
+			Object.entries(ob).forEach(([key,value]) => {
+				if (key != 'trang') {
+					if (ob[key] != '') {
+						if (i == 0){
+							if (ob[key] != '') base_url += '?'+key+'='+ob[key];
+						} else {
+							if (ob[key] != '') base_url += '&'+key+'='+ob[key];
+						}
+						i++;
+					}
+				} else {
+					page_key = key; page_val = value;
+				}
+			});
+			
+			if (page_key != "") {
+				if (page_val <= total_page) base_url += '&trang='+page_val;
+				else base_url += '&trang='+total_page;
+			}
+			base_url += '#list-product';
+			window.location.href = base_url;
+		});
+
+		$('.filter').change(function(event) {
+			let ob = getParams(window.location.href); 
+			let st = $(this).attr('status');
+			let v = $(this).val();
+			let ck = false;
+			let base_url = BASE_URL+'/san-pham.html';
+			if (this.checked) ck = true;
+			let ob_new = true;
+
+			Object.entries(ob).forEach(([key,value]) => {
+				if (key == st) ob_new = false;
+			});
+			
+			const keyValue = (input) => Object.entries(input).forEach(([key,value]) => { 
+				cleanObject(ob);
+				if (ob_new) ob[st] = v;
+
+				let str = '';
+				if (key == st) {
+					if (ck) {
+						if (value !='') str += value+','+v;
+						else str += value+v;
+					} else {
+						let item = value.split(',');
+						removeArr(item, v);
+						for (var i = 0; i < item.length; i++) {
+							if (item[i] != v) {
+								if (i > 0) str += ',';
+								str += item[i];
+							}
+						}
+					}
+					input[key] = str;
+				}
+			});
+			keyValue(ob); 
+			let i = 0;
+			let page_key = '';
+			let page_val = '';
+			const convert_url = (input) => Object.entries(input).forEach(([key,value]) => {
+				if (key != 'trang') {
+					if (input[key] != '') {
+						if (i == 0){
+							if (input[key] != '') base_url += '?'+key+'='+input[key];
+						} else {
+							if (input[key] != '') base_url += '&'+key+'='+input[key];
+						}
+						i++;
+					}
+				} else {
+					page_key = key; page_val = value;
+				}
+			});
+			convert_url(ob);
+			if (page_key != "") {
+				if (page_val <= total_page) base_url += '&trang='+page_val;
+				else base_url += '&trang='+total_page;
+			}
+			// window.history.pushState('','',base_url);
+			base_url += '#list-product';
+			window.location.href = base_url;
+		});
+	});
 </script>

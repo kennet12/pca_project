@@ -1,358 +1,380 @@
 <? $user = $this->session->userdata('user'); $usd = $this->m_setting->load(1)->usd;?>
-<div class="page-width container">
+<div class="container container-content-child page-width">
    <div id="shopify-section-nov-product-template" class="shopify-section">
       <div class="product-template__container tabdesc" itemscope itemtype="http://schema.org/Product" id="ProductSection-nov-product-template" data-section-id="nov-product-template" data-enable-history-state="true" data-type="product-template" data-wishlist-product>
          <meta itemprop="name" content="<?=$item->{$prop['title']}?>">
          <meta itemprop="url" content="<?=site_url($item->{$prop['alias']})?>">
          <meta itemprop="image" content="<?=$item->photo[0]->file_path?>">
-         <div class="TopContent mb-100 pb-xs-60">
-            <div class="product-single row position-static">
-               <div class="col-md-5 col-xs-12 position-static">
-                  <div class="product-single__photos block_img_sticky">
-                     <div class="proFeaturedImage">
-                        <div class="block_content d-flex">
-                           <img id="ProductPhotoImg" class="img-fluid <?=(!$this->util->detect_mobile())? 'image-zoom':'' ?>  img-responsive lazyload" data-src="<?=$item->photo[0]->file_path?>" alt="<?=$item->{$prop['title']}?>"/>
-                        </div>
+         <div class="row">
+            <div class="col-md-6">
+               <div class="wrap-image-detail">
+                  <div class="zoom-left">
+                     <div class="zoom-img">
+                        <img id="zoom" class="lazyload full-width" alt="<?=$item->title?>" title="<?=$item->title?>" data-src="<?=$item->photo[0]->file_path?>"/>
                      </div>
-                     <div id="productThumbs" class="mt-10">
-                        <div class="thumblist" data-pswp-uid="1">
-                           <div class="owl-carousel owl-theme" data-autoplay="false" data-autoplayTimeout="6000" data-items="5" data-margin="10" data-nav="false" data-dots="false" data-loop="false" data-items_tablet="4" data-items_mobile="5">
-                              <? foreach($item->photo as $filepath) {
-                                 $thumbnail = str_replace($item->code_product,"{$item->code_product}/thumb",$filepath->file_path) ?>
-                              <div class="thumbItem">
-                                 <a href="javascript:void(0)" data-image="<?=$filepath->file_path?>" data-zoom-image="<?=$filepath->file_path?>" class="product-single__thumbnail">
-                                 <img class="detail-img lazyload" data-src="<?=$thumbnail?>" alt="<?=$item->{$prop['title']}?>">
-                                 </a>
-                              </div>
-                              <? } ?>
-                           </div>
+                     <div class="list-image">
+                        <? $g=count($item->photo); 
+                           $photo_detail = explode('/',$item->photo[0]->file_path);
+                           for ($i=0;$i<$g;$i++) { 
+                              $thumbnail = str_replace($item->code_product,"{$item->code_product}/thumb",$item->photo[$i]->file_path);
+                        ?>
+                        <div class="item item-<?=$i?> <?=($i==0)?'active':''?>">
+                           <img class="lazyload" alt="<?=$item->title?>" data-src="<?=$thumbnail?>"/>
+                        </div>
+                        <? } ?>
+                     </div>
+                  </div>
+                  <div class="plugin-zoom" style="display:none">
+                     <div class="zoom-content">
+                        <div class="box">
+                           <span class="close-plugin-zoom">&#215;</span>
+                           <div><img src="" alt="" class="item-zoom"></div>
+                           <div class="list"></div>
                         </div>
                      </div>
                   </div>
                </div>
-			   <? 
-				$i=0;
-				$check_i = -1;
-				$check_j = -1;
-				$find_price = 0;
-				$price = 0;
-				$sale = 0;
-				$price_temp = 0;
-				$quantity = 0;
-				$str_type = '<div class="pattern">';
-				$str_typename = '';
-				$str_subtypename = '';
+               <script>
+                  // let i = 0;
+                  // setInterval(function () {
+                  //    let g = <?//=$g?>;
+                  //    $('.zoom-left .item').removeClass('active');	
+                  //    $('.zoom-left .item-'+i).addClass('active');
+                  //    let data = $('.zoom-left .item-'+i).find('img').attr('data-src');
+                  //    // let src = $('.zoom-left .item-'+i).find('img').attr('src');
+                  //    $('.zoom-left #zoom').attr('data-src',data);
+                  //    $('.zoom-left #zoom').attr('src',data);
+                  //    if (i<(g-1)) i++;
+                  //    else i=0;
+                  // },10000);
+               </script>
+            </div>
+            <div class="col-md-6">
+               <? 
+               $i=0;
+               $check_i = -1;
+               $check_j = -1;
+               $find_price = 0;
+               $price = 0;
+               $sale = 0;
+               $price_temp = 0;
+               $quantity = 0;
+               $str_type = '<div class="pattern">';
+               $str_typename = '';
+               $str_subtypename = '';
 
-				if (!empty($item->typename))
-					$str_typename .= '<div class="pattern-label">'.$item->typename.':</div><ul class="list clearfix">';
-				if (!empty($item->subtypename))
-					$str_subtypename .= '<div class="pattern-label">'.$item->subtypename.':</div>';
-					
-				foreach($item->product_type as $product_type) {
-					$type_quantity 		= json_decode($product_type->quantity);
-					$type_price 		= json_decode($product_type->price);
-					$type_subtypename 	= json_decode($product_type->subtypename);
-					$type_sale 			= json_decode($product_type->sale);
-					$type_photo 		= json_decode($product_type->photo);
-					$c = count($type_quantity);
-					//
-					$str_subtypename_child = '';
-					for ($j=0;$j<$c;$j++) {
-						if ($type_quantity[$j]!=0&&$find_price==0) {
-							$check_i 	= $i;
-							$check_j 	= $j;
-							$price 		= $type_price[$j];
-							$sale 		= $type_sale[$j];
-							$quantity 	= $type_quantity[$j];
-							$photo 		= !empty($type_photo[$j])?$type_photo[$j]:'';
-							$find_price = 1;
-						}
-						//
-						if (!empty($item->subtypename)) {
-							$str_subtypename_child .= 	'<li class="item get-item" data-src="'.$photo.'" qty="'.$type_quantity[$j].'">';
-								$str_subtypename_child .= 	'<label class="radio-container">';
-									$str_subtypename_child .= 	'<div class="pattern-info">';
-										$str_subtypename_child .= 	'<div class="type">'.$type_subtypename[$j].'</div>';
-                              $str_subtypename_child .= 	'<div class="sub-price" price="'.$type_price[$j].'"></div>';
-									$str_subtypename_child .= 	'</div>';
-									$checked_subtype = ($check_i==$i&&$check_j==$j)?'checked="checked"':'';
-									// if ($type_quantity[$j] != 0)
-									$str_subtypename_child .= 	'<input type="radio" '.$checked_subtype.' name="subtypename" sale="'.$type_sale[$j].'" value="'.$type_subtypename[$j].'">';
-									$str_subtypename_child .= 	'<span class="checkmark"></span>';
-								$str_subtypename_child .= 	'</label>';
-							$str_subtypename_child .= 	'</li>';
-						}
-					}
-					if (!empty($item->subtypename)) {
-						$display = ($check_i==$i)?'style="display:block"':'style="display:none"';
-						$str_subtypename .= '<ul '.$display.' class="list clearfix p-subtypename subtypename-'.$i.'">';
-						$str_subtypename .= $str_subtypename_child;
-						$str_subtypename .= '</ul>';
-					}
-					//
-					if (!empty($item->typename)) {
-						if ($quantity != 0){
-							$photo 		= !empty($type_photo[0])?$type_photo[0]:'';
-							if (empty($item->subtypename))
-								$str_typename .= '<li class="item get-item" data-src="'.$photo.'"  qty="'.$type_quantity[0].'">';
-							else
-								$str_typename .= '<li class="item get-item" data-src=""  qty="'.$type_quantity[0].'">';
-						}
-						else 
-						$str_typename .= 	'<li class="item get-item" data-src=""  qty="'.$type_quantity[0].'">';
-							$str_typename .= 	'<label class="radio-container">';
-								$str_typename .= 	'<div class="pattern-info">';
-									$str_typename .= 	'<div class="type">'.$product_type->typename.'</div>';
-									$checksale = "";
-									if ($product_type->subtypename=='""') {
-                              $str_typename .= 	'<div class="sub-price" price="'.$type_price[0].'"></div>';
-										$checksale = 'sale="'.$type_sale[0].'"';
-									}
-								$str_typename .= 	'</div>';
-								$checked = ($check_i==$i)?'checked="checked"':'';
-									// if ($quantity != 0)
-								$str_typename .= 	'<input stt="'.$i.'" class="p-typename" type="radio" '.$checked.' '.$checksale.'  name="typename" value="'.$product_type->typename.'">';
-								$str_typename .= 	'<span class="checkmark"></span>';
-							$str_typename .= 	'</label>';
-						$str_typename .= 	'</li>';
-					}
-					//
-				$i++;}
-				if ($price==0) {
-					$price = $type_price[0];
-					$sale = $type_sale[0];
-				} 
-				if (!empty($item->typename)) $str_typename .= '</ul>';
-				$str_type .= $str_typename.$str_subtypename.'</div>';
-			?>
-               <div class="block_information position-static col-md-7 col-xs-12 mt-xs-30">
-                  <div class="info_content">
-                  <? $price_product = number_format($this->util->round_number($price*(1-($sale*0.01)),1000),0,',','.');?>
-                     <h1 itemprop="name" class="product-single__title"><?=$item->{$prop['title']}?></h1>
-                     <div class="product-single__meta">
-                        <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-                           <meta itemprop="priceCurrency" content="VND">
-                           <link itemprop="availability" href="http://schema.org/InStock">
-                           <?
-                              if ($item->rating_cmt != '0'){
-                                 $point = round($item->rating_point/$item->rating_cmt,1);
-                              } else {
-                                 $point = 0;
+               if (!empty($item->typename))
+                  $str_typename .= '<div class="pattern-label">'.$item->typename.':</div><ul class="list clearfix">';
+               if (!empty($item->subtypename))
+                  $str_subtypename .= '<div class="pattern-label">'.$item->subtypename.':</div>';
+                  
+               foreach($item->product_type as $product_type) {
+                  $type_quantity 		= json_decode($product_type->quantity);
+                  $type_price 		= json_decode($product_type->price);
+                  $type_subtypename 	= json_decode($product_type->subtypename);
+                  $type_sale 			= json_decode($product_type->sale);
+                  $type_photo 		= json_decode($product_type->photo);
+                  $c = count($type_quantity);
+                  //
+                  $str_subtypename_child = '';
+                  for ($j=0;$j<$c;$j++) {
+                     if ($type_quantity[$j]!=0&&$find_price==0) {
+                        $check_i 	= $i;
+                        $check_j 	= $j;
+                        $price 		= $type_price[$j];
+                        $sale 		= $type_sale[$j];
+                        $quantity 	= $type_quantity[$j];
+                        $photo 		= !empty($type_photo[$j])?$type_photo[$j]:'';
+                        $find_price = 1;
+                     }
+                     //
+                     if (!empty($item->subtypename)) {
+                        $str_subtypename_child .= 	'<li class="item get-item" data-src="'.$photo.'" qty="'.$type_quantity[$j].'">';
+                           $str_subtypename_child .= 	'<label class="radio-container">';
+                              $str_subtypename_child .= 	'<div class="pattern-info">';
+                                 $str_subtypename_child .= 	'<div class="type">'.$type_subtypename[$j].'</div>';
+                                 $str_subtypename_child .= 	'<div class="sub-price" price="'.$type_price[$j].'"></div>';
+                              $str_subtypename_child .= 	'</div>';
+                              $checked_subtype = ($check_i==$i&&$check_j==$j)?'checked="checked"':'';
+                              // if ($type_quantity[$j] != 0)
+                              $str_subtypename_child .= 	'<input type="radio" '.$checked_subtype.' name="subtypename" sale="'.$type_sale[$j].'" value="'.$type_subtypename[$j].'">';
+                              $str_subtypename_child .= 	'<span class="checkmark"></span>';
+                           $str_subtypename_child .= 	'</label>';
+                        $str_subtypename_child .= 	'</li>';
+                     }
+                  }
+                  if (!empty($item->subtypename)) {
+                     $display = ($check_i==$i)?'style="display:block"':'style="display:none"';
+                     $str_subtypename .= '<ul '.$display.' class="list clearfix p-subtypename subtypename-'.$i.'">';
+                     $str_subtypename .= $str_subtypename_child;
+                     $str_subtypename .= '</ul>';
+                  }
+                  //
+                  if (!empty($item->typename)) {
+                     if ($quantity != 0){
+                        $photo 		= !empty($type_photo[0])?$type_photo[0]:'';
+                        if (empty($item->subtypename))
+                           $str_typename .= '<li class="item get-item" data-src="'.$photo.'"  qty="'.$type_quantity[0].'">';
+                        else
+                           $str_typename .= '<li class="item get-item" data-src=""  qty="'.$type_quantity[0].'">';
+                     }
+                     else 
+                     $str_typename .= 	'<li class="item get-item" data-src=""  qty="'.$type_quantity[0].'">';
+                        $str_typename .= 	'<label class="radio-container">';
+                           $str_typename .= 	'<div class="pattern-info">';
+                              $str_typename .= 	'<div class="type">'.$product_type->typename.'</div>';
+                              $checksale = "";
+                              if ($product_type->subtypename=='""') {
+                                 $str_typename .= 	'<div class="sub-price" price="'.$type_price[0].'"></div>';
+                                 $checksale = 'sale="'.$type_sale[0].'"';
                               }
-                              $str_rating = "";
-                              for($j=1;$j<=5;$j++) {
-                                 if ($j <= $point) {
-                                 $str_rating .= '<i class="start-icon zmdi zmdi-star"></i>';
+                           $str_typename .= 	'</div>';
+                           $checked = ($check_i==$i)?'checked="checked"':'';
+                              // if ($quantity != 0)
+                           $str_typename .= 	'<input stt="'.$i.'" class="p-typename" type="radio" '.$checked.' '.$checksale.'  name="typename" value="'.$product_type->typename.'">';
+                           $str_typename .= 	'<span class="checkmark"></span>';
+                        $str_typename .= 	'</label>';
+                     $str_typename .= 	'</li>';
+                  }
+                  //
+               $i++;}
+               if ($price==0) {
+                  $price = $type_price[0];
+                  $sale = $type_sale[0];
+               } 
+               if (!empty($item->typename)) $str_typename .= '</ul>';
+               $str_type .= $str_typename.$str_subtypename.'</div>';
+            ?>
+                  <div class="block_information position-static">
+                     <div class="info_content">
+                     <? $price_product = number_format($this->util->round_number($price*(1-($sale*0.01)),1000),0,',','.');?>
+                        <h1 itemprop="name" class="product-single__title"><?=$item->{$prop['title']}?></h1>
+                        <div class="product-single__meta">
+                           <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                              <meta itemprop="priceCurrency" content="VND">
+                              <link itemprop="availability" href="http://schema.org/InStock">
+                              <?
+                                 if ($item->rating_cmt != '0'){
+                                    $point = round($item->rating_point/$item->rating_cmt,1);
                                  } else {
-                                 if (($point > ($j-1)) && $point < $j) {
+                                    $point = 0;
+                                 }
+                                 $str_rating = "";
+                                 for($j=1;$j<=5;$j++) {
+                                    if ($j <= $point) {
                                     $str_rating .= '<i class="start-icon zmdi zmdi-star"></i>';
-                                 } else {
-                                    $str_rating .= '<i class="start-icon zmdi zmdi-star-outline"></i>';
+                                    } else {
+                                    if (($point > ($j-1)) && $point < $j) {
+                                       $str_rating .= '<i class="start-icon zmdi zmdi-star"></i>';
+                                    } else {
+                                       $str_rating .= '<i class="start-icon zmdi zmdi-star-outline"></i>';
+                                    }
+                                    }
                                  }
-                                 }
-                              }
-                           ?>
-                           <div class="group-reviews has-border d-flex align-items-center pb-25" style="position:relative;">
-                              <div class="detail-reviews">
-                                 <span class="shopify-product-reviews-badge">
-                                    <?=$str_rating?>
-                                 </span>
-                              </div>
-                              <? if(!empty($user)){ ?>
-                              <div class="get-affiliate copy"><i class="zmdi zmdi-link"></i> Affiliate : <?=$item->affiliate?>%</div>
-                              <script>
-                                 $(document).on('click','.copy',function(e){
-                                    navigator.clipboard.writeText(link);
-                                    $('.get-affiliate').addClass('copied');
-                                    $('.get-affiliate').removeClass('copy');
-                                    $(this).html('Copied'); 
-                                    $.ajax({
-                                       url: '<?=site_url('call-service/create-affiliate')?>',
-                                       type: 'POST',
-                                       dataType: 'html',
+                              ?>
+                              <div class="group-reviews has-border d-flex align-items-center pb-25" style="position:relative;">
+                                 <div class="detail-reviews">
+                                    <span class="shopify-product-reviews-badge">
+                                       <?=$str_rating?>
+                                    </span>
+                                 </div>
+                                 <? if(!empty($user)){ ?>
+                                 <div class="get-affiliate copy"><i class="zmdi zmdi-link"></i> Affiliate : <?=$item->affiliate?>%</div>
+                                 <script>
+                                    $(document).on('click','.copy',function(e){
+                                       navigator.clipboard.writeText(link);
+                                       $('.get-affiliate').addClass('copied');
+                                       $('.get-affiliate').removeClass('copy');
+                                       $(this).html('Copied'); 
+                                       $.ajax({
+                                          url: '<?=site_url('call-service/create-affiliate')?>',
+                                          type: 'POST',
+                                          dataType: 'html',
+                                       })
                                     })
-                                 })
+                                 </script>
+                                 <? } ?>
+                              </div>
+                              <div class="available_product d-flex align-items-center">
+                                 <div class="available_name control-label"><?=$website['status']?>: </div>
+                                 <? if (!empty($quantity)) { ?>
+                                 <span class="product__available">
+                                    <span class="in-stock"><?=$website['in_stock']?></span>
+                                 </span>
+                                 <? } else { ?>
+                                 <span class="product__available">
+                                    <span class="out-stock"><?=$website['out_stock']?></span>
+                                 </span>
+                                 <? } ?>
+                              </div>
+                              <div class="group-single__sku has-border">
+                                 <p itemprop="sku" class="product-single__sku">
+                                    <span class="label control-label">SKU:</span>
+                                    <span class="label-sku"><?=$item->code_product?></span>
+                                 </p>
+                                 <p itemprop="cat" class="product-single__cat"><span class="label control-label"><?=$website['category']?>:</span>
+                                    <? foreach($array_cate as $cate) { ?>
+                                    <a href="<?=site_url("{$alias['product']}/{$cate->{$prop['alias']}}")?>"><?=$cate->{$prop['name']}?></a>,
+                                    <? } ?>
+                                 </p>
+                                 <? if (!empty($item->brand)) { $brand = $this->m_brand->load($item->brand)?>
+                                 <p itemprop="cat" class="product-single__cat"><span class="label control-label"><?=$website['brand']?>:</span>
+                                    <a href="<?=site_url("{$alias['product']}")."?constraint={$brand->alias}"?>" title="<?=$brand->name?>"><?=$brand->name?></a>
+                                 </p>
+                                 <? } ?>
+                                 <p itemprop="origin" class="product-single__sku">
+                                    <span class="label control-label"><?=$website['origin']?>:</span>
+                                    <span class="label" style="font-size: 13px;"><?=$item->{$prop['origin']}?></span>
+                                 </p>
+                                 <p style="display:none;" itemprop="price" class="product-single__sku">
+                                    <span class="label"><?=$price_product?></span>
+                                 </p>
+                              </div>
+                              <div class="product-single__shortdes mb-20" itemprop="description">
+                                 <p><?=$website['return_product_note']?></p>
+                              </div>
+                           </div>
+                        </div>
+                        <p class="product-single__price product-single__price-nov-product-template d-flex align-items-center price-product-detail">
+                           <span class="product-price__price product-price__price-nov-product-template product-price__sale product-price__sale--single">
+                              <span id="ProductPrice-nov-product-template" class="money mr-10">
+                                 <span class="money" itemprop="price" content="<?=$price_product?>"><?=$price_product?></span>
+                              </span>
+                           </span>
+                           <? if (!empty($sale)) {?>
+                           <s id="ComparePrice-nov-product-template"><span class="money"><?=number_format($price,0,',','.');?></span></s>
+                           <? } ?>
+                        </p>
+                        <? if(isset($_COOKIE['nguyenanh_lang'])) { ?>
+                        <div class="product__price">
+                           <strong>
+                           <span class="product-price__price product-price__sale">
+                              <span class="money" style="color:#333;">USD: $<?=round(($price*(1-($sale*0.01)))/$usd,1)?></span>
+                           </span>
+                           <? if ($sale!=0) { ?>
+                           <s class="product-price__price" style="margin-left:5px;color: #e0e0e0;"><span class="money">$<?=round(($price*$sale*0.01)/$usd,1)?></span></s>
+                           <? } ?>
+                           </strong>
+                        </div>
+                        <? } ?>
+                        <div class="selectorVariants">
+                           <?=$str_type?>
+                           <div class="group-quantity">
+                              <span class="control-label"><?=$website['quantity']?>:</span>
+                              <div class="product-form__item product-form__item--quantity align-items-center mb-30">
+                                 <div class="quick_view_qty">
+                                    <a class="quick_view-qty quick_view-qty-minus">-</a>
+                                    <input type="number" id="Quantity" name="quantity" value="1" min="1" max=<?=$quantity?> step="1" class="quantity-selector product-form__input" pattern="[0-9]*">
+                                    <a class="quick_view-qty quick_view-qty-plus">+</a>
+                                 </div>
+                                 <div class="productWishList">
+                                    <?
+                                    $status = 0;
+                                       $cls = 'removed-wishlist';
+                                       if(!empty($user)) {
+                                          if (strpos($user->like_product,'"'.$item->id.'"') !== false) {
+                                             $status = 2;
+                                             $cls = 'added-wishlist';
+                                          } else 
+                                             $status = 1;
+                                       }
+                                    ?>
+                                    <a href="#" status='<?=$status?>' id_item='<?=$item->id?>' class="<?=$cls?> wishlist btnProductWishlist btnProductWishlist-<?=$item->id?>">
+                                    <i class="fas fa-heart"></i>
+                                    <span class="wishlist-text"><?=$website['add_to_wishlist']?></span>
+                                    </a>
+                                 </div>
+                              </div>
+                              <? if(!empty($quantity)) { ?>
+                              <div class="product_option_sub">
+                                 <div class="product-form__item product-form__item--submit">
+                                    <button title="<?=$item->alias?>" class="enable-cart btnAddToCart btn product-form__cart-submit mb-15">
+                                       <span id="AddToCartText">
+                                          <?=$website['add_to_cart']?>
+                                       </span>
+                                    </button>
+                                 </div>
+                              </div>
+                              <script type="text/javascript">
+                                 addToCart('enable-cart','<?=$website['add_to_cart']?>','<?=$website['mes_add_to_cart']?>','<?=$website['btn_go_to_cart']?>','<?=$website['btn_lose']?>','<?=$website['check_out']?>');
                               </script>
                               <? } ?>
                            </div>
-                           <div class="available_product d-flex align-items-center">
-                              <div class="available_name control-label"><?=$website['status']?>: </div>
-                              <? if (!empty($quantity)) { ?>
-                              <span class="product__available">
-                                 <span class="in-stock"><?=$website['in_stock']?></span>
-                              </span>
-                              <? } else { ?>
-                              <span class="product__available">
-                                 <span class="out-stock"><?=$website['out_stock']?></span>
-                              </span>
-                              <? } ?>
-                           </div>
-                           <div class="group-single__sku has-border">
-                              <p itemprop="sku" class="product-single__sku">
-                                 <span class="label control-label">SKU:</span>
-                                 <span class="label-sku"><?=$item->code_product?></span>
-                              </p>
-                              <p itemprop="cat" class="product-single__cat"><span class="label control-label"><?=$website['category']?>:</span>
-                                 <? foreach($array_cate as $cate) { ?>
-                                 <a href="<?=site_url("{$alias['product']}/{$cate->{$prop['alias']}}")?>"><?=$cate->{$prop['name']}?></a>,
-                                 <? } ?>
-                              </p>
-                              <? if (!empty($item->brand)) { $brand = $this->m_brand->load($item->brand)?>
-                              <p itemprop="cat" class="product-single__cat"><span class="label control-label"><?=$website['brand']?>:</span>
-                                 <a href="<?=site_url("{$alias['product']}")."?constraint={$brand->alias}"?>" title="<?=$brand->name?>"><?=$brand->name?></a>
-                              </p>
-                              <? } ?>
-                              <p itemprop="origin" class="product-single__sku">
-                                 <span class="label control-label"><?=$website['origin']?>:</span>
-                                 <span class="label"><?=$item->{$prop['origin']}?></span>
-                              </p>
-                              <p style="display:none;" itemprop="price" class="product-single__sku">
-                                 <span class="label"><?=$price_product?></span>
-                              </p>
-                           </div>
-                           <div class="product-single__shortdes mb-20" itemprop="description">
-                              <p><?=$website['return_product_note']?></p>
-                           </div>
-                        </div>
-                     </div>
-                     <p class="product-single__price product-single__price-nov-product-template d-flex align-items-center price-product-detail">
-                        <span class="product-price__price product-price__price-nov-product-template product-price__sale product-price__sale--single">
-                           <span id="ProductPrice-nov-product-template" class="money mr-10">
-                              <span class="money" itemprop="price" content="<?=$price_product?>"><?=$price_product?></span>
-                           </span>
-                        </span>
-                        <? if (!empty($sale)) {?>
-                        <s id="ComparePrice-nov-product-template"><span class="money"><?=number_format($price,0,',','.');?></span></s>
-                        <? } ?>
-                     </p>
-                     <? if(isset($_COOKIE['nguyenanh_lang'])) { ?>
-                     <div class="product__price">
-                        <strong>
-                        <span class="product-price__price product-price__sale">
-                           <span class="money" style="color:#333;">USD: $<?=round(($price*(1-($sale*0.01)))/$usd,1)?></span>
-                        </span>
-                        <? if ($sale!=0) { ?>
-                        <s class="product-price__price" style="margin-left:5px;color: #e0e0e0;"><span class="money">$<?=round(($price*$sale*0.01)/$usd,1)?></span></s>
-                        <? } ?>
-                        </strong>
-                     </div>
-                     <? } ?>
-                     <div class="selectorVariants">
-                        <?=$str_type?>
-                        <div class="group-quantity">
-                           <span class="control-label"><?=$website['quantity']?>:</span>
-                           <div class="product-form__item product-form__item--quantity align-items-center mb-30">
-                              <label for="Quantity" class="quantity-selector"></label>
-                              <div class="quick_view_qty">
-                                 <a class="quick_view-qty quick_view-qty-minus">-</a>
-                                 <input type="number" id="Quantity" name="quantity" value="1" min="1" max=<?=$quantity?> step="1" class="quantity-selector product-form__input" pattern="[0-9]*">
-                                 <a class="quick_view-qty quick_view-qty-plus">+</a>
-                              </div>
-                              <div class="productWishList">
-                                 <?
-                                 $status = 0;
-                                    $cls = 'removed-wishlist';
-                                    if(!empty($user)) {
-                                       if (strpos($user->like_product,'"'.$item->id.'"') !== false) {
-                                          $status = 2;
-                                          $cls = 'added-wishlist';
-                                       } else 
-                                          $status = 1;
-                                    }
-                                 ?>
-                                 <a href="#" status='<?=$status?>' id_item='<?=$item->id?>' class="<?=$cls?> wishlist btnProductWishlist btnProductWishlist-<?=$item->id?>">
-                                 <i class="zmdi zmdi-favorite"></i>
-                                 <span class="wishlist-text"><?=$website['add_to_wishlist']?></span>
-                                 </a>
-                              </div>
-                           </div>
-                           <? if(!empty($quantity)) { ?>
-                           <div class="product_option_sub">
-                              <div class="product-form__item product-form__item--submit">
-                                 <button title="<?=$item->alias?>" class="enable-cart btnAddToCart btn product-form__cart-submit mb-15">
-                                 <span id="AddToCartText">
-                                    <?=$website['add_to_cart']?>
-                                 </span>
-                                 </button>
-                              </div>
-                           </div>
-                           <script type="text/javascript">
-                              addToCart('enable-cart','<?=$website['add_to_cart']?>','<?=$website['mes_add_to_cart']?>','<?=$website['btn_go_to_cart']?>','<?=$website['btn_lose']?>','<?=$website['check_out']?>');
-                           </script>
-                           <? } ?>
                         </div>
                      </div>
                   </div>
                </div>
-            </div>
-            <script>
-               $(document).on('click','.quick_view-qty',function() {
-                  var opera = $(this).html();
-                  var val = parseInt($('#Quantity').val());
-                  let min = parseInt($('#Quantity').attr('min'));
-                  let max = parseInt($('#Quantity').attr('max'));
-                  if (opera == '+'){
-                     if (val < max)
-                     val += 1;
-                  } else {
-                     if (val > 1)
-                     val -= 1;
-                  }
-                  $('#Quantity').val(val);
-               });
-               $(document).on('change','#Quantity',function() {
-                  let min = parseInt($(this).attr('min'));
-                  let max = parseInt($(this).attr('max'));
-                  let val = parseInt($(this).val());
-                  if (val<min)$(this).val(min);else if (val>max)$(this).val(max);
-               });
-               $(document).on('click','.get-item',function() {
-                  let price = $(this).find('.sub-price').attr('price');
-                  let max_qty = parseInt($(this).attr('qty'));
-                  let data_src = $(this).attr('data-src');
-                  if (data_src!=''){
-                     data_src = '<?=BASE_URL?>'+data_src;
-                     $('#ProductPhotoImg').attr('src',data_src);
-                     $('.zoomImg').attr('src',data_src);
-                  }
-                  if(price != undefined) { 
-                     let sale = parseFloat($(this).find('input').attr('sale'));
-                     price = parseFloat(price);
-                     $('#Quantity').attr('max',max_qty);
-                     $('#Quantity').val(1);
-                     let = money = formatDollar(price*(1-(sale*0.01)));
-                     if(max_qty!=0){
-                        $('.btnAddToCart').removeClass('disable-cart');
-                        $('.btnAddToCart').addClass('enable-cart');
-                        $('.product__available').html('<span class="in-stock"><?=$website['in_stock']?></span>');
-                     }else{
-                        $('.btnAddToCart').removeClass('enable-cart');
-                        $('.btnAddToCart').addClass('disable-cart');
-                        $('.product__available').html('<span class="out-stock"><?=$website['out_stock']?></span>');
+               <script>
+                  $(document).on('click','.quick_view-qty',function() {
+                     var opera = $(this).html();
+                     var val = parseInt($('#Quantity').val());
+                     let min = parseInt($('#Quantity').attr('min'));
+                     let max = parseInt($('#Quantity').attr('max'));
+                     if (opera == '+'){
+                        if (val < max)
+                        val += 1;
+                     } else {
+                        if (val > 1)
+                        val -= 1;
                      }
-                     let str_price = '<span class="product-price__price product-price__price-nov-product-template product-price__sale product-price__sale--single">';
-                           str_price += '<span id="ProductPrice-nov-product-template" itemprop="price" content="'+money+'" class="money mr-10">';
-                              str_price += '<span class="money">'+money+'</span>';
+                     $('#Quantity').val(val);
+                  });
+                  $(document).on('change','#Quantity',function() {
+                     let min = parseInt($(this).attr('min'));
+                     let max = parseInt($(this).attr('max'));
+                     let val = parseInt($(this).val());
+                     if (val<min)$(this).val(min);else if (val>max)$(this).val(max);
+                  });
+                  $(document).on('click','.get-item',function() {
+                     let price = $(this).find('.sub-price').attr('price');
+                     let max_qty = parseInt($(this).attr('qty'));
+                     let data_src = $(this).attr('data-src');
+                     if (data_src!=''){
+                        data_src = '<?=BASE_URL?>'+data_src;
+                        $('#ProductPhotoImg').attr('src',data_src);
+                        $('.zoomImg').attr('src',data_src);
+                     }
+                     if(price != undefined) { 
+                        let sale = parseFloat($(this).find('input').attr('sale'));
+                        price = parseFloat(price);
+                        $('#Quantity').attr('max',max_qty);
+                        $('#Quantity').val(1);
+                        let = money = formatDollar(price*(1-(sale*0.01)));
+                        if(max_qty!=0){
+                           $('.btnAddToCart').removeClass('disable-cart');
+                           $('.btnAddToCart').addClass('enable-cart');
+                           $('.product__available').html('<span class="in-stock"><?=$website['in_stock']?></span>');
+                        }else{
+                           $('.btnAddToCart').removeClass('enable-cart');
+                           $('.btnAddToCart').addClass('disable-cart');
+                           $('.product__available').html('<span class="out-stock"><?=$website['out_stock']?></span>');
+                        }
+                        let str_price = '<span class="product-price__price product-price__price-nov-product-template product-price__sale product-price__sale--single">';
+                              str_price += '<span id="ProductPrice-nov-product-template" itemprop="price" content="'+money+'" class="money mr-10">';
+                                 str_price += '<span class="money">'+money+'</span>';
+                              str_price += '</span>';
                            str_price += '</span>';
-                        str_price += '</span>';
-                     if (sale!=0) 
-                        str_price += '<s id="ComparePrice-nov-product-template"><span class="money">'+formatDollar(price)+'</span></s>';
-                     $('.price-product-detail').html(str_price);
-                  } 
-               });
-               $('.p-typename').click(function() { 
-                  let st = $(this).attr('stt');
-                  $('.p-subtypename').css('display','none');
-                  $('.subtypename-'+st).css('display','block');
-               });
-            </script>
+                        if (sale!=0) 
+                           str_price += '<s id="ComparePrice-nov-product-template"><span class="money">'+formatDollar(price)+'</span></s>';
+                        $('.price-product-detail').html(str_price);
+                     } 
+                  });
+                  $('.p-typename').click(function() { 
+                     let st = $(this).attr('stt');
+                     $('.p-subtypename').css('display','none');
+                     $('.subtypename-'+st).css('display','block');
+                  });
+               </script>
+            </div>
+         </div>
+         <div class="TopContent mb-100 pb-xs-60">
             <div class="product-single__tabs mt-100 mt-lg-60">
-               <div class="block_nav d-flex justify-content-center">
+               <!-- <div class="block_nav d-flex justify-content-center">
                   <ul class="nav nav-tabs">
                   <li><a class="active" href="#proTabs1" data-toggle="tab"><?=$website['description']?></a></li>
                   <li><a href="#tabCustom-3" data-toggle="tab">Video</a></li>
                   </ul>
-               </div>
+               </div> -->
                <div class="tab-content">
                   <div class="tab-pane active" id="proTabs1">
                      <?=$item->{$prop['content']}?>
@@ -378,7 +400,7 @@
                   </script>
                </div>
             </div>
-            <div class="BottomContent ProductRelated block_margin" style="margin-top: 50px;">
+            <!-- <div class="BottomContent ProductRelated block_margin" style="margin-top: 50px;">
                <div class="block_padding">
                   <div class="title_block mb-0">
                      <span><?=$website['related_product']?></span>
@@ -405,12 +427,12 @@
                                     <img class="w-100 img-fluid product__thumbnail lazyload" data-src="<?=$related_products[$i]->thumbnail?>" alt="<?=$related_products[$i]->{$prop['title']}?>">
                                  </a>
                                  <div class="badge_sale">
-                                    <!-- <div class="badge badge--sale-rt">New</div> -->
+                                    <div class="badge badge--sale-rt">New</div>
                                     <? if ($related_products[$i]->sale!=0) { ?>
                                        <span class="badge badge--sale-pt">-<?=$related_products[$i]->sale?>%</span>
                                     <? } ?>
                                  </div>
-                                 <!-- <div class="group-buttons productWishList">
+                                 <div class="group-buttons productWishList">
                                     <?
                                     $status = 0;
                                        $cls = 'removed-wishlist';
@@ -426,7 +448,7 @@
                                     <i class="zmdi zmdi-favorite-outline"></i>
                                     <span class="wishlist-text"><?=$website['add_to_wishlist']?></span>
                                     </a>
-                                 </div> -->
+                                 </div>
                               </div>
                               <div class="product__info text-center">
                                  <div class="product__title">
@@ -464,11 +486,40 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div> -->
          </div>
       </div>
    </div>
 </div>
 <script>
    addLike('.btnProductWishlist');
+   $('.list-image .item').click( function(){
+		let src = $(this).find('img').attr('src');
+		let data_src = $(this).find('img').attr('data-src');
+      data_src = data_src.replace('/thumb','')
+		$('#zoom').attr('src',data_src);
+		$('#zoom').attr('data-src',data_src);
+		$('.list-image .item').removeClass('active');
+		$(this).addClass('active');
+	});
+	<? if(!$this->util->detect_mobile()) { ?>
+	$(document).on('click','#zoom',function() {
+		let html = $('.zoom-left > .list-image').html();
+		let data_src = $(this).attr('data-src');
+      data_src = data_src.replace('/thumb','')
+		$('.zoom-content .box .list').html(html);
+		$('.item-zoom').attr('src',data_src);
+		$('.plugin-zoom').css('display','block');
+	});
+	<? } ?>
+	$(document).on('click','.plugin-zoom .list .item',function() {
+		let data_src = $(this).find('img').attr('data-src');
+      data_src = data_src.replace('/thumb','')
+		$('.item-zoom').attr('src',data_src);
+		$('.plugin-zoom .list .item').removeClass('active');
+		$(this).addClass('active');
+	});
+	$(document).on('click','.plugin-zoom .close-plugin-zoom',function() {
+		$('.plugin-zoom').css('display','none');
+	});
 </script>

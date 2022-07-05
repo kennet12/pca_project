@@ -22,7 +22,7 @@
                     <h6 class="text-right">MERCHANDISE</h6>
                 </div>
                 <div class="text-right">
-                    <a href="" class="linkItem">SHOP NOW</a>
+                    <a href="<?=site_url('san-pham')?>" class="linkItem">SHOP NOW</a>
                 </div>
            </div>
         </div>
@@ -33,7 +33,7 @@
                     <h6>MERCHANDISE</h6>
                 </div>
                 <div class="text-left">
-                    <a href="" class="linkItem">SHOP NOW</a>
+                    <a href="<?=site_url('san-pham')?>" class="linkItem">SHOP NOW</a>
                 </div>
            </div>
         </div>

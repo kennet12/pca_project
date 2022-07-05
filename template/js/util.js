@@ -262,7 +262,7 @@ function addToCart(class_selector) {
 		let id 			= $(this).attr('title');
 		let typename 	= $("input[name='typename']:checked").val();
 		let subtypename = $("input[name='subtypename']:checked").val();
-		let quantity 	= $(".quantity").val();
+		let quantity 	= $("#Quantity").val();
 		if (typename == undefined) { typename = null; }
 		if (subtypename == undefined) { subtypename = null; }
 		let p = {};
@@ -270,14 +270,13 @@ function addToCart(class_selector) {
 			p["typename"] 		= typename;
 			p["subtypename"] 	= subtypename;
 			p["quantity"] 		= quantity;
-			console.log(quantity);
 		if (quantity > 0) {
 			$.ajax({
 				url: BASE_URL+'/gio-hang/ajax-add-cart.html',
 				type: 'POST',
-				dataType: 'json',
+				dataType: 'html',
 				data: p,
-				success: function (result) { 
+				success: function (result) {
 					$('.quantity-cart').html('<span>'+Object.keys(result).length+'</span>');
 					if (screen.width > 768) {
 						$("html, body").animate({ scrollTop: 0 }, 300);
