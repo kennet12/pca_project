@@ -280,7 +280,7 @@ function addToCart(class_selector) {
 					$('.quantity-cart').html('<span>'+Object.keys(result).length+'</span>');
 					if (screen.width > 768) {
 						$("html, body").animate({ scrollTop: 0 }, 300);
-						$('.shop-cart .warp-cart .wrap-notify ').css('display','block');
+						$('.shop-cart .warp-cart .wrap-notify').css('display','block');
 					} else {
 						$('.wrap-notify-mobile').css('display','block');
 					}

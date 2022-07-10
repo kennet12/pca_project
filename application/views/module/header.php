@@ -8,6 +8,29 @@
 	}
 ?>
 <div class="header display-desktop">
+	<div class="head-top">
+		<div class="container">
+			<div class="text-right">
+				<ul class="sign-in shop-cart">
+					<li class="item">
+						<a href="<?=site_url('tai-khoan')?>"><i class="fas fa-user"></i> Đăng nhập</a>
+					</li>
+					<li class="item warp-cart" style="border-left: 1px solid;">
+						<a href="<?=site_url('gio-hang')?>">
+							<i class="fas fa-shopping-cart"></i> Giỏ hàng
+						</a>
+						<div class="wrap-notify">
+							<div class="note-notify-cart">
+								<i class="fas fa-times"></i>
+								<div class="note"><i class="fas fa-check-circle"></i> Thêm giỏ hàng thành công</div>
+								<a class="btn-cart-notify" href="<?=site_url('gio-hang')?>">Xem giỏ hàng và thanh toán</a>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 	<div class="head-content">
 		<div class="container">
 			<div class="row">
@@ -100,7 +123,24 @@
 		</div>
 	</div>
 </div>
+<div class="display-mobile">
+	<div class="wrap-notify-mobile" id="notify-ctrl-mobile">
+		<div class="notify-mobile">
+			<div class="notify-info">
+				<i class="fas fa-times"></i>
+				<div class="note"><i class="fas fa-check-circle"></i> Sản phẩm đã được thêm vào giỏ hàng.</div>
+				<a href="<?=site_url("gio-hang")?>" class="btn-cart-mobile">Xem giỏ hàng</a>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
+	$('.wrap-notify .note-notify-cart .fa-times').click(function(event) {
+		$('.wrap-notify').css('display', 'none');
+	});
+	$('.wrap-notify-mobile .notify-info .fa-times').click(function(event) {
+		$('.wrap-notify-mobile').css('display', 'none');
+	});
 $(window).scroll(function() {
 	// $scroll = $(window).scrollTop();
 	// if($scroll > 200){
