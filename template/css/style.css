@@ -1071,8 +1071,8 @@ url("https://static.wixstatic.com/ufonts/609e3c_8c97469c9e8e441f8815af3fe6662ad8
     content: "";
 }
 input, select, textarea {
-    display: block;
-    width: 100%;
+    /* display: block; */
+    /* width: 100%; */
     border: 1px solid #e3e0d3;
     background-color: #fff;
     color: #162950;
