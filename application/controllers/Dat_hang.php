@@ -106,19 +106,15 @@ class Dat_hang extends CI_Controller{
 			$booking->total			= 0;
 		}
 
-		if (!empty($booking->fullname)) {
-			$view_data = array();
-			$view_data["booking"] 		= $booking;
-			$view_data["breadcrumb"] 	= $this->_breadcrumb;
-			$view_data['items'] 		= $this->cart->contents();
+		$view_data = array();
+		$view_data["booking"] 		= $booking;
+		$view_data["breadcrumb"] 	= $this->_breadcrumb;
+		$view_data['items'] 		= $this->cart->contents();
 
-			$tmpl_content				= array();
-			$tmpl_content['title'] 		= 'Đặt hàng';
-			$tmpl_content['content'] 	= $this->load->view("booking/index", $view_data, true);
-			$this->load->view('layout/view', $tmpl_content);
-		} else {
-			redirect(site_url("dat-hang/thong-tin-khach-hang"));
-		}
+		$tmpl_content				= array();
+		$tmpl_content['title'] 		= 'Đặt hàng';
+		$tmpl_content['content'] 	= $this->load->view("booking/index", $view_data, true);
+		$this->load->view('layout/view', $tmpl_content);
 	}
 	public function test_don_hang (){
 		$tmpl_content = array();
@@ -201,11 +197,11 @@ class Dat_hang extends CI_Controller{
 					$this->session->set_flashdata("error", "Số điện thoại không được trống.");
 					redirect(site_url("dat-hang/thong-tin-khach-hang"), "back");
 				}
-				else if ($this->util->get_block_phone($new_phone))
-				{
-					$this->session->set_flashdata("error", "Số điện thoại này đã bị chặn.");
-					redirect(site_url("tai-khoan/dang-nhap"), "back");
-				}
+				// else if ($this->util->get_block_phone($new_phone))
+				// {
+				// 	$this->session->set_flashdata("error", "Số điện thoại này đã bị chặn.");
+				// 	redirect(site_url("tai-khoan/dang-nhap"), "back");
+				// }
 				else if ($count_email != 0)
 				{
 					$this->session->set_flashdata("error", "Email này không hợp lệ. Vui lòng nhập email khác.");
@@ -243,28 +239,28 @@ class Dat_hang extends CI_Controller{
 		$note 			= $this->input->post('note');
 		$promotion 		= $this->input->post('promotion');
 		$recaptcha 		= $this->input->post('g-recaptcha-response');
-		if ($this->util->get_block_phone($phone))
-		{
-			$this->session->set_flashdata("error", "Số điện thoại này đã bị chặn.");
-			redirect(site_url("gio-hang"), "back");
-		}
-		if (!isset($recaptcha)) {
-			redirect(BASE_URL);
-		}
-		$code_promotion = '';
-		$item = $this->m_promotion->load($promotion);
-		$promotion_item = null;
-		if (!empty($item)){
-			if ($this->session->userdata('user')->user_rank == $item->user_rank){
-				if (!empty($item->limit_time)){
-					if (date('Y-m-d',strtotime($item->fromdate ))<= date('Y-m-d') && date('Y-m-d',strtotime($item->todate ))>= date('Y-m-d')){
-						$promotion_item = $item;
-					}
-				} else {
-					$promotion_item = $item;
-				}
-			}
-		}
+		// if ($this->util->get_block_phone($phone))
+		// {
+		// 	$this->session->set_flashdata("error", "Số điện thoại này đã bị chặn.");
+		// 	redirect(site_url("gio-hang"), "back");
+		// }
+		// if (!isset($recaptcha)) {
+		// 	redirect(BASE_URL);
+		// }
+		// $code_promotion = '';
+		// $item = $this->m_promotion->load($promotion);
+		// $promotion_item = null;
+		// if (!empty($item)){
+		// 	if ($this->session->userdata('user')->user_rank == $item->user_rank){
+		// 		if (!empty($item->limit_time)){
+		// 			if (date('Y-m-d',strtotime($item->fromdate ))<= date('Y-m-d') && date('Y-m-d',strtotime($item->todate ))>= date('Y-m-d')){
+		// 				$promotion_item = $item;
+		// 			}
+		// 		} else {
+		// 			$promotion_item = $item;
+		// 		}
+		// 	}
+		// }
 		/////////////////////////////////////////////////////////////////
 		$message = !empty($note)?$note:$this->input->post('message');
 		$carts 			= $this->cart->contents();

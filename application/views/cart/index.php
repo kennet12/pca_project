@@ -1,20 +1,17 @@
 <div id="shopify-section-cart-template" class="shopify-section cart-section">
-   <div class="page-width book-cart-shop" data-section-id="cart-template" data-section-type="cart-template">
-      <div class="container">
-         <div class="section-header">
-            <div class="title-block"><?=$website['my_cart']?></div>
-         </div>
-         <form action="/cart" method="post" novalidate class="cart">
+   <div class="container container-content">
+      <div class="page-width book-cart-shop" data-section-id="cart-template" data-section-type="cart-template">
+         <form action="" method="post" novalidate class="cart">
             <div class="row data-sticky_parent">
                <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                  <h5 class="title">Giỏ hàng của tôi</h5>
                   <div class="cart__layout_left">
                      <div class="cart__header d-xs-none">
                         <div class="row spacing-0">
-                           <div class="col-md-1 label_remove"></div>
-                           <div class="col-md-5 label_product"><?=$website['cart_note1']?></div>
-                           <div class="col-md-2 label_price"><?=$website['cart_note2']?></div>
-                           <div class="col-md-2 label_quantity"><?=$website['cart_note3']?></div>
-                           <div class="col-md-2 label_total"><?=$website['cart_note4']?></div>
+                           <div class="col-md-7 label-title label_product"><?=$website['cart_note1']?></div>
+                           <div class="col-md-2 label-title label_quantity"><?=$website['cart_note3']?></div>
+                           <div class="col-md-2 label-title label_total"><?=$website['cart_note4']?></div>
+                           <div class="col-md-1 label-title label_remove"></div>
                         </div>
                      </div>
                      <div class="cart__body">
@@ -38,47 +35,40 @@
                            $type_quantity = json_decode($product->product_type[$key_i]->quantity)[$key_j];
                         ?>
                         <div class="row spacing-0 align-items-center line2 cart-flex cart_item nv-pl-xs-15 nv-pr-xs-15">
-                           <div class="col-md-1 cart__remove-wrapper text-center mb-xs-20">
-                              <a href="#" class="cart__remove">
-                                 <!-- <i class="fa fa-trash-o" aria-hidden="true" rowid_item="<?=$item['rowid']?>" id_item="<?=$item['id']?>"></i> -->
-                                 <i class="zmdi zmdi-delete" rowid_item="<?=$item['rowid']?>" id_item="<?=$item['id']?>"></i>
-                              </a>
-                           </div>
-                           <div class="col-md-5 cart__image-wrapper d-flex align-items-center mb-xs-20">
+                           <div class="col-md-7 cart__image-wrapper d-flex align-items-center mb-xs-20">
                               <a href="#">
                               <img class="cart__image lazyload" data-src="<?=$product->thumbnail?>">
                               </a>
                               <div class="cart__meta cart-flex-item">
                                  <div class="content-left">
                                     <div class="list-view-item__title">
-                                       <a target="_blank" href="<?=site_url("{$product->{$prop['alias']}}")?>">
+                                       <a class="product-name" target="_blank" href="<?=site_url("{$product->{$prop['alias']}}")?>">
                                           <?=$product->{$prop['title']}?>
                                        </a>
-                                       <div style="font-size: 11px;color: #2fb94c;"><?=$item['typename']?> <?=!empty($item['subtypename'])?" - ".$item['subtypename']:""?></div>
                                     </div>
+                                    <? if(!empty($item["sale"])) { ?>
+                                    <div>
+                                       <span class="money">
+                                          <?=number_format($this->util->round_number($item['price_sale'],1000),0,',','.')?> 
+                                          <sup style="color:red">-<?=$item["sale"]?>%</sup>
+                                       </span>
+                                       <s style="color: #c1c1c1;font-size:12px;">
+                                          <?=number_format($this->util->round_number($item['price'],1000),0,',','.')?> 
+                                       </s>
+                                    </div>
+                                    <div>
+                                       
+                                    </div>
+                                    <? } else { ?>
+                                    <div>
+                                       <span class="money">
+                                          <?=number_format($this->util->round_number($item['price_sale'],1000),0,',','.')?> 
+                                       </span>
+                                    </div>
+                                    <?} ?>
+                                    <div style="font-size: 14px;color: #777;"><?=$item['typename']?> <?=!empty($item['subtypename'])?" - ".$item['subtypename']:""?></div>
                                  </div>
                               </div>
-                           </div>
-                           <div class="col-md-2 cart__price-wrapper mb-xs-20">
-                              <? if(!empty($item["sale"])) { ?>
-                              <div>
-                                 <span class="money">
-                                    <?=number_format($this->util->round_number($item['price_sale'],1000),0,',','.')?>
-                                    <sup style="color:red">-<?=$item["sale"]?>%</sup>
-                                 </span>
-                              </div>
-                              <div>
-                                 <s style="color: #c1c1c1;">
-                                    <?=number_format($this->util->round_number($item['price'],1000),0,',','.')?>
-                                 </s>
-                              </div>
-                              <? } else { ?>
-                              <div>
-                                 <span class="money">
-                                    <?=number_format($this->util->round_number($item['price_sale'],1000),0,',','.')?>
-                                 </span>
-                              </div>
-                              <? } ?>
                            </div>
                            <div class="col-md-2 cart__update-wrapper mb-xs-20">
                               <div class="cart__qty">
@@ -91,6 +81,11 @@
                               <div class="product-subtotal">
                                  <span class="money price-<?=$i?>"><?=number_format($this->util->round_number($price,1000),0,',','.')?></span>
                               </div>
+                           </div>
+                           <div class="col-md-1 cart__remove-wrapper text-center mb-xs-20">
+                              <a href="#" class="cart__remove" title="Xóa">
+                                 <i class="fal fa-trash-alt" rowid_item="<?=$item['rowid']?>" id_item="<?=$item['id']?>"></i>
+                              </a>
                            </div>
                         </div>
                         <? $i++;} ?>
@@ -125,6 +120,7 @@
                   </div> -->
                </div>
                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 data-sticky_column mt-md-40">
+                  <h5 class="title">Chi tiết giỏ hàng</h5>
                   <div class="cart__layout_right">
                      <div class="cart__heading">
                         <div><span class="total-qty"><?=$totalqty?></span> <?=$website['cart_note5']?></div>
@@ -136,33 +132,8 @@
                               <span class="cart__subtotal"><span class="total-money money"><?=number_format($this->util->round_number($totalprice,1000),0,',','.')?></span></span>
                            </div>
                            <br>
-                           <!-- <div class="cart__shipping d-flex align-items-xl-center justify-content-between">
-                              <div class="cart__shipping-title">Shipping :</div>
-                              <div class="cart__shipping-sub">Shipping &amp; taxes calculated at checkout</div>
-                           </div> -->
-                          <div id="threshold_bar_popup">
-                              <div class="threshold_it">
-                                 <div class="ic_threshold_bar">
-                                    <i class="zmdi zmdi-truck"></i>
-                                 </div>
-                                 <div class="threshold_bar">
-                                    <span class="animate" style="width:25%!important">25%</span>
-                                 </div>
-                              </div>
-                              <!-- <div class="threshold_spend">Spend <span class="money">$149.00</span> for free shipping</div> -->
-                           </div>
-                           <!--  <div class="cart-notice-total">
-                              Free shipping for any orders above <span><span class="money">$200.00</span></span>
-                           </div> -->
+                           <p>Giao nhanh trong vòng 7 ngày, đảm bảo uy tín chất lượng.</p>
                         </div>
-                        <div class="box-confirm-cart">
-                           <input type="checkbox" class="confirm-cart" name="<?=$website['cart_note6']?>" value="confirm">
-                           <label for="<?=$website['cart_note6']?>"><?=$website['cart_note6']?></label>
-                        </div>
-                        <!-- <div class="grid__item cart-note">
-                           <div class="cart-note_label">Add a note to your order :</div>
-                           <textarea rows="12" name="note" id="CartSpecialInstructions" class="cart-note__input" placeholder="Add your note here"></textarea>
-                        </div> -->
                      </div>
                   </div>
                   <a href="<?=site_url('dat-hang')?>" class="btn-get-cart" ><?=$website['check_out']?></a>
@@ -264,7 +235,7 @@ $(document).ready(function() {
 			data: p
 		});
 	});
-	$('.zmdi-delete').click(function(event) {
+	$('.fa-trash-alt').click(function(event) {
 		$('.wrap-delete-cart').css('display','block');
 		$('.btn-sure-delete').attr('rowid_item',$(this).attr('rowid_item'));
 		$('.btn-sure-delete').attr('id_item',$(this).attr('id_item'));

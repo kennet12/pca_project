@@ -151,5 +151,7 @@ $autoload['model'] = array(
 	'm_product_gallery',
 	'm_product_type',
 	'm_product',
+	'm_booking',
+	'm_booking_detail',
 );
 

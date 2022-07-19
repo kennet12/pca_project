@@ -86,14 +86,6 @@
 		<div class="search-m">
 			<i class="far fa-search lnr-magnifier transition"></i>
 		</div>
-		<script>
-			$('.box-menu-m').click(function(e){
-				$('.list-menu-m').css('right','0');
-			});
-			$(document).on('click','.list-menu-m > .opacity-menu',function(e){
-				$('.list-menu-m').css('right','-100%');
-			});
-		</script>
 	</div>
 </div>
 <div class="display-mobile">
@@ -135,6 +127,12 @@
 	</div>
 </div>
 <script>
+	$(document).on('click','.box-menu-m',function(e){
+		$('.list-menu-m').css('right','0');
+	});
+	$(document).on('click','.list-menu-m > .opacity-menu',function(e){
+		$('.list-menu-m').css('right','-100%');
+	});
 	$('.wrap-notify .note-notify-cart .fa-times').click(function(event) {
 		$('.wrap-notify').css('display', 'none');
 	});
