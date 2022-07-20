@@ -41,25 +41,27 @@
 				<div class="collapse navbar-collapse" id="bs-navbar-collapse">
 					<ul class="nav navbar-nav">
 						<li class="<?=(($method=='users')?'active':'')?>">
-							<a href="<?=site_url("syslog/users")?>">Users<span class="caret"></span></a>
-							<ul class="dropdown-menu">
+							<a href="<?=site_url("syslog/users")?>">Users
+								<!-- <span class="caret"></span> -->
+							</a>
+							<!-- <ul class="dropdown-menu">
 								<li><a href="<?=site_url("syslog/block-users")?>">Block users</a></li>
-							</ul>
+							</ul> -->
 						</li>
-						<li class="dropdown <?=in_array($method, array('about','regulation')) ? 'active' : ''?>">
+						<!-- <li class="dropdown <?=in_array($method, array('about','regulation')) ? 'active' : ''?>">
 							<a href="#" class="dropdown-toggle">Bài viết<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="<?=site_url("syslog/about")?>">Giới thiệu</a></li>
 								<li><a href="<?=site_url("syslog/regulation")?>">Quy chế</a></li>
 							</ul>
-						</li>
+						</li> -->
 						<li class="dropdown <?=in_array($method, array('product','product-category','rating')) ? 'active' : ''?>">
 							<a href="#" class="dropdown-toggle">Sản Phẩm<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="<?=site_url("syslog/rating")?>">Đánh giá</a></li>
+								<!-- <li><a href="<?=site_url("syslog/rating")?>">Đánh giá</a></li> -->
 								<li role="separator" class="divider"></li>
-								<li><a href="<?=site_url("syslog/promotion")?>">Mã khuyến mãi</a></li>
-								<li role="separator" class="divider"></li>
+								<!-- <li><a href="<?=site_url("syslog/promotion")?>">Mã khuyến mãi</a></li> -->
+								<!-- <li role="separator" class="divider"></li> -->
 								<li><a href="<?=site_url("syslog/product-category")?>">Danh mục</a></li>
 								<li role="separator" class="divider"></li>
 								<li><a href="<?=site_url("syslog/product/0")?>">Tất cả sản phẩm </a></li>
@@ -70,20 +72,20 @@
 							<a href="#" class="dropdown-toggle">Đơn Hàng<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="<?=site_url("syslog/booking")?>">Danh sách đơn hàng</a></li>
-								<li><a href="<?=site_url("syslog/booking/add")?>">Tạo đơn hàng</a></li>
-								<li><a href="<?=site_url("syslog/booking/view-booking")."?fromdate=".date('Y-m-d',strtotime("-7 days"))."&todate=".date('Y-m-d')?>">Thống kê người tạo đơn</a></li>
-								<li><a href="<?=site_url("syslog/booking-phone")?>">Tìm kiếm số điện thoại</a></li>
+								<!-- <li><a href="<?=site_url("syslog/booking/add")?>">Tạo đơn hàng</a></li> -->
+								<!-- <li><a href="<?=site_url("syslog/booking/view-booking")."?fromdate=".date('Y-m-d',strtotime("-7 days"))."&todate=".date('Y-m-d')?>">Thống kê người tạo đơn</a></li> -->
+								<!-- <li><a href="<?=site_url("syslog/booking-phone")?>">Tìm kiếm số điện thoại</a></li> -->
 							</ul>
 						</li>
-						<li class="<?=(($method=='statistic')?'active':'')?>"><a href="<?=site_url("syslog/statistic")?>">Thống kê</a></li>
-						<li class="dropdown <?=in_array($method, array('box','enter-box')) ? 'active' : ''?>">
+						<!-- <li class="<?=(($method=='statistic')?'active':'')?>"><a href="<?=site_url("syslog/statistic")?>">Thống kê</a></li> -->
+						<!-- <li class="dropdown <?=in_array($method, array('box','enter-box')) ? 'active' : ''?>">
 							<a href="#" class="dropdown-toggle">Kho hàng<span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="<?=site_url("syslog/enter-box/0/add")?>">Nhập kho</a></li>
 								<li role="separator" class="divider"></li>
 								<li><a href="<?=site_url("syslog/box")?>">Kiểm kho</a></li>
 							</ul>
-						</li>
+						</li> -->
 						<li class="dropdown <?=in_array($method, array('content')) ? 'active' : ''?>">
 							<a href="<?=site_url("syslog/content")?>" class="dropdown-toggle">Giải đấu</a>
 						</li>
@@ -97,9 +99,6 @@
 								<? } ?>
 							</ul>
 						</li>
-						<li class="dropdown <?=in_array($method, array('q-and-a')) ? 'active' : ''?>">
-							<a href="<?=site_url("syslog/q-and-a")?>" class="dropdown-toggle">Q&A</a>
-						</li>
 						<li class="<?=(($method=='slide')?'active':'')?>"><a href="<?=site_url("syslog/slide")?>">Slide</a></li>
 						<li class="<?=(($method=='contact')?'active':'')?>"><a href="<?=site_url("syslog/contact")?>">Liên hệ</a></li>
 						<? if ($admin->user_type == USR_SUPPER_ADMIN) { ?>
@@ -110,13 +109,13 @@
 								<li><a href="<?=site_url("syslog/mail")?>">Mail đã gửi</a></li>
 							</ul>
 						</li>
-						<li class="dropdown <?=((in_array($method, array('page-meta-tags', 'page-redirects')))?'active':'')?>">
+						<!-- <li class="dropdown <?=((in_array($method, array('page-meta-tags', 'page-redirects')))?'active':'')?>">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">SEO <span class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="<?=site_url("syslog/page-meta-tags")?>">Page Meta Tags</a></li>
 								<li><a href="<?=site_url("syslog/page-redirects")?>">Page Redirects</a></li>
 							</ul>
-						</li>
+						</li> -->
 						<li class="<?=(($method=='history')?'active':'')?>"><a href="<?=site_url("syslog/history")?>">Log</a></li>
 						<li class="<?=(($method=='settings')?'active':'')?>"><a href="<?=site_url("syslog/settings")?>">Cài đặt</a></li>
 						<? } ?>

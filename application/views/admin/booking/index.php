@@ -168,7 +168,7 @@
 										<div class="item-child" style="width:20% !important;">
 											<div class="head-table">Tổng tiền</div>
 										</div>
-										<div class="item-child" style="width:20% !important;">
+										<div class="item-child hidden" style="width:20% !important;">
 											<div class="head-table">Trợ giá</div>
 										</div>
 									</div>
@@ -182,7 +182,7 @@
 										$total += $value->qty*$price_sale;?>
 									<div class="item">
 										<div class="item-child" style="width:20% !important;">
-											<img src="<?=BASE_URL."/files/upload/product/{$product->code}/thumbnail/".end($photo);?>" alt="">
+											<img src="<?=BASE_URL."/files/upload/product/{$product->code}/thumb/".end($photo);?>" alt="">
 										</div>
 										<div class="item-child" style="width:30% !important;">
 											<h5 class="name"><?=$value->title?></h5>
@@ -195,7 +195,7 @@
 										<div class="item-child" style="width:20% !important;">
 											<div class="total-price"><?=number_format($value->qty*$price_sale,0,',','.')?></div>
 										</div>
-										<div class="item-child" style="width:20% !important;">
+										<div class="item-child hidden" style="width:20% !important;">
 											<h5 style="font-size: 16px;color: green;font-weight: 400;margin: 7px;">-<?=number_format($value->discount,0,',','.')?></h5>
 										</div>
 									</div>
@@ -418,9 +418,9 @@ $(document).ready(function() {
 			$.ajax({
 				type: "POST",
 				url: "<?=site_url("syslog/ajax-payment-status")?>",
-				dataType: "json",
+				dataType: "html",
 				data: p,
-				success: function(result) {
+				success: function(result) { console.log(result)
 					$('.cost-price-'+booking_id).html(formatDollar(parseFloat(result)));
 					$(".dropdown-toggle-payment-status-" + booking_id).html(status_label + " <i class=\"fa fa-caret-down\"></i>");
 				}

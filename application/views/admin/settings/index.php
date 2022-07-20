@@ -2,10 +2,10 @@
 	<div class="container-fluid">
 		<h1 class="page-title">Setting website</h1>
 		<table class="table table-bordered">
-			<tr>
+			<!-- <tr>
 				<td class="table-head text-right" width="10%">Logo</td>
 				<td><img style="width: 200px;" alt="" src="<?=BASE_URL.$setting->logo?>"></td>
-			</tr>
+			</tr> -->
 			<tr>
 				<td class="table-head text-right" width="10%">Tên công ty</td>
 				<td><?=$setting->company_name?></td>

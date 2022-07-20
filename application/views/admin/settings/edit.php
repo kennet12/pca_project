@@ -12,7 +12,7 @@
 					<td class="table-head text-right" width="10%">Logo</td>
 					<td><input type="text" id="logo" name="logo" class="form-control" value="<?=$setting->logo?>" onclick="openKCFinder4Textbox(this)"></td>
 				</tr> -->
-				<tr>
+				<!-- <tr>
 					<td class="table-head text-right" width="10%">LOGO</td>
 					<td>
 						<label class="wrap-upload-thumb" style="background: url('<?=BASE_URL?><?=!empty($setting->logo) ? $setting->logo : ''?>') no-repeat;width: 320px;">
@@ -20,7 +20,7 @@
 							<i class="fa fa-cloud-upload" aria-hidden="true"></i>
 						</label>
 					</td>
-				</tr>
+				</tr> -->
 				<tr>
 					<td class="table-head text-right" width="10%">Tên công ty</td>
 					<td><input type="text" id="company_name" name="company_name" class="form-control" value="<?=$setting->company_name?>"></td>

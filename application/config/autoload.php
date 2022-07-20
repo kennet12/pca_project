@@ -153,5 +153,9 @@ $autoload['model'] = array(
 	'm_product',
 	'm_booking',
 	'm_booking_detail',
+	'm_box',
+	'm_box_detail',
+	'm_subscribe',
+	'm_block'
 );
 
